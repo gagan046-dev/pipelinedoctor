@@ -2,7 +2,7 @@
 # PipelineDoctor blue-green switch: nginx that forwards to console-<active colour>.
 # The active colour lives in a named volume mounted at /etc/nginx/pd, so it survives
 # proxy restarts and image upgrades.
-FROM nginxinc/nginx-unprivileged:1.30.4-alpine@sha256:adf5042a17f4ecdd200c595fa9ffd1be37efb18f89a830bd1a00e4ab4d59d42c
+FROM nginxinc/nginx-unprivileged:1.31.5-alpine@sha256:19c132c9ab02d3b783f478743dafc7a7f42e27aa7d2bdcbec1bb1128ca8f2a07
 
 USER root
 COPY --chmod=0644 nginx.conf /etc/nginx/nginx.conf
