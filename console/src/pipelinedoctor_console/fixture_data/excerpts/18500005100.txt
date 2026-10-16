@@ -1,0 +1,18 @@
+  795 |     def apply_tax(amount: Decimal, rate: Decimal) -> Decimal:
+  796 |         """Return amount including tax, rounded to cents."""
+  797 | >       rate = Decimal(rate)
+  798 |     net = amount.quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+  799 |     return (net * (1 + rate)).quantize(CENTS)
+  808 |     def test_total_with_tax() -> None:
+  809 |         invoice = Invoice(lines=[Line("Widget", Decimal("99.50"))], tax_rate=Decimal("0.075"))
+  810 | >       assert total_with_tax(invoice) == Decimal("107.00")
+  811 | 
+  812 | E       AssertionError: assert Decimal('106.00') == Decimal('107.00')
+  813 | E        +  where Decimal('106.00') = total_with_tax(Invoice(lines=[...], tax_rate=Decimal('0.075')))
+  814 | 
+  815 | demo/tests/test_totals.py:41: AssertionError
+  837 | =========================== short test summary info ============================
+  838 | FAILED demo/tests/test_totals.py::test_total_with_tax - AssertionError
+  839 | ========================= 1 failed, 23 passed in 1.84s =========================
+  840 | ##[error]Process completed with exit code 1.
+  841 | FAILED demo/tests/test_totals.py::test_total_with_tax - AssertionError

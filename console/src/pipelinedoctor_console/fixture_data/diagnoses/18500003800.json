@@ -1,0 +1,144 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0038",
+  "created_at": "2026-10-04T03:52:44Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400003800,
+    "run_number": 78,
+    "run_attempt": 1,
+    "workflow_name": "Nightly Evals",
+    "workflow_path": ".github/workflows/nightly-evals.yml",
+    "event": "schedule",
+    "head_branch": "main",
+    "head_sha": "582b148e3e43912ef5eab4ebd4f794e10a15abb7",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400003800",
+    "conclusion": "failure",
+    "created_at": "2026-10-04T03:49:44Z",
+    "updated_at": "2026-10-04T03:52:24Z"
+  },
+  "pull_request": null,
+  "failed_job": {
+    "id": 52000003801,
+    "name": "eval",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400003800/job/52000003801"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 6,
+    "name": "Eval gate"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-04T03:49:44Z",
+      "completed_at": "2026-10-04T03:49:46Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-04T03:49:46Z",
+      "completed_at": "2026-10-04T03:49:48Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up uv",
+      "conclusion": "success",
+      "started_at": "2026-10-04T03:49:48Z",
+      "completed_at": "2026-10-04T03:49:52Z"
+    },
+    {
+      "number": 4,
+      "name": "Install",
+      "conclusion": "success",
+      "started_at": "2026-10-04T03:49:52Z",
+      "completed_at": "2026-10-04T03:50:04Z"
+    },
+    {
+      "number": 5,
+      "name": "Run evals",
+      "conclusion": "success",
+      "started_at": "2026-10-04T03:50:04Z",
+      "completed_at": "2026-10-04T03:56:54Z"
+    },
+    {
+      "number": 6,
+      "name": "Eval gate",
+      "conclusion": "failure",
+      "started_at": "2026-10-04T03:56:54Z",
+      "completed_at": "2026-10-04T03:56:57Z"
+    },
+    {
+      "number": 7,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-04T03:56:57Z",
+      "completed_at": "2026-10-04T03:56:57Z"
+    }
+  ],
+  "category": "unknown",
+  "summary": "The nightly eval gate failed; no rule matched the log.",
+  "probable_cause": "No rule matched and both models were unavailable, so no cause could be established. The last lines show the gate reporting category_accuracy 0.733 against a threshold of 0.80.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 214,
+      "text": "FAIL category_accuracy 0.733 < 0.80",
+      "why": "Gate failure line."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Open the eval-results artifact of this run and compare per-case predictions with the previous night.",
+      "command": "gh run download 18400003800 -n eval-results"
+    }
+  ],
+  "verification": [
+    "The next nightly run records passed: true in the eval ledger."
+  ],
+  "confidence": 0.1,
+  "confidence_grade": "C",
+  "source": "rules_fallback",
+  "pre_classification": null,
+  "llm": {
+    "model": null,
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "rate_limited",
+        "latency_ms": 488
+      },
+      {
+        "model": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+        "outcome": "rate_limited",
+        "latency_ms": 502
+      }
+    ],
+    "latency_ms": 990,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 230,
+    "excerpt_lines": 212,
+    "ranges": [
+      [
+        211,
+        230
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": [
+    "All models failed (rate_limited, rate_limited); rule-based fallback used."
+  ]
+}

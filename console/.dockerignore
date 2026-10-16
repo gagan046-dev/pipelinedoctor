@@ -1,0 +1,18 @@
+# Keep the build context small and free of secrets.
+.git
+.venv
+node_modules
+tests
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.coverage
+coverage.xml
+htmlcov
+**/__pycache__
+src/pipelinedoctor_console/static/fonts
+secrets
+.env
+.env.*
+*.pem
+*.key

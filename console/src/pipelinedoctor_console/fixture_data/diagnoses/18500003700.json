@@ -1,0 +1,137 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0037",
+  "created_at": "2026-10-03T14:27:50Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400003700,
+    "run_number": 77,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/docker-base-202610031424",
+    "head_sha": "4af28cdbc30efc0784e4548896931e5539b7680a",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400003700",
+    "conclusion": "failure",
+    "created_at": "2026-10-03T14:24:50Z",
+    "updated_at": "2026-10-03T14:27:30Z"
+  },
+  "pull_request": {
+    "number": 20,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/20"
+  },
+  "failed_job": {
+    "id": 52000003701,
+    "name": "docker",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400003700/job/52000003701"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 4,
+    "name": "Build demo image"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-03T14:24:50Z",
+      "completed_at": "2026-10-03T14:24:52Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-03T14:24:52Z",
+      "completed_at": "2026-10-03T14:24:55Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up Docker Buildx",
+      "conclusion": "success",
+      "started_at": "2026-10-03T14:24:55Z",
+      "completed_at": "2026-10-03T14:25:04Z"
+    },
+    {
+      "number": 4,
+      "name": "Build demo image",
+      "conclusion": "failure",
+      "started_at": "2026-10-03T14:25:04Z",
+      "completed_at": "2026-10-03T14:25:10Z"
+    },
+    {
+      "number": 5,
+      "name": "Run tests in the container",
+      "conclusion": "skipped",
+      "started_at": "2026-10-03T14:25:10Z",
+      "completed_at": "2026-10-03T14:25:10Z"
+    },
+    {
+      "number": 6,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-03T14:25:10Z",
+      "completed_at": "2026-10-03T14:25:10Z"
+    }
+  ],
+  "category": "docker",
+  "summary": "Base image python:3.12.99-slim does not exist on Docker Hub.",
+  "probable_cause": "demo/Dockerfile was changed to FROM python:3.12.99-slim. That tag was never published, so the registry answers \"not found\" when BuildKit resolves the image metadata.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 142,
+      "text": "ERROR: failed to solve: python:3.12.99-slim: failed to resolve source metadata for docker.io/library/python:3.12.99-slim: docker.io/library/python:3.12.99-slim: not found",
+      "why": "Registry lookup failure for the tag."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Pin the base image to the project's tested tag and digest.",
+      "command": "docker pull python:3.12.14-slim"
+    }
+  ],
+  "verification": [
+    "The docker job builds pipelinedoctor-demo:ci."
+  ],
+  "confidence": 0.87,
+  "confidence_grade": "A",
+  "source": "llm",
+  "pre_classification": {
+    "category": "docker",
+    "rule_id": "docker-base-image-not-found",
+    "confidence": 0.9
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "ok",
+        "latency_ms": 3760
+      }
+    ],
+    "latency_ms": 3760,
+    "input_tokens": 1730,
+    "output_tokens": 341,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 160,
+    "excerpt_lines": 160,
+    "ranges": [
+      [
+        138,
+        160
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": []
+}

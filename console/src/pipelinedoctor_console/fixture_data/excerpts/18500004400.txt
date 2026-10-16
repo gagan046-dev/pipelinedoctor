@@ -1,0 +1,9 @@
+  384 | #14 [fonts 3/5] COPY scripts/copy-fonts.mjs scripts/
+  385 | #14 DONE 0.0s
+  386 | 
+  387 | #14 [fonts 3/5] COPY scripts/copy-fonts.mjs scripts/
+  388 | #14 ERROR: failed to calculate checksum of ref 6b1f: "/scripts/copy-fonts.mjs": not found
+  399 | Dockerfile:9
+  400 | --------------------
+  401 | ERROR: failed to solve: failed to compute cache key: failed to calculate checksum of ref 6b1f: "/scripts/copy-fonts.mjs": not found
+  402 | ##[error]buildx failed with: ERROR: failed to solve

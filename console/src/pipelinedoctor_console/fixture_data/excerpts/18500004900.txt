@@ -1,0 +1,9 @@
+   50 | ##[group]GITHUB_TOKEN Permissions
+   51 | Metadata: read
+   52 |   GITHUB_TOKEN Permissions
+   53 |   Contents: read
+   54 | ##[endgroup]
+   55 | ##[group]Run gh api -X POST "repos/${GITHUB_REPOSITORY}/labels" -f name=pd-demo-break -f color=b3261e
+   56 | ##[endgroup]
+   57 | gh: Resource not accessible by integration (HTTP 403)
+   58 | ##[error]Process completed with exit code 1.

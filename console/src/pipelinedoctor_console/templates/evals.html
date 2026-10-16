@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block scripts %}<script src="/static/js/evals.js" defer></script>{% endblock %}
+{% block main %}
+<header class="page-head">
+  <p class="kicker sc">LLMOps</p>
+  <h1>Eval ledger</h1>
+  <p class="lede">Nightly evaluation runs of the diagnosis engine against the full case set, as recorded on the <span class="mono">eval-history</span> branch. A run passes when every gated metric clears its threshold.</p>
+</header>
+<p class="notice" id="evals-notice" hidden></p>
+
+<figure class="chart" id="accuracy-figure">
+  <div class="chart-frame" id="accuracy-chart"></div>
+  <figcaption>
+    <span class="fig-no">Figure 1.</span> Category accuracy per recorded run, oldest to newest. The dashed rule is the gate threshold.
+    <span class="key"><span class="key-mark key-pass" aria-hidden="true"></span> passed</span>
+    <span class="key"><span class="key-mark key-fail" aria-hidden="true"></span> failed the gate</span>
+  </figcaption>
+</figure>
+
+<section aria-labelledby="ledger-heading">
+  <div class="section-head">
+    <h2 class="section-label" id="ledger-heading">Ledger</h2>
+    <p class="section-meta" id="ledger-meta"></p>
+  </div>
+  <table class="ledger stack-sm">
+    <caption class="sr-only">Eval runs, newest first</caption>
+    <thead>
+      <tr>
+        <th scope="col">Recorded (UTC)</th>
+        <th scope="col">Commit</th>
+        <th scope="col">Prompt</th>
+        <th scope="col" class="num">Cases</th>
+        <th scope="col" class="num">Accuracy</th>
+        <th scope="col" class="num">Evidence</th>
+        <th scope="col" class="num">Recall</th>
+        <th scope="col" class="num">Judge</th>
+        <th scope="col" class="num">p95</th>
+        <th scope="col" class="num">Cost</th>
+        <th scope="col">Verdict</th>
+      </tr>
+    </thead>
+    <tbody id="ledger-body">
+      <tr class="placeholder"><td colspan="11">Retrieving the ledger…</td></tr>
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,6 @@
+   45 | ##[group]Run python -m mypy src
+   46 | ##[endgroup]
+   47 | demo/src/invoicer/money.py:23: error: Incompatible return value type (got "str", expected "int")  [return-value]
+   48 | demo/src/invoicer/totals.py:51: error: Argument 1 to "join" of "str" has incompatible type "list[int]"; expected "Iterable[str]"  [arg-type]
+   49 | Found 2 errors in 2 files (checked 5 source files)
+   50 | ##[error]Process completed with exit code 1.

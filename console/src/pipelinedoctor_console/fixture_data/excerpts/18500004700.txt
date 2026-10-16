@@ -1,0 +1,13 @@
+  212 | Collecting typing-extensions==4.1.1 (from -r demo/requirements.txt (line 2))
+  213 |   Downloading typing_extensions-4.1.1-py3-none-any.whl.metadata (1.7 kB)
+  214 | ERROR: Cannot install -r demo/requirements.txt (line 1) and typing-extensions==4.1.1 because these package versions have conflicting dependencies.
+  215 | 
+  216 | The conflict is caused by:
+  217 |     The user requested typing-extensions==4.1.1
+  218 |     psycopg 3.3.6 depends on typing-extensions>=4.6
+  219 | 
+  220 | To fix this you could try to:
+  221 | 1. loosen the range of package versions you've specified
+  222 | 2. remove package versions to allow pip to attempt to solve the dependency conflict
+  223 | ERROR: ResolutionImpossible: for help visit https://pip.pypa.io/en/latest/topics/dependency-resolution/#dealing-with-dependency-conflicts
+  224 | ##[error]Process completed with exit code 1.

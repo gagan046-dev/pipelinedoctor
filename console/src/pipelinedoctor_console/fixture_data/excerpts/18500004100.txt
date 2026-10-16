@@ -1,0 +1,8 @@
+   86 | ##[group]Run python -m ruff check demo
+   87 | ##[endgroup]
+   88 | demo/src/invoicer/totals.py:14:1: SyntaxError: Expected a statement
+   89 |    14 | <<<<<<< HEAD
+   90 |       | ^
+   91 |    15 | CENTS = Decimal("0.01")
+   92 | Found 1 error.
+   93 | ##[error]Process completed with exit code 1.

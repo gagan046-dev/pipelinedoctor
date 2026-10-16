@@ -1,0 +1,10 @@
+   29 | ##[group]Run python -m pytest -m integration demo/tests
+   30 | env:
+   31 |   DEMO_DB_PORT: 5433
+   32 | ##[endgroup]
+  153 | demo/tests/test_store_integration.py:18: in db
+  154 |     conn = psycopg.connect(dsn, connect_timeout=5)
+  155 | 
+  156 | E   psycopg.OperationalError: connection failed: connection to server at "127.0.0.1", port 5433 failed: Connection refused
+  157 | E   	Is the server running on that host and accepting TCP/IP connections?
+  158 | ERROR demo/tests/test_store_integration.py::test_round_trip - psycopg.OperationalError

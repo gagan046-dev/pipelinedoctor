@@ -1,0 +1,152 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0049",
+  "created_at": "2026-10-15T11:20:03Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400004900,
+    "run_number": 89,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/permission-202610151117",
+    "head_sha": "80ac6fbf8de2d264981f793a66001bc458e71845",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004900",
+    "conclusion": "failure",
+    "created_at": "2026-10-15T11:17:03Z",
+    "updated_at": "2026-10-15T11:19:43Z"
+  },
+  "pull_request": {
+    "number": 29,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/29"
+  },
+  "failed_job": {
+    "id": 52000004901,
+    "name": "ops",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004900/job/52000004901"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 3,
+    "name": "Read repository metadata"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-15T11:17:03Z",
+      "completed_at": "2026-10-15T11:17:05Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-15T11:17:05Z",
+      "completed_at": "2026-10-15T11:17:07Z"
+    },
+    {
+      "number": 3,
+      "name": "Read repository metadata",
+      "conclusion": "failure",
+      "started_at": "2026-10-15T11:17:07Z",
+      "completed_at": "2026-10-15T11:17:10Z"
+    },
+    {
+      "number": 4,
+      "name": "Publish dry-run",
+      "conclusion": "skipped",
+      "started_at": "2026-10-15T11:17:10Z",
+      "completed_at": "2026-10-15T11:17:10Z"
+    },
+    {
+      "number": 5,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-15T11:17:10Z",
+      "completed_at": "2026-10-15T11:17:10Z"
+    }
+  ],
+  "category": "secret_permission",
+  "summary": "gh api POST /labels was rejected with HTTP 403: the job token cannot write.",
+  "probable_cause": "The ops job declares permissions: contents: read. Creating a label needs issues: write (or pull-requests: write). GITHUB_TOKEN only gets the permissions the job asks for, so GitHub answers \"Resource not accessible by integration\".",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 57,
+      "text": "gh: Resource not accessible by integration (HTTP 403)",
+      "why": "The API refusal."
+    },
+    {
+      "exhibit": "B",
+      "line": 52,
+      "text": "  GITHUB_TOKEN Permissions",
+      "why": "Start of the token permission table."
+    },
+    {
+      "exhibit": "C",
+      "line": 53,
+      "text": "  Contents: read",
+      "why": "The only permission granted to this job."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Remove the label-creating call; the ops job only needs to read metadata.",
+      "command": null
+    },
+    {
+      "id": "R2",
+      "action": "If labels are really needed, grant issues: write on this one job, not workflow-wide.",
+      "command": "gh api repos/gagan046-dev/pipelinedoctor --jq .full_name"
+    }
+  ],
+  "verification": [
+    "The ops job's \"Read repository metadata\" step prints the repository name."
+  ],
+  "confidence": 0.8,
+  "confidence_grade": "A",
+  "source": "llm",
+  "pre_classification": {
+    "category": "secret_permission",
+    "rule_id": "github-token-403",
+    "confidence": 0.85
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "rate_limited",
+        "latency_ms": 640
+      },
+      {
+        "model": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+        "outcome": "ok",
+        "latency_ms": 9870
+      }
+    ],
+    "latency_ms": 10510,
+    "input_tokens": 1410,
+    "output_tokens": 352,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 74,
+    "excerpt_lines": 74,
+    "ranges": [
+      [
+        50,
+        74
+      ]
+    ],
+    "redactions": 1
+  },
+  "warnings": []
+}

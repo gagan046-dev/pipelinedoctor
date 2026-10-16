@@ -1,0 +1,165 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0046",
+  "created_at": "2026-10-13T18:12:51Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400004600,
+    "run_number": 86,
+    "run_attempt": 1,
+    "workflow_name": "CI",
+    "workflow_path": ".github/workflows/ci.yml",
+    "event": "push",
+    "head_branch": "main",
+    "head_sha": "da2b989e8fa9fa98619d1fd48769281d0595eabb",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004600",
+    "conclusion": "failure",
+    "created_at": "2026-10-13T18:09:51Z",
+    "updated_at": "2026-10-13T18:12:31Z"
+  },
+  "pull_request": null,
+  "failed_job": {
+    "id": 52000004601,
+    "name": "engine / lint",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004600/job/52000004601"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 6,
+    "name": "Ruff format check"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-13T18:09:51Z",
+      "completed_at": "2026-10-13T18:09:53Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-13T18:09:53Z",
+      "completed_at": "2026-10-13T18:09:55Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up uv",
+      "conclusion": "success",
+      "started_at": "2026-10-13T18:09:55Z",
+      "completed_at": "2026-10-13T18:10:00Z"
+    },
+    {
+      "number": 4,
+      "name": "Install",
+      "conclusion": "success",
+      "started_at": "2026-10-13T18:10:00Z",
+      "completed_at": "2026-10-13T18:10:11Z"
+    },
+    {
+      "number": 5,
+      "name": "Ruff check",
+      "conclusion": "success",
+      "started_at": "2026-10-13T18:10:11Z",
+      "completed_at": "2026-10-13T18:10:13Z"
+    },
+    {
+      "number": 6,
+      "name": "Ruff format check",
+      "conclusion": "failure",
+      "started_at": "2026-10-13T18:10:13Z",
+      "completed_at": "2026-10-13T18:10:15Z"
+    },
+    {
+      "number": 7,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-13T18:10:15Z",
+      "completed_at": "2026-10-13T18:10:15Z"
+    }
+  ],
+  "category": "lint",
+  "summary": "ruff format --check would reformat 2 files.",
+  "probable_cause": "Matched rule ruff-format-check: the formatter check failed for src/pipelinedoctor/engine/rules.py and tests/test_rules.py. Both language models were unavailable, so this report was produced by the deterministic rules.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 61,
+      "text": "Would reformat: src/pipelinedoctor/engine/rules.py",
+      "why": "First file the formatter would change."
+    },
+    {
+      "exhibit": "B",
+      "line": 62,
+      "text": "Would reformat: tests/test_rules.py",
+      "why": "Second file."
+    },
+    {
+      "exhibit": "C",
+      "line": 63,
+      "text": "2 files would be reformatted, 41 files already formatted",
+      "why": "Formatter summary."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Run the formatter locally and commit the result.",
+      "command": "uv run ruff format"
+    },
+    {
+      "id": "R2",
+      "action": "Enable format-on-save for ruff in the editor.",
+      "command": null
+    }
+  ],
+  "verification": [
+    "uv run ruff format --check exits 0."
+  ],
+  "confidence": 0.56,
+  "confidence_grade": "B",
+  "source": "rules_fallback",
+  "pre_classification": {
+    "category": "lint",
+    "rule_id": "ruff-format-check",
+    "confidence": 0.8
+  },
+  "llm": {
+    "model": null,
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "rate_limited",
+        "latency_ms": 512
+      },
+      {
+        "model": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+        "outcome": "timeout",
+        "latency_ms": 60000
+      }
+    ],
+    "latency_ms": 60512,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 70,
+    "excerpt_lines": 70,
+    "ranges": [
+      [
+        58,
+        70
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": [
+    "All models failed (rate_limited, timeout); rule-based fallback used."
+  ]
+}

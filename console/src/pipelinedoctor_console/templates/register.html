@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block scripts %}<script src="/static/js/register.js" defer></script>{% endblock %}
+{% block main %}
+<header class="page-head">
+  <p class="kicker sc">Docket</p>
+  <h1>Occurrence register</h1>
+  <p class="lede">Failed pipeline runs investigated by PipelineDoctor, newest first. Each number opens the investigation report filed for it.</p>
+</header>
+
+<section class="health" aria-labelledby="health-heading">
+  <h2 class="section-label" id="health-heading">Pipeline health <span class="section-label-detail">production, last 30 days</span></h2>
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th scope="col">Deployment frequency</th>
+        <th scope="col">Lead time for changes</th>
+        <th scope="col">Change failure rate</th>
+        <th scope="col">Time to restore</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="health-figures">
+        <td data-label="Deployment frequency"><span class="figure">—</span></td>
+        <td data-label="Lead time for changes"><span class="figure">—</span></td>
+        <td data-label="Change failure rate"><span class="figure">—</span></td>
+        <td data-label="Time to restore"><span class="figure">—</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="table-note" id="health-notes"></p>
+</section>
+
+<section class="register-section" aria-labelledby="register-heading">
+  <div class="section-head">
+    <h2 class="section-label" id="register-heading">Register</h2>
+    <p class="section-meta" id="register-meta"></p>
+  </div>
+  <p class="notice" id="register-notice" hidden></p>
+  <table class="register stack-sm">
+    <caption class="sr-only">Occurrences, newest first</caption>
+    <thead>
+      <tr>
+        <th scope="col" class="col-no">No.</th>
+        <th scope="col" class="col-date">Recorded (UTC)</th>
+        <th scope="col" class="col-repo">Repository</th>
+        <th scope="col" class="col-chain">Workflow → job → failed step</th>
+        <th scope="col" class="col-cat">Category</th>
+        <th scope="col" class="col-conf">Conf.</th>
+        <th scope="col" class="col-status">Status</th>
+      </tr>
+    </thead>
+    <tbody id="register-body">
+      <tr class="placeholder"><td colspan="7">Retrieving the docket…</td></tr>
+    </tbody>
+  </table>
+</section>
+{% endblock %}

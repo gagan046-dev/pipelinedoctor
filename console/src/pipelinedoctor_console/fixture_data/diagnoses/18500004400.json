@@ -1,0 +1,149 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0044",
+  "created_at": "2026-10-11T15:47:02Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400004400,
+    "run_number": 84,
+    "run_attempt": 1,
+    "workflow_name": "Container",
+    "workflow_path": ".github/workflows/container.yml",
+    "event": "pull_request",
+    "head_branch": "feat/console-fonts",
+    "head_sha": "935f46066501b3845174120a221290bbb0e464bc",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004400",
+    "conclusion": "failure",
+    "created_at": "2026-10-11T15:44:02Z",
+    "updated_at": "2026-10-11T15:46:42Z"
+  },
+  "pull_request": {
+    "number": 26,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/26"
+  },
+  "failed_job": {
+    "id": 52000004401,
+    "name": "build (console)",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004400/job/52000004401"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 5,
+    "name": "Build and push"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-11T15:44:02Z",
+      "completed_at": "2026-10-11T15:44:04Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-11T15:44:04Z",
+      "completed_at": "2026-10-11T15:44:07Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up Docker Buildx",
+      "conclusion": "success",
+      "started_at": "2026-10-11T15:44:07Z",
+      "completed_at": "2026-10-11T15:44:15Z"
+    },
+    {
+      "number": 4,
+      "name": "Docker meta",
+      "conclusion": "success",
+      "started_at": "2026-10-11T15:44:15Z",
+      "completed_at": "2026-10-11T15:44:16Z"
+    },
+    {
+      "number": 5,
+      "name": "Build and push",
+      "conclusion": "failure",
+      "started_at": "2026-10-11T15:44:16Z",
+      "completed_at": "2026-10-11T15:45:08Z"
+    },
+    {
+      "number": 6,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-11T15:45:08Z",
+      "completed_at": "2026-10-11T15:45:08Z"
+    }
+  ],
+  "category": "docker",
+  "summary": "docker build failed: COPY scripts/copy-fonts.mjs - file not found in build context.",
+  "probable_cause": "console/.dockerignore excludes scripts/, so the fonts stage's COPY of scripts/copy-fonts.mjs finds nothing in the build context. The file exists in git; it is the ignore rule that hides it.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 388,
+      "text": "#14 ERROR: failed to calculate checksum of ref 6b1f: \"/scripts/copy-fonts.mjs\": not found",
+      "why": "BuildKit cannot find the file in the context."
+    },
+    {
+      "exhibit": "B",
+      "line": 401,
+      "text": "ERROR: failed to solve: failed to compute cache key: failed to calculate checksum of ref 6b1f: \"/scripts/copy-fonts.mjs\": not found",
+      "why": "Final build error."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Remove scripts/ from console/.dockerignore (or add !scripts/copy-fonts.mjs).",
+      "command": null
+    },
+    {
+      "id": "R2",
+      "action": "Rebuild locally with the same context.",
+      "command": "docker build -f console/Dockerfile console"
+    }
+  ],
+  "verification": [
+    "The Container workflow's build (console) leg succeeds.",
+    "The image contains /app fonts under static/fonts."
+  ],
+  "confidence": 0.88,
+  "confidence_grade": "A",
+  "source": "llm",
+  "pre_classification": {
+    "category": "docker",
+    "rule_id": "docker-copy-not-found",
+    "confidence": 0.85
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "ok",
+        "latency_ms": 5240
+      }
+    ],
+    "latency_ms": 5240,
+    "input_tokens": 2980,
+    "output_tokens": 401,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 420,
+    "excerpt_lines": 212,
+    "ranges": [
+      [
+        384,
+        420
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": []
+}

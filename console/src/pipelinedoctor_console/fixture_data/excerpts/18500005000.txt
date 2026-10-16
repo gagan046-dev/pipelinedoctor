@@ -1,0 +1,7 @@
+  427 | demo/tests/test_money.py ........                                         [ 66%]
+  428 | demo/tests/test_store.py ...                                              [ 79%]
+  429 | demo/tests/test_totals.py ....
+  430 | 
+  431 | demo/tests/test_totals.py::test_bulk_import Killed
+  432 | 
+  433 | ##[error]Process completed with exit code 137.

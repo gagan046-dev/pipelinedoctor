@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{{ title }} — PipelineDoctor Console</title>
+  <link rel="stylesheet" href="/static/css/console.css">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  {# Loaded without defer so a saved theme applies before first paint (CSP forbids inline scripts). #}
+  <script src="/static/js/common.js"></script>
+  {% block scripts %}{% endblock %}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="masthead">
+    <div class="masthead-line">
+      <span class="sc">Occurrence investigation board</span>
+      <span class="masthead-repo mono">{{ repo }}</span>
+    </div>
+    <div class="masthead-main">
+      <a class="wordmark" href="/">PipelineDoctor <span class="wordmark-sub">Console</span></a>
+      <nav class="sections" aria-label="Sections">
+        <a href="/"{% if active == "register" %} aria-current="page"{% endif %}>Register</a>
+        <a href="/evals"{% if active == "evals" %} aria-current="page"{% endif %}>Eval ledger</a>
+      </nav>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/>
+        </svg>
+        <span id="theme-label">Night shift</span>
+      </button>
+    </div>
+  </header>
+  {% if fixture_mode %}
+  <p class="fixture-banner" role="note"><span class="sc">Fixture mode</span> Sample records bundled with the console. Nothing on these pages was read from GitHub.</p>
+  {% endif %}
+  <main id="main" tabindex="-1">
+    {% block main %}{% endblock %}
+  </main>
+  <footer class="colophon">
+    <span>PipelineDoctor Console <span class="mono">{{ version }}</span></span>
+    <span>Instance <span class="mono">{{ color }}</span></span>
+    <span>Records are read from the GitHub REST API and cached for a few minutes.</span>
+  </footer>
+  <div class="sr-only" id="announcer" aria-live="polite"></div>
+  <noscript><p class="notice">The register is assembled in the browser; enable JavaScript to read it.</p></noscript>
+</body>
+</html>

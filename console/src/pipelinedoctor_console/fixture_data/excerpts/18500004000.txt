@@ -1,0 +1,7 @@
+   61 | ##[group]Run python demo/scripts/publish_dry_run.py
+   62 | env:
+   63 |   DEMO_PUBLISH_TOKEN: 
+   64 | ##[endgroup]
+   65 | publish_dry_run: checking credentials
+   66 | Error: DEMO_PUBLISH_TOKEN is not set
+   67 | ##[error]Process completed with exit code 1.

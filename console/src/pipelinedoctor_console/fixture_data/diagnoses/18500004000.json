@@ -1,0 +1,141 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0040",
+  "created_at": "2026-10-07T12:40:18Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400004000,
+    "run_number": 80,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/secret-202610071237",
+    "head_sha": "6c3de0c41a3e97b78aa3f70c6fdf988ab5786c90",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004000",
+    "conclusion": "failure",
+    "created_at": "2026-10-07T12:37:18Z",
+    "updated_at": "2026-10-07T12:39:58Z"
+  },
+  "pull_request": {
+    "number": 22,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/22"
+  },
+  "failed_job": {
+    "id": 52000004001,
+    "name": "ops",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004000/job/52000004001"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 4,
+    "name": "Publish dry-run"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-07T12:37:18Z",
+      "completed_at": "2026-10-07T12:37:20Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-07T12:37:20Z",
+      "completed_at": "2026-10-07T12:37:22Z"
+    },
+    {
+      "number": 3,
+      "name": "Read repository metadata",
+      "conclusion": "success",
+      "started_at": "2026-10-07T12:37:22Z",
+      "completed_at": "2026-10-07T12:37:24Z"
+    },
+    {
+      "number": 4,
+      "name": "Publish dry-run",
+      "conclusion": "failure",
+      "started_at": "2026-10-07T12:37:24Z",
+      "completed_at": "2026-10-07T12:37:26Z"
+    },
+    {
+      "number": 5,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-07T12:37:26Z",
+      "completed_at": "2026-10-07T12:37:26Z"
+    }
+  ],
+  "category": "secret_permission",
+  "summary": "Publish dry-run stopped: DEMO_PUBLISH_TOKEN is not set.",
+  "probable_cause": "The step reads secrets.DEMO_PUBLISH_TOKEN, which does not exist in this repository, so the variable is empty. The script was called without --optional-token and therefore exits 1. Secrets are also never passed to workflows triggered from forks.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 66,
+      "text": "Error: DEMO_PUBLISH_TOKEN is not set",
+      "why": "The script's own error message."
+    },
+    {
+      "exhibit": "B",
+      "line": 63,
+      "text": "  DEMO_PUBLISH_TOKEN: ",
+      "why": "The env value is empty in the step header."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Keep --optional-token for dry runs, or create the secret.",
+      "command": "gh secret set DEMO_PUBLISH_TOKEN -R gagan046-dev/pipelinedoctor"
+    },
+    {
+      "id": "R2",
+      "action": "Guard steps that need secrets with an if: on the secret being non-empty.",
+      "command": null
+    }
+  ],
+  "verification": [
+    "Publish dry-run prints \"dry-run publish OK\"."
+  ],
+  "confidence": 0.81,
+  "confidence_grade": "A",
+  "source": "llm",
+  "pre_classification": {
+    "category": "secret_permission",
+    "rule_id": "missing-secret",
+    "confidence": 0.8
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "ok",
+        "latency_ms": 3990
+      }
+    ],
+    "latency_ms": 3990,
+    "input_tokens": 1350,
+    "output_tokens": 331,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 80,
+    "excerpt_lines": 80,
+    "ranges": [
+      [
+        61,
+        80
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": []
+}

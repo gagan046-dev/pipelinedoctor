@@ -1,0 +1,81 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0045",
+  "created_at": "2026-10-12T10:03:19Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400004500,
+    "run_number": 85,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/yaml-202610121001",
+    "head_sha": "f09c6e753fcf2429b2046ef7ef96e9027bba16b2",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004500",
+    "conclusion": "failure",
+    "created_at": "2026-10-12T10:00:19Z",
+    "updated_at": "2026-10-12T10:02:59Z"
+  },
+  "pull_request": {
+    "number": 27,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/27"
+  },
+  "failed_job": {
+    "id": 0,
+    "name": "(no jobs)",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004500"
+  },
+  "other_failed_jobs": [],
+  "failed_step": null,
+  "timeline": [],
+  "category": "config",
+  "summary": "The workflow file is invalid; GitHub could not start any job (startup failure).",
+  "probable_cause": "GitHub rejected .github/workflows/demo-ci.yml before scheduling jobs, so there are no job logs. A startup failure on a push that only touched this workflow file almost always means a YAML syntax or schema error near the last edit.",
+  "evidence": [],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Validate the workflow locally before pushing.",
+      "command": "actionlint .github/workflows/demo-ci.yml"
+    },
+    {
+      "id": "R2",
+      "action": "Open the run page: GitHub shows the exact line and column of the YAML error.",
+      "command": null
+    }
+  ],
+  "verification": [
+    "The next push starts Demo CI jobs normally."
+  ],
+  "confidence": 0.3,
+  "confidence_grade": "C",
+  "source": "rules_only",
+  "pre_classification": {
+    "category": "config",
+    "rule_id": "startup-failure",
+    "confidence": 0.6
+  },
+  "llm": {
+    "model": null,
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [],
+    "latency_ms": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 0,
+    "excerpt_lines": 0,
+    "ranges": [],
+    "redactions": 0
+  },
+  "warnings": [
+    "no job logs: startup failure",
+    "OPENROUTER_API_KEY not set: rules only."
+  ]
+}

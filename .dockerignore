@@ -1,0 +1,21 @@
+# Build context of the engine image (Dockerfile at the repo root).
+# Allow-list: send only what the image needs. Everything else -- .git, secrets/, .env files,
+# the console, demo, evals, caches -- never reaches the Docker daemon.
+*
+!pyproject.toml
+!uv.lock
+!README.md
+!LICENSE
+!src/
+!prompts/
+
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.venv/
+**/.env*
+**/secrets/
+**/*.pem
+**/*.key

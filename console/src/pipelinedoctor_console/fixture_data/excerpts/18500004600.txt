@@ -1,0 +1,7 @@
+   58 | ##[group]Run uv run ruff format --check
+   59 | uv run ruff format --check
+   60 | ##[endgroup]
+   61 | Would reformat: src/pipelinedoctor/engine/rules.py
+   62 | Would reformat: tests/test_rules.py
+   63 | 2 files would be reformatted, 41 files already formatted
+   64 | ##[error]Process completed with exit code 1.

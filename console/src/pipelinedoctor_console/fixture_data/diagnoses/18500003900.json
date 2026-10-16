@@ -1,0 +1,143 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0039",
+  "created_at": "2026-10-05T09:11:05Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400003900,
+    "run_number": 79,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/type-202610050908",
+    "head_sha": "12ac98ea3589d7d08e876deefed1f003ed80804f",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400003900",
+    "conclusion": "failure",
+    "created_at": "2026-10-05T09:08:05Z",
+    "updated_at": "2026-10-05T09:10:45Z"
+  },
+  "pull_request": {
+    "number": 21,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/21"
+  },
+  "failed_job": {
+    "id": 52000003901,
+    "name": "quality / typecheck",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400003900/job/52000003901"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 5,
+    "name": "Run mypy"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-05T09:08:05Z",
+      "completed_at": "2026-10-05T09:08:07Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-05T09:08:07Z",
+      "completed_at": "2026-10-05T09:08:09Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up Python",
+      "conclusion": "success",
+      "started_at": "2026-10-05T09:08:09Z",
+      "completed_at": "2026-10-05T09:08:14Z"
+    },
+    {
+      "number": 4,
+      "name": "Install dependencies",
+      "conclusion": "success",
+      "started_at": "2026-10-05T09:08:14Z",
+      "completed_at": "2026-10-05T09:08:34Z"
+    },
+    {
+      "number": 5,
+      "name": "Run mypy",
+      "conclusion": "failure",
+      "started_at": "2026-10-05T09:08:34Z",
+      "completed_at": "2026-10-05T09:08:43Z"
+    },
+    {
+      "number": 6,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-05T09:08:43Z",
+      "completed_at": "2026-10-05T09:08:43Z"
+    }
+  ],
+  "category": "lint",
+  "summary": "mypy: format_money() is annotated to return int but returns str.",
+  "probable_cause": "invoicer.money.format_money is declared -> int while every return path builds a string, and totals.py passes the result to str.join. mypy --strict reports both the bad return and the incompatible call site.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 47,
+      "text": "demo/src/invoicer/money.py:23: error: Incompatible return value type (got \"str\", expected \"int\")  [return-value]",
+      "why": "The wrong annotation."
+    },
+    {
+      "exhibit": "B",
+      "line": 48,
+      "text": "demo/src/invoicer/totals.py:51: error: Argument 1 to \"join\" of \"str\" has incompatible type \"list[int]\"; expected \"Iterable[str]\"  [arg-type]",
+      "why": "Knock-on error at the caller."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Change the return annotation of format_money() to str.",
+      "command": "python -m mypy demo/src"
+    }
+  ],
+  "verification": [
+    "mypy reports \"Success: no issues found\"."
+  ],
+  "confidence": 0.79,
+  "confidence_grade": "A",
+  "source": "llm",
+  "pre_classification": {
+    "category": "lint",
+    "rule_id": "mypy-error",
+    "confidence": 0.8
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "ok",
+        "latency_ms": 4020
+      }
+    ],
+    "latency_ms": 4020,
+    "input_tokens": 1290,
+    "output_tokens": 322,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 60,
+    "excerpt_lines": 60,
+    "ranges": [
+      [
+        45,
+        60
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": []
+}

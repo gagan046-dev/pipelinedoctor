@@ -1,0 +1,6 @@
+  138 | #3 [internal] load metadata for docker.io/library/python:3.12.99-slim
+  139 | #3 ERROR: docker.io/library/python:3.12.99-slim: not found
+  140 | 
+  141 |  > [internal] load metadata for docker.io/library/python:3.12.99-slim:
+  142 | ERROR: failed to solve: python:3.12.99-slim: failed to resolve source metadata for docker.io/library/python:3.12.99-slim: docker.io/library/python:3.12.99-slim: not found
+  143 | ##[error]buildx failed with: ERROR: failed to solve

@@ -1,0 +1,175 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0047",
+  "created_at": "2026-10-14T14:31:27Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400004700,
+    "run_number": 87,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/dependency-202610141428",
+    "head_sha": "4050fa8a02064af949e39db8db2df89393746fa9",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004700",
+    "conclusion": "failure",
+    "created_at": "2026-10-14T14:28:27Z",
+    "updated_at": "2026-10-14T14:31:07Z"
+  },
+  "pull_request": {
+    "number": 28,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/28"
+  },
+  "failed_job": {
+    "id": 52000004701,
+    "name": "quality / test (ubuntu-latest, 3.11)",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004700/job/52000004701"
+  },
+  "other_failed_jobs": [
+    {
+      "id": 52000004702,
+      "name": "quality / test (ubuntu-latest, 3.12)",
+      "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004700/job/52000004702"
+    }
+  ],
+  "failed_step": {
+    "number": 4,
+    "name": "Install dependencies"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-14T14:28:27Z",
+      "completed_at": "2026-10-14T14:28:29Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-14T14:28:29Z",
+      "completed_at": "2026-10-14T14:28:32Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up Python",
+      "conclusion": "success",
+      "started_at": "2026-10-14T14:28:32Z",
+      "completed_at": "2026-10-14T14:28:38Z"
+    },
+    {
+      "number": 4,
+      "name": "Install dependencies",
+      "conclusion": "failure",
+      "started_at": "2026-10-14T14:28:38Z",
+      "completed_at": "2026-10-14T14:29:02Z"
+    },
+    {
+      "number": 5,
+      "name": "Run tests",
+      "conclusion": "skipped",
+      "started_at": "2026-10-14T14:29:02Z",
+      "completed_at": "2026-10-14T14:29:02Z"
+    },
+    {
+      "number": 6,
+      "name": "Upload coverage",
+      "conclusion": "skipped",
+      "started_at": "2026-10-14T14:29:02Z",
+      "completed_at": "2026-10-14T14:29:02Z"
+    },
+    {
+      "number": 7,
+      "name": "Post Run actions/checkout",
+      "conclusion": "skipped",
+      "started_at": "2026-10-14T14:29:02Z",
+      "completed_at": "2026-10-14T14:29:02Z"
+    },
+    {
+      "number": 8,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-14T14:29:02Z",
+      "completed_at": "2026-10-14T14:29:02Z"
+    }
+  ],
+  "category": "dependency",
+  "summary": "pip cannot resolve requirements: typing-extensions==4.1.1 conflicts with psycopg 3.3.6.",
+  "probable_cause": "requirements.txt pins typing-extensions==4.1.1, but psycopg 3.3.6 requires typing-extensions>=4.6. Both pins are exact, so no version satisfies them together and pip stops with ResolutionImpossible before any test runs.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 214,
+      "text": "ERROR: Cannot install -r demo/requirements.txt (line 1) and typing-extensions==4.1.1 because these package versions have conflicting dependencies.",
+      "why": "pip names the two conflicting requirements."
+    },
+    {
+      "exhibit": "B",
+      "line": 218,
+      "text": "    psycopg 3.3.6 depends on typing-extensions>=4.6",
+      "why": "The constraint the pin violates."
+    },
+    {
+      "exhibit": "C",
+      "line": 223,
+      "text": "ERROR: ResolutionImpossible: for help visit https://pip.pypa.io/en/latest/topics/dependency-resolution/#dealing-with-dependency-conflicts",
+      "why": "Resolver gave up."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Drop the typing-extensions==4.1.1 pin or raise it to 4.16.0 (the project's tested pin).",
+      "command": null
+    },
+    {
+      "id": "R2",
+      "action": "Reproduce locally before pushing.",
+      "command": "python -m pip install -r demo/requirements-dev.txt --dry-run"
+    }
+  ],
+  "verification": [
+    "Install dependencies succeeds on both Python legs.",
+    "pip check reports no broken requirements."
+  ],
+  "confidence": 0.83,
+  "confidence_grade": "A",
+  "source": "llm",
+  "pre_classification": {
+    "category": "dependency",
+    "rule_id": "pip-resolution-impossible",
+    "confidence": 0.9
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "ok",
+        "latency_ms": 3880
+      }
+    ],
+    "latency_ms": 3880,
+    "input_tokens": 2620,
+    "output_tokens": 395,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 240,
+    "excerpt_lines": 212,
+    "ranges": [
+      [
+        212,
+        240
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": []
+}

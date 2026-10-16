@@ -1,0 +1,156 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0041",
+  "created_at": "2026-10-08T17:22:36Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400004100,
+    "run_number": 81,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/conflict-202610081719",
+    "head_sha": "200fb98ca387935048dcda739bf9bbc77c54cb5d",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004100",
+    "conclusion": "failure",
+    "created_at": "2026-10-08T17:19:36Z",
+    "updated_at": "2026-10-08T17:22:16Z"
+  },
+  "pull_request": {
+    "number": 23,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/23"
+  },
+  "failed_job": {
+    "id": 52000004101,
+    "name": "quality / lint",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400004100/job/52000004101"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 5,
+    "name": "Ruff check"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-08T17:19:36Z",
+      "completed_at": "2026-10-08T17:19:38Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-08T17:19:38Z",
+      "completed_at": "2026-10-08T17:19:40Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up Python",
+      "conclusion": "success",
+      "started_at": "2026-10-08T17:19:40Z",
+      "completed_at": "2026-10-08T17:19:45Z"
+    },
+    {
+      "number": 4,
+      "name": "Install dependencies",
+      "conclusion": "success",
+      "started_at": "2026-10-08T17:19:45Z",
+      "completed_at": "2026-10-08T17:20:04Z"
+    },
+    {
+      "number": 5,
+      "name": "Ruff check",
+      "conclusion": "failure",
+      "started_at": "2026-10-08T17:20:04Z",
+      "completed_at": "2026-10-08T17:20:06Z"
+    },
+    {
+      "number": 6,
+      "name": "Ruff format check",
+      "conclusion": "skipped",
+      "started_at": "2026-10-08T17:20:06Z",
+      "completed_at": "2026-10-08T17:20:06Z"
+    },
+    {
+      "number": 7,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-08T17:20:06Z",
+      "completed_at": "2026-10-08T17:20:06Z"
+    }
+  ],
+  "category": "build",
+  "summary": "totals.py contains unresolved merge-conflict markers; ruff cannot parse it.",
+  "probable_cause": "Lines 14-22 of demo/src/invoicer/totals.py still contain <<<<<<<, ======= and >>>>>>> markers from a merge of main into the branch. Python cannot parse the file, so every tool fails at the first marker.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 88,
+      "text": "demo/src/invoicer/totals.py:14:1: SyntaxError: Expected a statement",
+      "why": "Parser error at the first marker."
+    },
+    {
+      "exhibit": "B",
+      "line": 89,
+      "text": "   14 | <<<<<<< HEAD",
+      "why": "The conflict marker itself."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Resolve the conflict in totals.py, keeping the decimal-based rounding from main.",
+      "command": "git diff --check"
+    },
+    {
+      "id": "R2",
+      "action": "Add a pre-commit hook that rejects conflict markers.",
+      "command": null
+    }
+  ],
+  "verification": [
+    "git grep -n '^<<<<<<<' returns nothing.",
+    "Demo CI quality / lint is green."
+  ],
+  "confidence": 0.9,
+  "confidence_grade": "A",
+  "source": "llm",
+  "pre_classification": {
+    "category": "build",
+    "rule_id": "merge-conflict-markers",
+    "confidence": 0.9
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "ok",
+        "latency_ms": 3510
+      }
+    ],
+    "latency_ms": 3510,
+    "input_tokens": 1620,
+    "output_tokens": 344,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 104,
+    "excerpt_lines": 104,
+    "ranges": [
+      [
+        86,
+        104
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": []
+}

@@ -1,0 +1,149 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0050",
+  "created_at": "2026-10-15T16:05:44Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18400005000,
+    "run_number": 90,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/oom-202610151601",
+    "head_sha": "1482b83edf755230e1d3bef829d2e488cb488761",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400005000",
+    "conclusion": "failure",
+    "created_at": "2026-10-15T16:02:44Z",
+    "updated_at": "2026-10-15T16:05:24Z"
+  },
+  "pull_request": {
+    "number": 30,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/30"
+  },
+  "failed_job": {
+    "id": 52000005001,
+    "name": "docker",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18400005000/job/52000005001"
+  },
+  "other_failed_jobs": [],
+  "failed_step": {
+    "number": 5,
+    "name": "Run tests in the container"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-15T16:02:44Z",
+      "completed_at": "2026-10-15T16:02:46Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout",
+      "conclusion": "success",
+      "started_at": "2026-10-15T16:02:46Z",
+      "completed_at": "2026-10-15T16:02:49Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up Docker Buildx",
+      "conclusion": "success",
+      "started_at": "2026-10-15T16:02:49Z",
+      "completed_at": "2026-10-15T16:02:58Z"
+    },
+    {
+      "number": 4,
+      "name": "Build demo image",
+      "conclusion": "success",
+      "started_at": "2026-10-15T16:02:58Z",
+      "completed_at": "2026-10-15T16:03:39Z"
+    },
+    {
+      "number": 5,
+      "name": "Run tests in the container",
+      "conclusion": "failure",
+      "started_at": "2026-10-15T16:03:39Z",
+      "completed_at": "2026-10-15T16:04:17Z"
+    },
+    {
+      "number": 6,
+      "name": "Complete job",
+      "conclusion": "skipped",
+      "started_at": "2026-10-15T16:04:17Z",
+      "completed_at": "2026-10-15T16:04:17Z"
+    }
+  ],
+  "category": "infrastructure",
+  "summary": "The test container was killed by the kernel OOM killer (exit code 137).",
+  "probable_cause": "The container runs with --memory=256m. test_bulk_import allocates a list of one million Line objects (about 1 GiB) and the kernel kills the process; pytest never prints a result. Exit code 137 is 128 + SIGKILL (9).",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 433,
+      "text": "##[error]Process completed with exit code 137.",
+      "why": "137 = killed by SIGKILL."
+    },
+    {
+      "exhibit": "B",
+      "line": 431,
+      "text": "demo/tests/test_totals.py::test_bulk_import Killed",
+      "why": "The kernel killed the process during this test."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Generate the bulk-import data lazily (a generator) instead of materialising it.",
+      "command": null
+    },
+    {
+      "id": "R2",
+      "action": "If the test genuinely needs the memory, raise the limit in demo-ci.yml.",
+      "command": "docker run --rm --memory=1g pipelinedoctor-demo:ci python -m pytest -q -m \"not integration\""
+    }
+  ],
+  "verification": [
+    "The docker job finishes with exit code 0.",
+    "docker stats shows peak memory below 256 MiB during the test run."
+  ],
+  "confidence": 0.71,
+  "confidence_grade": "B",
+  "source": "llm",
+  "pre_classification": {
+    "category": "infrastructure",
+    "rule_id": "oom-exit-137",
+    "confidence": 0.85
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "d39585f8c3f52e057438a381ac2acbae1d55524ce362bb3b1afd4d18cc39d84b",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "ok",
+        "latency_ms": 6120
+      }
+    ],
+    "latency_ms": 6120,
+    "input_tokens": 2210,
+    "output_tokens": 388,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 460,
+    "excerpt_lines": 212,
+    "ranges": [
+      [
+        427,
+        460
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": []
+}

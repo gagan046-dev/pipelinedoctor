@@ -1,0 +1,5 @@
+  115 | demo/tests/test_store_integration.py::test_round_trip PASSED            [ 33%]
+  116 | demo/tests/test_store_integration.py::test_upsert PASSED                [ 66%]
+  117 | 
+  118 | demo/tests/test_store_integration.py::test_slow_lock 
+  121 | ##[error]The action 'Run integration tests' has timed out after 3 minutes.
