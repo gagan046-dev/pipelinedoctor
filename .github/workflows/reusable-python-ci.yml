@@ -48,6 +48,8 @@ permissions: {}
 defaults:
   run:
     # bash exists on Windows runners too (Git Bash), so one script works on every OS.
+    # Careful: a job-level `defaults.run` REPLACES this block instead of merging with it, so
+    # every job below repeats `shell: bash` next to its working-directory.
     shell: bash
 
 jobs:
@@ -58,6 +60,7 @@ jobs:
       contents: read
     defaults:
       run:
+        shell: bash
         working-directory: ${{ inputs.working-directory }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -94,6 +97,7 @@ jobs:
       contents: read
     defaults:
       run:
+        shell: bash
         working-directory: ${{ inputs.working-directory }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -126,6 +130,7 @@ jobs:
       coverage: ${{ steps.coverage.outputs.percent }}
     defaults:
       run:
+        shell: bash
         working-directory: ${{ inputs.working-directory }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
