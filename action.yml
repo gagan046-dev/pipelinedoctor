@@ -50,5 +50,5 @@ runs:
   # A Docker container action: GitHub pulls this prebuilt image (no build on every run) and
   # passes inputs as INPUT_<NAME> environment variables. Docker actions run on Linux runners only.
   using: docker
-  image: docker://ghcr.io/gagan046-dev/pipelinedoctor:0.1.0 # x-release-please-version
+  image: docker://ghcr.io/gagan046-dev/pipelinedoctor:0.2.0 # x-release-please-version
   args: [action]
