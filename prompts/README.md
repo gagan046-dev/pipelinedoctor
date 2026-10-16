@@ -18,7 +18,8 @@ description: One line.
 
 | File | Used by | Placeholders |
 |---|---|---|
-| `diagnose.v1.md` | `pipelinedoctor diagnose`, `diagnose-log`, `eval run` | `$workflow $job $failed_step $timeline $preclass $categories $nonce $excerpt $schema` |
+| `diagnose.v2.md` (default) | `pipelinedoctor diagnose`, `diagnose-log`, `eval run` | `$workflow $job $failed_step $timeline $preclass $categories $nonce $excerpt $schema` |
+| `diagnose.v1.md` | `PD_PROMPT_VERSION=v1` (kept so old reports stay explainable) | same as v2 |
 | `judge.v1.md` | `eval run --judge` (nightly) | `$expected_category $key_facts $reference_fix $diagnosis_json` |
 
 ## Rules

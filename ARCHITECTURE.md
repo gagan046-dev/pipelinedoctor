@@ -335,7 +335,7 @@ When `diagnose` runs inside Actions it writes `$GITHUB_OUTPUT`: `occurrence-id`,
 | `GITHUB_API_URL` | engine, console | `https://api.github.com` | |
 | `GITHUB_REPOSITORY`, `GITHUB_RUN_ID`, `GITHUB_RUN_NUMBER`, `GITHUB_SERVER_URL`, `GITHUB_STEP_SUMMARY`, `GITHUB_OUTPUT` | engine | Actions-provided | `GITHUB_RUN_NUMBER` of the doctor run → occurrence number |
 | `PD_MODELS` | engine | `openrouter/nvidia/nemotron-3-super-120b-a12b:free,openrouter/nvidia/nemotron-3-ultra-550b-a55b:free` | ordered fallback list |
-| `PD_PROMPT_VERSION` | engine | `v1` | diagnose prompt version |
+| `PD_PROMPT_VERSION` | engine | `v2` | diagnose prompt version |
 | `PD_LLM_TIMEOUT_S` | engine | `60` | per call |
 | `PD_LLM_MAX_CALLS` | engine | `2` | per diagnosis (hard cap 2) |
 | `PD_MAX_LLM_REQUESTS` | engine | `2` for diagnose, `12` for `eval run --subset pr`, `45` for `--subset all` | process-wide request budget |
@@ -416,7 +416,7 @@ inputs:
   run-id:              { description: Failed run id, default: "${{ github.event.workflow_run.id }}" }
   comment:             { description: auto|always|never, default: auto }
   models:              { description: Comma-separated LiteLLM model list (empty = built-in), default: "" }
-  prompt-version:      { description: Diagnose prompt version, default: v1 }
+  prompt-version:      { description: Diagnose prompt version, default: v2 }
   max-llm-calls:       { description: 1 or 2, default: "2" }
 outputs:
   occurrence-id: { description: e.g. PD-2026-0042 }

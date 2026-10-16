@@ -134,8 +134,8 @@
   "llm": {
     "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
     "prompt_id": "diagnose",
-    "prompt_version": "v1",
-    "prompt_sha256": "105e5ba65b86f602e3feb5f5c76517911c183f3e04bbcf3c2bd192736f4fec88",
+    "prompt_version": "v2",
+    "prompt_sha256": "c2536138ef6cc73672b29673bdb5a1f052da28473d077541d0e115a2257de5a5",
     "attempts": [
       {
         "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",

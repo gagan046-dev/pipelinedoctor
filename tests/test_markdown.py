@@ -66,7 +66,7 @@ def test_pr_section_layout_and_safety() -> None:
     assert "EXHIBIT A — line 1" in section
     assert "@\u200badmin" in section and "<b>" not in section
     assert "````bash\npytest ```x```\n````" in section
-    assert "prompt diagnose.v1" in section and "run #57" in section and "$0.0000" in section
+    assert "prompt diagnose.v2" in section and "run #57" in section and "$0.0000" in section
 
 
 def test_summary_marks_rule_based_reports() -> None:
