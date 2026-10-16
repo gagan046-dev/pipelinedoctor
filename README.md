@@ -60,6 +60,10 @@ repository exactly as it was when caching and matrices arrived.
 | 09 | CD: environments, staging, blue-green, rollback, DORA | [docs/stages/09-cd.md](docs/stages/09-cd.md) |
 | 10 | Reuse: reusable workflow, composite action, templates | [docs/stages/10-reuse.md](docs/stages/10-reuse.md) |
 
+New to CI/CD? Start with the **[Learning Guide](LEARNING-GUIDE.md)** (all ten stages with the
+important lines explained and a glossary), keep **[COMMANDS.md](COMMANDS.md)** open for
+copy-paste commands, and see **[TECH-STACK.md](TECH-STACK.md)** for every tool and version.
+
 Running workflows locally with `act`: [docs/local-act.md](docs/local-act.md).
 Threat model (workflow_run, self-hosted runner, prompt injection): [docs/security.md](docs/security.md).
 
