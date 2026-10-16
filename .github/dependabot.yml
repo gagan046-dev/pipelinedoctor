@@ -50,6 +50,16 @@ updates:
     groups:
       docker:
         patterns: ["*"]
+    # Runtime upgrades (Python 3.12 -> 3.14, Node 22 -> 26) are deliberate changes with a CI matrix
+    # update, not weekly bumps. Docker registries also publish no release dates, so the cooldown
+    # above cannot hold these back: check an image's age before merging its bump.
+    ignore:
+      - dependency-name: "python"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "node"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "postgres"
+        update-types: ["version-update:semver-major"]
     open-pull-requests-limit: 5
 
   - package-ecosystem: npm
