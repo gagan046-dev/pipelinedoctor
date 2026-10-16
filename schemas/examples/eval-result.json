@@ -12,7 +12,7 @@
       "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
       "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free"
     ],
-    "engine_fingerprint": "e368cb6f3b2068a6",
+    "engine_fingerprint": "241ebd74389ada6e",
     "engine_version": "0.1.0",
     "llm_mode": "live",
     "judge": false

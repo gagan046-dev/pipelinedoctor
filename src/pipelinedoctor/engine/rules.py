@@ -247,7 +247,11 @@ RULES: list[Rule] = [
         C.LINT,
         [
             r"^[\w./\\-]+\.py:\d+:\d+: [A-Z]{1,3}\d{3,4}\b",
-            r"^[A-Z]{1,3}\d{3,4} .*\n?",
+            # ruff's "full" format: `F401 [*] message`, the message starts with a capital or a
+            # backtick. Not just "letters+digits + space": "SHA256 digest of ..." from
+            # actions/upload-artifact matched that and turned a test failure into "lint".
+            r"^[A-Z]{1,3}\d{3,4} (?:\[\*\] )?[A-Z`]",
+            r"^\s*--> [\w./\\-]+\.py:\d+:\d+$",
             r"\[\*\] \d+ fixable with the `--fix` option",
         ],
         0.85,

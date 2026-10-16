@@ -43,3 +43,18 @@ def test_higher_confidence_wins_over_generic_test_failure() -> None:
     )
     result = preclassify(excerpt)
     assert result is not None and result.category == Category.INFRASTRUCTURE
+
+
+def test_artifact_digest_line_is_not_a_ruff_finding() -> None:
+    # Seen live on the first demo PR: upload-artifact prints "SHA256 digest of ...", which an
+    # over-broad ruff pattern ("letters+digits, space") classified as a lint failure.
+    excerpt = Excerpt(
+        lines={
+            1: "E       AssertionError: assert Decimal('4.19') == Decimal('4.20')",
+            2: "FAILED tests/test_totals.py::test_total_with_tax - AssertionError",
+            3: "SHA256 digest of uploaded artifact is 4d13c16d4973e131b3cc75ca762a0939",
+        },
+        total_lines=3,
+    )
+    result = preclassify(excerpt)
+    assert result is not None and result.category == Category.TEST
