@@ -1,6 +1,6 @@
 [project]
 name = "pipelinedoctor-console"
-version = "0.1.0" # x-release-please-version
+version = "0.2.0" # x-release-please-version
 description = "PipelineDoctor Console: occurrence register, investigation reports, eval ledger and DORA metrics."
 readme = "README.md"
 license = "MIT"

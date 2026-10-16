@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pipelinedoctor"
-version = "0.1.0" # x-release-please-version
+version = "0.2.0" # x-release-please-version
 description = "Diagnose failed GitHub Actions runs with an LLM and post the diagnosis on the pull request."
 license = "MIT"
 requires-python = ">=3.11"
