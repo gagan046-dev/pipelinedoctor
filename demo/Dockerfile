@@ -3,7 +3,7 @@
 # (`docker run --memory=256m ... python -m pytest`), which is what makes the OOM demo real.
 # demo/break/apply.py edits the FROM lines (mode docker-base) and the anchor below (mode docker).
 
-FROM python:3.12.14-slim@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f AS builder
+FROM python:3.14.7-slim@sha256:51dafde81dbdb6ebde285137a295cf18a47ca95234fe388a343719cb97305b3d AS builder
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:${PATH}"
@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements.txt "$(grep -E '^pytest==' requirements-dev.txt)" \
  && pip install --no-deps -e .
 
-FROM python:3.12.14-slim@sha256:f77ac9e44ae96ef2c90b8053ea08c31f8be030f824196b0ae4db6d462c84e51f AS runtime
+FROM python:3.14.7-slim@sha256:51dafde81dbdb6ebde285137a295cf18a47ca95234fe388a343719cb97305b3d AS runtime
 ARG VERSION=0.0.0-dev
 ARG GIT_SHA=unknown
 LABEL org.opencontainers.image.title="pipelinedoctor-demo" \
