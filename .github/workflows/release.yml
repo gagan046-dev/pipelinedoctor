@@ -1,0 +1,86 @@
+# Stage 07 - releases with release-please.
+# Every push to main updates a "release PR" (version bump + CHANGELOG from Conventional Commits).
+# Merging that PR creates the tag vX.Y.Z and the GitHub Release; then this workflow builds the
+# signed multi-arch images and attaches the SBOMs to the release. (Stage 09 adds the `deploy` job.)
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions: {}
+
+# No workflow-level concurrency group on purpose: the deploy job below can wait days for the
+# production reviewer, and a workflow-level group would hold every later push to main in the
+# queue (GitHub keeps only ONE pending run per group and cancels the others). Only release-please
+# itself must not run twice at once; production deploys are serialised by deploy.yml's
+# `deploy-production` group.
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: release-please
+      cancel-in-progress: false
+    permissions:
+      contents: write # create tags and releases
+      pull-requests: write # open/update the release PR
+    outputs:
+      release_created: ${{ steps.rp.outputs.release_created }}
+      version: ${{ steps.rp.outputs.version }}
+      tag_name: ${{ steps.rp.outputs.tag_name }}
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        id: rp
+        with:
+          # PRs opened with GITHUB_TOKEN do not trigger workflows (loop protection), so the release
+          # PR gets no checks. An optional fine-grained PAT fixes that (see docs/stages/07-releases.md).
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN || github.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+      - name: Summary
+        env:
+          CREATED: ${{ steps.rp.outputs.release_created }}
+          TAG: ${{ steps.rp.outputs.tag_name }}
+        run: |
+          if [ "$CREATED" = "true" ]; then
+            echo "### Released ${TAG}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No release this time - the release PR was created or updated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  images:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    uses: ./.github/workflows/container.yml
+    # A called workflow can never get more permissions than the calling job grants.
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    with:
+      version: ${{ needs.release-please.outputs.version }}
+      push: true
+      platforms: linux/amd64,linux/arm64
+      sign: true
+
+  release-assets:
+    needs: [release-please, images]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # upload release assets
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: sbom-*
+          path: sboms
+          merge-multiple: true
+      - name: Attach SBOMs to the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.release-please.outputs.tag_name }}
+        run: |
+          ls -l sboms
+          gh release upload "$TAG" sboms/*.spdx.json --clobber -R "$GITHUB_REPOSITORY"

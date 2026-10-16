@@ -1,7 +1,7 @@
-# Stage 04 - container images with Docker Buildx.
-#   pull_request -> build only (proves the Dockerfiles work and warms the cache; pushes nothing)
-#   push to main -> build + push to GHCR with tags sha-<7> and edge
-# Stage 07 adds workflow_call, version tags, multi-arch, SBOM, provenance and cosign signing.
+# Container images: engine (also the Docker action), console, proxy.
+#   pull_request    -> build only (proves the Dockerfiles work, warms the cache, pushes nothing)
+#   push to main    -> build + push sha-<7> and edge tags to GHCR
+#   workflow_call   -> release.yml: version tags, multi-arch, SBOM, provenance, cosign signature
 name: Container
 
 on:
@@ -28,16 +28,46 @@ on:
       - "console/**"
       - "deploy/proxy/**"
       - ".github/workflows/container.yml"
+  workflow_call:
+    inputs:
+      version:
+        description: Release version without "v" (empty = not a release).
+        type: string
+        default: ""
+      push:
+        description: Push the images even when not on main.
+        type: boolean
+        default: false
+      platforms:
+        description: Comma-separated target platforms.
+        type: string
+        default: linux/amd64
+      sign:
+        description: Generate SBOM, SLSA provenance and a cosign signature, then verify them.
+        type: boolean
+        default: false
+    outputs:
+      engine-digest:
+        description: Digest (sha256:...) of the engine image.
+        value: ${{ jobs.digests.outputs.engine-digest }}
+      console-digest:
+        description: Digest (sha256:...) of the console image.
+        value: ${{ jobs.digests.outputs.console-digest }}
+      proxy-digest:
+        description: Digest (sha256:...) of the proxy image.
+        value: ${{ jobs.digests.outputs.proxy-digest }}
 
 permissions: {}
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # inputs.version keeps a release build from sharing (and cancelling) the group of a normal build.
+  group: container-${{ github.event.pull_request.number || github.ref }}-${{ inputs.version || 'edge' }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  # Fork PRs could not push anyway (read-only token); same-repo PRs must not overwrite tags.
-  PUSH: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+  # Push only from main (or when a caller explicitly asks). Fork PRs could not push anyway:
+  # their GITHUB_TOKEN is read-only.
+  PUSH: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.push == true }}
 
 jobs:
   build:
@@ -46,7 +76,9 @@ jobs:
     timeout-minutes: 45
     permissions:
       contents: read
-      packages: write # push to ghcr.io with the workflow's own GITHUB_TOKEN
+      packages: write # push to ghcr.io
+      id-token: write # OIDC token for keyless cosign signing and provenance
+      attestations: write # store the SLSA provenance attestation
     strategy:
       fail-fast: false
       matrix:
@@ -72,7 +104,11 @@ jobs:
         with:
           persist-credentials: false
 
-      # Buildx = BuildKit: parallel multi-stage builds and exportable layer caches.
+      # QEMU emulates arm64 on the amd64 runner (slow, so only for multi-arch release builds).
+      - name: Set up QEMU
+        if: contains(inputs.platforms, 'arm64')
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
       - name: Log in to GHCR
@@ -83,7 +119,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Turns git context into tags (sha-1a2b3c4, edge) and OCI labels (source, revision, ...).
       - name: Compute tags and OCI labels
         id: meta
         uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
@@ -92,40 +127,125 @@ jobs:
           tags: |
             type=sha,format=short,prefix=sha-
             type=edge,branch=main
+            type=semver,pattern={{version}},value=${{ inputs.version }},enable=${{ inputs.version != '' }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ inputs.version }},enable=${{ inputs.version != '' }}
+            type=raw,value=latest,enable=${{ inputs.version != '' }}
           labels: |
             org.opencontainers.image.title=${{ matrix.title }}
             org.opencontainers.image.licenses=MIT
 
-      - name: Build (and push on main)
+      - name: Build (and push)
         id: build
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.file }}
-          platforms: linux/amd64
+          platforms: ${{ inputs.platforms || 'linux/amd64' }}
           push: ${{ env.PUSH == 'true' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=${{ steps.meta.outputs.version }}
+            VERSION=${{ inputs.version || steps.meta.outputs.version }}
             GIT_SHA=${{ github.sha }}
-          # GitHub Actions cache backend: unchanged layers are restored instead of rebuilt.
-          # mode=max also caches the intermediate stages of multi-stage Dockerfiles.
-          cache-from: type=gha,scope=${{ matrix.image }}
+          # GHA layer cache, one scope per image. Signed release builds do not READ the cache:
+          # a poisoned cache entry must never end up inside a signed artifact (they still write it).
+          cache-from: ${{ !inputs.sign && format('type=gha,scope={0}', matrix.image) || '' }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
+          # We create provenance and SBOM explicitly below, so BuildKit's own attestations are off.
+          provenance: false
+          sbom: false
 
-      - name: Summary
+      - name: Record digest
+        if: env.PUSH == 'true'
         env:
-          TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build.outputs.digest }}
           IMAGE: ${{ matrix.image }}
         run: |
-          {
-            echo "### ${IMAGE}"
-            echo "Pushed: ${PUSH}"
-            echo ""
-            echo "Digest: \`${DIGEST:-n/a}\`"
-            echo '```'
-            echo "${TAGS}"
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          mkdir -p digests
+          printf '%s' "$DIGEST" > "digests/${IMAGE}"
+          echo "Pushed \`${IMAGE}\` digest \`${DIGEST}\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload digest
+        if: env.PUSH == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: digest-${{ matrix.image }}
+          path: digests/${{ matrix.image }}
+          retention-days: 1
+
+      # ---------- supply chain (release builds only) ----------
+      - name: Install cosign
+        if: inputs.sign && env.PUSH == 'true'
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Generate SBOM (SPDX)
+        if: inputs.sign && env.PUSH == 'true'
+        uses: anchore/sbom-action@3ad7283483fc7af8ff2b4ea19663c2d5ca935e26 # v0.24.2
+        with:
+          image: ${{ matrix.name }}@${{ steps.build.outputs.digest }}
+          format: spdx-json
+          output-file: sbom-${{ matrix.image }}.spdx.json
+          artifact-name: sbom-${{ matrix.image }}.spdx.json
+          registry-username: ${{ github.actor }}
+          registry-password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sign image and attach SBOM attestation (keyless cosign)
+        if: inputs.sign && env.PUSH == 'true'
+        env:
+          REF: ${{ matrix.name }}@${{ steps.build.outputs.digest }}
+          IMAGE: ${{ matrix.image }}
+        # Keyless: cosign exchanges the job's OIDC token for a short-lived Sigstore certificate
+        # whose identity is this workflow file. No private key exists anywhere.
+        run: |
+          cosign sign --yes "$REF"
+          cosign attest --yes --type spdxjson --predicate "sbom-${IMAGE}.spdx.json" "$REF"
+
+      - name: SLSA build provenance
+        if: inputs.sign && env.PUSH == 'true'
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-name: ${{ matrix.name }}
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
+
+      - name: Verify signature and provenance
+        if: inputs.sign && env.PUSH == 'true'
+        env:
+          REF: ${{ matrix.name }}@${{ steps.build.outputs.digest }}
+          GH_TOKEN: ${{ github.token }}
+        # Verify like a consumer would: trust only signatures made by container.yml on main.
+        run: |
+          cosign verify "$REF" \
+            --certificate-identity-regexp '^https://github\.com/gagan046-dev/pipelinedoctor/\.github/workflows/container\.yml@refs/heads/main$' \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com > /dev/null
+          echo "cosign signature OK"
+          gh attestation verify "oci://${REF}" -R gagan046-dev/pipelinedoctor
+          echo "### Verified \`${REF}\`" >> "$GITHUB_STEP_SUMMARY"
+
+  digests:
+    needs: build
+    # Workflow-level env is not available in a job-level "if", so the push rule is repeated here.
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || inputs.push == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    # A matrix job cannot expose one output per leg, so each leg uploads a tiny digest file
+    # and this job turns them into workflow outputs.
+    outputs:
+      engine-digest: ${{ steps.read.outputs.engine }}
+      console-digest: ${{ steps.read.outputs.console }}
+      proxy-digest: ${{ steps.read.outputs.proxy }}
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: digest-*
+          path: digests
+          merge-multiple: true
+      - id: read
+        run: |
+          for image in engine console proxy; do
+            if [ -f "digests/${image}" ]; then
+              echo "${image}=$(cat "digests/${image}")" >> "$GITHUB_OUTPUT"
+            fi
+          done
+          ls -l digests 2>/dev/null || echo "Nothing was pushed (pull request build)."
