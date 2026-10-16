@@ -1,0 +1,67 @@
+# Ephemeral staging: started on a GitHub-hosted runner with the exact release digests,
+# smoke-tested, then removed with `down -v`. One console colour ("staging") behind the
+# same proxy image production uses.
+#
+#   PD_CONSOLE_IMAGE=ghcr.io/...@sha256:... PD_PROXY_IMAGE=ghcr.io/...@sha256:... \
+#     docker compose -p pd-staging -f deploy/compose.staging.yml up -d --wait
+name: pd-staging
+
+services:
+  proxy:
+    image: ${PD_PROXY_IMAGE:?set PD_PROXY_IMAGE to the proxy image reference under test}
+    container_name: pd-staging-proxy
+    environment:
+      PD_DEFAULT_COLOR: staging
+    networks:
+      default:
+        # smoke.sh reaches the proxy as http://pd-proxy:8080, the same URL as production.
+        aliases: [pd-proxy]
+    ports:
+      - "127.0.0.1:8090:8080"
+    volumes:
+      - pd-staging-proxy-state:/etc/nginx/pd
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    depends_on:
+      console-staging:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/proxy-healthz >/dev/null || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 5s
+
+  console-staging:
+    image: ${PD_CONSOLE_IMAGE:?set PD_CONSOLE_IMAGE to the console image reference under test}
+    environment:
+      PD_CONSOLE_COLOR: staging
+      PD_GITHUB_TOKEN: ${PD_GITHUB_TOKEN:-}
+      PD_CONSOLE_REPO: ${PD_CONSOLE_REPO:-gagan046-dev/pipelinedoctor}
+    volumes:
+      - pd-staging-cache:/var/cache/pd
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    expose:
+      - "8000"
+    healthcheck:
+      # Mirrors the image HEALTHCHECK, with a faster interval so `up --wait` returns quickly.
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz',timeout=3).status==200 else 1)"]
+      interval: 5s
+      timeout: 4s
+      retries: 12
+      start_period: 5s
+
+volumes:
+  pd-staging-proxy-state:
+  pd-staging-cache:

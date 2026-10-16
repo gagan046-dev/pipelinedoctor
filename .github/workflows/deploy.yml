@@ -1,0 +1,155 @@
+# Stage 09 - continuous delivery of the Console.
+#   resolve    (GitHub-hosted) verify cosign signature + SLSA provenance, pin images by digest
+#   staging    (GitHub-hosted) ephemeral docker compose environment + smoke test + teardown
+#   production (self-hosted laptop runner, manual approval) blue-green switch with automatic rollback
+# Production is only reachable through a green staging job, and only from main or a v* tag
+# (both environments allow main and v* tags: scripts/setup-environments.ps1).
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version to deploy, e.g. 0.2.0 (a leading "v" is accepted).
+        type: string
+        required: true
+      environment:
+        description: Target environment.
+        type: choice
+        options: [staging, production]
+        default: staging
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+      environment:
+        type: string
+        default: production
+    secrets:
+      CONSOLE_GITHUB_TOKEN:
+        description: Optional token the production console uses to read the GitHub API.
+        required: false
+
+permissions: {}
+
+concurrency:
+  group: deploy-${{ inputs.environment }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # Verify signature + provenance and pin by digest (shared with rollback.yml).
+  resolve:
+    uses: ./.github/workflows/resolve-release.yml
+    permissions:
+      contents: read
+      packages: read
+      attestations: read
+    with:
+      version: ${{ inputs.version }}
+
+  staging:
+    needs: resolve
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # The environment makes GitHub record a Deployment with statuses (visible under "Deployments").
+    environment:
+      name: staging
+      url: http://127.0.0.1:8090
+    permissions:
+      contents: read
+      actions: read # the console reads doctor runs
+      pull-requests: read
+      deployments: read
+      packages: read # pull images
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start ephemeral staging (docker compose)
+        env:
+          PD_CONSOLE_IMAGE: ${{ needs.resolve.outputs.console-ref }}
+          PD_PROXY_IMAGE: ${{ needs.resolve.outputs.proxy-ref }}
+          PD_GITHUB_TOKEN: ${{ github.token }}
+        # --wait blocks until every service with a healthcheck reports healthy.
+        run: docker compose -p pd-staging -f deploy/compose.staging.yml up -d --wait
+
+      - name: Smoke test
+        env:
+          CONSOLE_REF: ${{ needs.resolve.outputs.console-ref }}
+          VERSION: ${{ needs.resolve.outputs.version }}
+        # Runs inside the compose network, so no host port is involved.
+        run: |
+          bash deploy/scripts/smoke.sh --network pd-staging_default --base-url http://pd-proxy:8080 \
+            --image "$CONSOLE_REF" --expect-version "$VERSION" --expect-color staging --require-github
+
+      - name: Dump logs on failure
+        if: failure()
+        env:
+          PD_CONSOLE_IMAGE: ${{ needs.resolve.outputs.console-ref }}
+          PD_PROXY_IMAGE: ${{ needs.resolve.outputs.proxy-ref }}
+        run: docker compose -p pd-staging -f deploy/compose.staging.yml logs --no-color
+
+      - name: Tear down
+        if: always()
+        env:
+          PD_CONSOLE_IMAGE: ${{ needs.resolve.outputs.console-ref }}
+          PD_PROXY_IMAGE: ${{ needs.resolve.outputs.proxy-ref }}
+        run: docker compose -p pd-staging -f deploy/compose.staging.yml down -v
+
+  production:
+    needs: [resolve, staging]
+    if: inputs.environment == 'production' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    # SECURITY: the only job type allowed on the laptop runner (enforced by scripts/check_workflows.py).
+    # No pull_request trigger can reach it, and the production environment requires approval.
+    runs-on: [self-hosted, pd-prod]
+    timeout-minutes: 20
+    environment:
+      name: production
+      url: http://127.0.0.1:8090
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      deployments: write # annotate the deployment status for DORA metrics
+      packages: read # pull images while GHCR packages are still private
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Blue-green deploy
+        id: bg
+        env:
+          VERSION: ${{ needs.resolve.outputs.version }}
+          CONSOLE_REF: ${{ needs.resolve.outputs.console-ref }}
+          PROXY_REF: ${{ needs.resolve.outputs.proxy-ref }}
+          # Optional environment secret; empty = console runs unauthenticated (60 API requests/h).
+          PD_GITHUB_TOKEN: ${{ secrets.CONSOLE_GITHUB_TOKEN }}
+        # bluegreen.sh switches back automatically and exits 1 when the post-switch smoke test fails.
+        run: |
+          bash deploy/scripts/bluegreen.sh deploy --version "$VERSION" \
+            --console-image "$CONSOLE_REF" --proxy-image "$PROXY_REF"
+
+      - name: Annotate the GitHub Deployment
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ENVIRONMENT: production
+          KIND: deploy
+          VERSION: ${{ needs.resolve.outputs.version }}
+          OUTCOME: ${{ steps.bg.outputs.outcome }} # empty = bluegreen.sh never ran -> failed_before_switch
+          COLOR: ${{ steps.bg.outputs.active_color }}
+        run: bash deploy/scripts/annotate-deployment.sh

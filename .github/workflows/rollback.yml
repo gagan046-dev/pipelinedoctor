@@ -1,0 +1,107 @@
+# Stage 09 - manual rollback of production.
+#   no version -> switch back to the previous colour (still present, just stopped): seconds
+#   version    -> verify that release (resolve-release.yml), then blue-green deploy it by digest
+#   gh workflow run rollback.yml -f reason="smoke ok but users see 500s"
+#   gh workflow run rollback.yml -f version=0.2.0 -f reason="bad release 0.3.0"
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Optional release to roll back to (empty = previous colour).
+        type: string
+        required: false
+        default: ""
+      reason:
+        description: Why are we rolling back? (recorded in the run summary)
+        type: string
+        required: true
+
+permissions: {}
+
+jobs:
+  # A rollback to a version is a deploy of an older release: it gets the same supply-chain gate
+  # as deploy.yml (cosign signature, SLSA provenance, digest pinning) on a GitHub-hosted runner,
+  # before anything is pulled onto the laptop.
+  resolve:
+    if: github.ref == 'refs/heads/main' && inputs.version != ''
+    uses: ./.github/workflows/resolve-release.yml
+    permissions:
+      contents: read
+      packages: read
+      attestations: read
+    with:
+      version: ${{ inputs.version }}
+
+  rollback:
+    needs: resolve
+    # "skipped" resolve = no version given = switch back to the previous colour (nothing to pull).
+    if: >-
+      always() && github.ref == 'refs/heads/main' &&
+      (needs.resolve.result == 'success' || (needs.resolve.result == 'skipped' && inputs.version == ''))
+    runs-on: [self-hosted, pd-prod]
+    timeout-minutes: 15
+    # Same environment as deploys: the reviewer approves rollbacks too.
+    environment:
+      name: production
+      url: http://127.0.0.1:8090
+    # Shares the group with deploy.yml's production job: a deploy and a rollback never overlap.
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      deployments: write
+      packages: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Record the reason
+        env:
+          REASON: ${{ inputs.reason }}
+          VERSION_INPUT: ${{ inputs.version }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          {
+            echo "### Manual rollback"
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Requested by | ${ACTOR} |"
+            echo "| Target | ${VERSION_INPUT:-previous colour} |"
+            echo "| Reason | ${REASON} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        if: inputs.version != ''
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Roll back
+        id: bg
+        env:
+          VERSION: ${{ needs.resolve.outputs.version }}
+          CONSOLE_REF: ${{ needs.resolve.outputs.console-ref }}
+          PD_GITHUB_TOKEN: ${{ secrets.CONSOLE_GITHUB_TOKEN }}
+        run: |
+          if [ -z "$VERSION" ]; then
+            bash deploy/scripts/bluegreen.sh rollback
+          else
+            # name@sha256:... from resolve-release.yml: exactly the bytes that were verified.
+            bash deploy/scripts/bluegreen.sh rollback --version "$VERSION" --console-image "$CONSOLE_REF"
+          fi
+
+      - name: Annotate the GitHub Deployment
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ENVIRONMENT: production
+          KIND: manual_rollback
+          VERSION: ${{ inputs.version || 'previous' }}
+          OUTCOME: ${{ steps.bg.outputs.outcome }} # empty = bluegreen.sh never ran -> failed_before_switch
+          COLOR: ${{ steps.bg.outputs.active_color }}
+        run: bash deploy/scripts/annotate-deployment.sh

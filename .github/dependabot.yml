@@ -37,8 +37,7 @@ updates:
     open-pull-requests-limit: 5
 
   - package-ecosystem: docker
-    # "/runner" joins in stage 09, when runner/Dockerfile exists.
-    directories: ["/", "/console", "/deploy/proxy", "/demo"]
+    directories: ["/", "/console", "/deploy/proxy", "/demo", "/runner"]
     schedule:
       interval: weekly
       day: monday

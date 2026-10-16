@@ -1,7 +1,7 @@
 # Stage 07 - releases with release-please.
 # Every push to main updates a "release PR" (version bump + CHANGELOG from Conventional Commits).
 # Merging that PR creates the tag vX.Y.Z and the GitHub Release; then this workflow builds the
-# signed multi-arch images and attaches the SBOMs to the release. (Stage 09 adds the `deploy` job.)
+# signed multi-arch images, attaches the SBOMs to the release and deploys (staging -> production).
 name: Release
 
 on:
@@ -84,3 +84,21 @@ jobs:
         run: |
           ls -l sboms
           gh release upload "$TAG" sboms/*.spdx.json --clobber -R "$GITHUB_REPOSITORY"
+
+  deploy:
+    needs: [release-please, images]
+    uses: ./.github/workflows/deploy.yml
+    # Superset of what deploy.yml's jobs request (resolve, staging, production).
+    permissions:
+      contents: read
+      packages: read
+      deployments: write
+      attestations: read
+      actions: read
+      pull-requests: read
+    with:
+      version: ${{ needs.release-please.outputs.version }}
+      environment: production
+    # Pass only the secret deploy.yml declares, instead of "secrets: inherit" (all of them).
+    secrets:
+      CONSOLE_GITHUB_TOKEN: ${{ secrets.CONSOLE_GITHUB_TOKEN }}

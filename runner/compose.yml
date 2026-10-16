@@ -1,0 +1,33 @@
+# The self-hosted runner as a long-lived container on Docker Desktop.
+#   runner/register.ps1   one-time registration   runner/start.ps1 / stop.ps1   run / pause it
+name: pd-runner
+
+services:
+  runner:
+    build:
+      context: .
+    image: pd-runner:local
+    container_name: pd-runner
+    # "no": after a reboot the runner stays OFFLINE until you run start.ps1. An offline runner
+    # cannot pick up any job, which is the strongest guard on a public repo.
+    restart: "no"
+    environment:
+      RUNNER_NAME: pd-laptop
+      RUNNER_LABELS: pd-prod
+    volumes:
+      # Named volume: populated from the image on first use, then keeps .runner/.credentials,
+      # the _work directory and the runner's self-updates across container restarts.
+      - pd-runner-home:/home/runner
+      # SECURITY: this socket is root on the Docker Desktop VM. See runner/README.md.
+      - /var/run/docker.sock:/var/run/docker.sock
+    # On Docker Desktop the socket shows up as root:root inside containers, so the
+    # "runner" user needs group 0. Fallback if docker still fails: user: root plus
+    # RUNNER_ALLOW_RUNASROOT: "1".
+    group_add:
+      - "0"
+    security_opt:
+      - no-new-privileges:true
+    command: ["./run.sh"]
+
+volumes:
+  pd-runner-home:

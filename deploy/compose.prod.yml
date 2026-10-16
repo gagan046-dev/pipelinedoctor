@@ -1,0 +1,79 @@
+# Production blue-green stack on the laptop (compose project "pd-prod").
+# Driven by deploy/scripts/bluegreen.sh -- do not `docker compose up` all services by hand:
+# that would recreate BOTH colours from the default images.
+#
+# No bind mounts: the deploy job runs inside the runner container, so a relative host path
+# would resolve on the Docker Desktop VM, not in the job's checkout. State lives in volumes.
+name: pd-prod
+
+x-console: &console
+  read_only: true
+  tmpfs:
+    - /tmp
+  restart: unless-stopped
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  expose:
+    - "8000"
+  healthcheck:
+    # Same probe as the image HEALTHCHECK, but every 5 s so a deploy is not slowed down
+    # by the image's 30 s default interval.
+    test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz',timeout=3).status==200 else 1)"]
+    interval: 5s
+    timeout: 4s
+    retries: 3
+    start_period: 10s
+
+services:
+  proxy:
+    image: ${PD_PROXY_IMAGE:-ghcr.io/gagan046-dev/pipelinedoctor-proxy:latest}
+    container_name: pd-proxy
+    ports:
+      - "127.0.0.1:8090:8080"
+    volumes:
+      - pd-proxy-state:/etc/nginx/pd
+    read_only: true
+    tmpfs:
+      - /tmp
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/proxy-healthz >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  console-blue:
+    <<: *console
+    image: ${PD_IMAGE_BLUE:-ghcr.io/gagan046-dev/pipelinedoctor-console:latest}
+    environment:
+      PD_CONSOLE_COLOR: blue
+      PD_GITHUB_TOKEN: ${PD_GITHUB_TOKEN:-}
+      PD_CONSOLE_REPO: ${PD_CONSOLE_REPO:-gagan046-dev/pipelinedoctor}
+    volumes:
+      - pd-cache-blue:/var/cache/pd
+    labels:
+      pd.color: blue
+
+  console-green:
+    <<: *console
+    image: ${PD_IMAGE_GREEN:-ghcr.io/gagan046-dev/pipelinedoctor-console:latest}
+    environment:
+      PD_CONSOLE_COLOR: green
+      PD_GITHUB_TOKEN: ${PD_GITHUB_TOKEN:-}
+      PD_CONSOLE_REPO: ${PD_CONSOLE_REPO:-gagan046-dev/pipelinedoctor}
+    volumes:
+      - pd-cache-green:/var/cache/pd
+    labels:
+      pd.color: green
+
+volumes:
+  pd-proxy-state:
+  pd-cache-blue:
+  pd-cache-green:
