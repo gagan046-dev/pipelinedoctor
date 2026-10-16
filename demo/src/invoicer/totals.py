@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from decimal import ROUND_HALF_UP, Decimal
+from decimal import ROUND_DOWN, Decimal
 
 from invoicer.money import CENT, to_cents
 
@@ -37,7 +37,7 @@ def apply_tax(subtotal: Decimal, rate: Decimal) -> Decimal:
     """Tax on the subtotal. Multiply first, round once at the end."""
     if not Decimal(0) <= rate < Decimal(1):
         raise ValueError("rate must be in [0, 1)")
-    return (subtotal * rate).quantize(CENT, rounding=ROUND_HALF_UP)
+    return (subtotal * rate).quantize(CENT, rounding=ROUND_DOWN)
 
 
 def invoice_totals(items: Sequence[LineItem], tax_rate: Decimal) -> Totals:
