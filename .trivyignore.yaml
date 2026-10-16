@@ -1,0 +1,14 @@
+# Every ignore needs a statement explaining WHY it is acceptable.
+# Docs: https://trivy.dev/latest/docs/configuration/filtering/#trivyignoreyaml
+misconfigurations:
+  # "Image user should not be root". GitHub requires Docker container actions to run as the
+  # default (root) user so they can write to /github/workspace and $GITHUB_OUTPUT.
+  # Only the engine/action image is exempt; console and proxy images run as non-root.
+  - id: AVD-DS-0002
+    paths:
+      - Dockerfile
+    statement: Docker container actions must run as root (GitHub Actions requirement).
+  - id: DS-0002
+    paths:
+      - Dockerfile
+    statement: Same check under the newer Trivy check id.

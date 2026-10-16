@@ -1,0 +1,87 @@
+# Stage 05 - Dependabot proposes dependency updates as reviewable PRs.
+# cooldown mirrors this repo's "two-week rule": a release must be 14 days old before we adopt it,
+# which gives the community time to catch compromised or broken releases.
+version: 2
+
+updates:
+  - package-ecosystem: uv
+    directories: ["/", "/console"]
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Europe/Amsterdam
+    cooldown:
+      default-days: 14
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      python:
+        patterns: ["*"]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: pip
+    directory: /demo
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Europe/Amsterdam
+    cooldown:
+      default-days: 14
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      demo-python:
+        patterns: ["*"]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: docker
+    # "/runner" joins in stage 09, when runner/Dockerfile exists.
+    directories: ["/", "/console", "/deploy/proxy", "/demo"]
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Europe/Amsterdam
+    cooldown:
+      default-days: 14
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      docker:
+        patterns: ["*"]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: npm
+    directory: /console
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Europe/Amsterdam
+    cooldown:
+      default-days: 14
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      fonts:
+        patterns: ["*"]
+    open-pull-requests-limit: 5
+
+  # Updates the SHA *and* the "# vX.Y.Z" comment of every pinned action.
+  - package-ecosystem: github-actions
+    directories: ["/", "/.github/actions/*"]
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Europe/Amsterdam
+    cooldown:
+      default-days: 14
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      actions:
+        patterns: ["*"]
+    open-pull-requests-limit: 5

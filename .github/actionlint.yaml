@@ -1,0 +1,5 @@
+# actionlint configuration (https://github.com/rhysd/actionlint/blob/main/docs/config.md)
+self-hosted-runner:
+  # Custom label of the laptop runner (runner/register.ps1). Only deploy/rollback may use it.
+  labels:
+    - pd-prod

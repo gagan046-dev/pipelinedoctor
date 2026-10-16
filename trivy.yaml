@@ -1,0 +1,20 @@
+# Trivy configuration shared by the trivy-fs and trivy-image jobs (security.yml).
+# Inputs given to aquasecurity/trivy-action override these values (e.g. the
+# second "gate" pass narrows severity to CRITICAL).
+# Docs: https://trivy.dev/latest/docs/references/configuration/config-file/
+severity:
+  - MEDIUM
+  - HIGH
+  - CRITICAL
+ignorefile: .trivyignore.yaml
+scan:
+  skip-dirs:
+    - "**/.git"
+    - "**/.venv"
+    - "**/node_modules"
+    - "**/.eval-cache"
+    - "**/eval-results"
+    # Synthetic CI failure logs: they quote error output on purpose.
+    - evals/cases
+vulnerability:
+  ignore-unfixed: false

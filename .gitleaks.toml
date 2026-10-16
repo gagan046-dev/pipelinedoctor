@@ -1,0 +1,16 @@
+# gitleaks configuration: https://github.com/gitleaks/gitleaks#configuration
+title = "PipelineDoctor gitleaks config"
+
+[extend]
+# Start from the built-in rule set (AWS keys, GitHub tokens, private keys, ...).
+useDefault = true
+
+# The eval dataset contains synthetic CI logs. They never contain real or fake secrets
+# (plant_secret cases generate a random value at run time), only redaction placeholders
+# such as "[REDACTED:github_token]". Allow exactly those lines and nothing else.
+[[allowlists]]
+description = "Redaction placeholders in synthetic eval logs"
+condition = "AND"
+paths = ['''evals/cases/.*/log\.txt''']
+regexTarget = "line"
+regexes = ['''\[REDACTED:''']
