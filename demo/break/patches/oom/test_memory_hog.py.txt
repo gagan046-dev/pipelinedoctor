@@ -1,0 +1,10 @@
+"""Added by `demo/break/apply.py oom`: a unit test that needs far more memory than allowed.
+
+Demo CI runs the image with `docker run --memory=256m`; the kernel OOM killer stops the
+container and the step fails with exit code 137 (128 + SIGKILL).
+"""
+
+
+def test_builds_a_huge_report_in_memory() -> None:
+    chunks = [b"x" * (64 * 1024 * 1024) for _ in range(16)]  # 16 x 64 MiB = 1 GiB, all touched
+    assert sum(len(c) for c in chunks) == 1024**3

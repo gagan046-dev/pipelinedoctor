@@ -1,0 +1,10 @@
+# Build context: demo/. Only the package, its tests and the dependency files are needed.
+*
+!pyproject.toml
+!requirements.txt
+!requirements-dev.txt
+!src/
+!tests/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/

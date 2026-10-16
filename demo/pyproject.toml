@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "invoicer"
+version = "0.1.0"
+description = "Tiny invoicing library used as PipelineDoctor's deliberately breakable demo."
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = [
+    "psycopg[binary]==3.3.6",
+    "typing-extensions==4.16.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/invoicer"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = ["break/patches"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Lets `python -m pytest demo/tests` work from the repo root even without an install.
+pythonpath = ["src"]
+markers = ["integration: needs a PostgreSQL server on localhost:$DEMO_DB_PORT"]
+# Integration tests are opt-in: `-m integration` on the command line overrides this.
+addopts = ["-m", "not integration", "--strict-markers"]
+
+[tool.coverage.run]
+source = ["invoicer"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

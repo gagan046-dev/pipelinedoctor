@@ -1,0 +1,15 @@
+"""Added by `demo/break/apply.py timeout`: a hanging integration test.
+
+The step "Run integration tests" has `timeout-minutes: 3`, so GitHub cancels it long before
+this sleep ends -- the classic "the job just hangs" failure.
+"""
+
+import time
+
+import pytest
+
+pytestmark = pytest.mark.integration
+
+
+def test_waits_for_a_service_that_never_answers() -> None:
+    time.sleep(400)
