@@ -1,0 +1,44 @@
+# --- secrets: never commit (public repo) ---
+secrets/
+.env
+.env.*
+*.pem
+*.key
+*.p12
+
+# --- Python ---
+__pycache__/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# --- evals / engine outputs ---
+.eval-cache/
+eval-results/
+pipelinedoctor-report.json
+diagnosis.json
+excerpt.txt
+
+# --- console ---
+node_modules/
+console/src/pipelinedoctor_console/static/fonts/
+
+# --- logs (but the eval dataset logs are real test data) ---
+*.log
+!evals/cases/**/log.txt
+
+# --- local tooling ---
+.actrc.local
+.secrets
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

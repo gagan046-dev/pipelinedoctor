@@ -1,0 +1,81 @@
+# Stage 01 - the smallest useful workflow.
+# Concepts: events (on:), jobs, steps, runners, logs, job outputs, the step summary.
+name: Hello
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      who:
+        description: Who should be greeted?
+        type: string
+        default: learner
+
+# Least privilege: the workflow token gets no scopes at all unless a job asks for them.
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    # A job output is how one job hands a value to another job (jobs run on different machines).
+    outputs:
+      greeting: ${{ steps.compose.outputs.greeting }}
+    steps:
+      - name: Show the event and the runner
+        # Untrusted or event-derived values go through env:, never straight into the script text.
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RUNNER_OS_NAME: ${{ runner.os }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          echo "::group::Context"
+          echo "event:  $EVENT_NAME"
+          echo "runner: $RUNNER_OS_NAME ($RUNNER_ARCH)"
+          echo "actor:  $ACTOR"
+          echo "sha:    $GITHUB_SHA"
+          echo "::endgroup::"
+          echo "::notice title=Hello::This annotation shows up on the run summary page."
+
+      - name: Compose a greeting
+        id: compose
+        env:
+          WHO: ${{ inputs.who || 'learner' }}
+        run: |
+          greeting="Hello, ${WHO}! Welcome to PipelineDoctor stage 01."
+          echo "greeting=${greeting}" >> "$GITHUB_OUTPUT"
+
+      - name: Write the step summary
+        env:
+          GREETING: ${{ steps.compose.outputs.greeting }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          {
+            echo "## Hello workflow"
+            echo ""
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| Greeting | ${GREETING} |"
+            echo "| Event | \`${EVENT_NAME}\` |"
+            echo "| Runner | \`${RUNNER_OS}\` / \`${RUNNER_ARCH}\` |"
+            echo "| Commit | \`${GITHUB_SHA::7}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  report:
+    needs: greet
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Consume the job output
+        env:
+          GREETING: ${{ needs.greet.outputs.greeting }}
+        run: |
+          echo "The greet job said: ${GREETING}"
+          echo "Job outputs are strings; this one travelled from one VM to another via the API."
