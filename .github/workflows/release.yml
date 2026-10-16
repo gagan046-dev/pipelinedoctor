@@ -34,7 +34,7 @@ jobs:
         id: rp
         with:
           # PRs opened with GITHUB_TOKEN do not trigger workflows (loop protection), so the release
-          # PR gets no checks. An optional fine-grained PAT fixes that (see docs/stages/07-releases.md).
+          # PR's checks are held for approval. A fine-grained PAT avoids that (docs/stages/07-releases.md).
           token: ${{ secrets.RELEASE_PLEASE_TOKEN || github.token }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
