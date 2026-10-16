@@ -1,0 +1,32 @@
+[
+  {
+    "id": 3401000001,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/12#issuecomment-3401000001",
+    "user": {
+      "login": "gagan046-dev",
+      "type": "User"
+    },
+    "body": "<!-- pipelinedoctor:report v1 -->\nI pasted the marker on purpose; the bot must ignore this comment.",
+    "created_at": "2026-10-16T11:40:00Z"
+  },
+  {
+    "id": 3401000002,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/12#issuecomment-3401000002",
+    "user": {
+      "login": "github-actions[bot]",
+      "type": "Bot"
+    },
+    "body": "<!-- pipelinedoctor:report v1 -->\n\n## PipelineDoctor: CI failure diagnosis\n\n<!-- pd:section workflow=ci.yml -->\n### LINT · CI → lint → Lint\nold ci section\n<!-- pd:end -->\n",
+    "created_at": "2026-10-16T11:45:00Z"
+  },
+  {
+    "id": 3401000003,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/12#issuecomment-3401000003",
+    "user": {
+      "login": "github-actions[bot]",
+      "type": "Bot"
+    },
+    "body": "<!-- pipelinedoctor:evals v1 -->\n## PipelineDoctor evals (pr): **PASS**",
+    "created_at": "2026-10-16T11:46:00Z"
+  }
+]

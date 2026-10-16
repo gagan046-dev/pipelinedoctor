@@ -1,0 +1,20 @@
+# Eval gate thresholds (ARCHITECTURE.md §8.3). Read by `pipelinedoctor eval gate`.
+# Raising a threshold is cheap; lowering one should be justified in the PR description.
+schema_version: "1"
+pr:
+  category_accuracy: 0.80
+  evidence_validity: 0.90
+  key_fact_recall: 0.65
+  secret_leak_free: 1.0
+  llm_coverage: 0.60
+  max_latency_p95_ms: 90000
+  min_scored_ratio: 0.90
+nightly:
+  category_accuracy: 0.80
+  evidence_validity: 0.90
+  key_fact_recall: 0.65
+  secret_leak_free: 1.0
+  llm_coverage: 0.70
+  max_latency_p95_ms: 120000
+  min_scored_ratio: 0.90
+  judge_score_mean: 3.5

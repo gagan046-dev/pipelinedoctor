@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gagan046-dev/pipelinedoctor/blob/main/schemas/ledger-entry.v1.schema.json",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "recorded_at": {
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "git_sha": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Git Sha"
+    },
+    "mode": {
+      "title": "Mode",
+      "type": "string"
+    },
+    "subset": {
+      "title": "Subset",
+      "type": "string"
+    },
+    "prompt_version": {
+      "title": "Prompt Version",
+      "type": "string"
+    },
+    "models": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Models",
+      "type": "array"
+    },
+    "engine_version": {
+      "title": "Engine Version",
+      "type": "string"
+    },
+    "cases_scored": {
+      "title": "Cases Scored",
+      "type": "integer"
+    },
+    "cases_total": {
+      "title": "Cases Total",
+      "type": "integer"
+    },
+    "category_accuracy": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Category Accuracy"
+    },
+    "evidence_validity": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Validity"
+    },
+    "key_fact_recall": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Key Fact Recall"
+    },
+    "judge_score_mean": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Judge Score Mean"
+    },
+    "llm_coverage": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Llm Coverage"
+    },
+    "latency_p50_ms": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Latency P50 Ms"
+    },
+    "latency_p95_ms": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Latency P95 Ms"
+    },
+    "total_cost_usd": {
+      "default": 0.0,
+      "title": "Total Cost Usd",
+      "type": "number"
+    },
+    "thresholds": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Thresholds",
+      "type": "object"
+    },
+    "passed": {
+      "title": "Passed",
+      "type": "boolean"
+    },
+    "failures": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Failures",
+      "type": "array"
+    },
+    "run_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Run Url"
+    }
+  },
+  "required": [
+    "recorded_at",
+    "mode",
+    "subset",
+    "prompt_version",
+    "models",
+    "engine_version",
+    "cases_scored",
+    "cases_total",
+    "thresholds",
+    "passed"
+  ],
+  "title": "LedgerEntry",
+  "type": "object"
+}

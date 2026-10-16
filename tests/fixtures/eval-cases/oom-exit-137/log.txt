@@ -1,0 +1,165 @@
+2026-10-14T12:07:03.0501410Z Current runner version: '2.337.0'
+2026-10-14T12:07:03.0938860Z ##[group]Runner Image Provisioner
+2026-10-14T12:07:03.1243260Z Hosted Compute Agent
+2026-10-14T12:07:03.1462880Z Version: 20260911.392
+2026-10-14T12:07:03.1970330Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T12:07:03.2729840Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T12:07:03.3103370Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T12:07:03.3830270Z ##[endgroup]
+2026-10-14T12:07:03.4195050Z ##[group]Operating System
+2026-10-14T12:07:03.4699760Z Ubuntu
+2026-10-14T12:07:03.5457290Z 24.04.3
+2026-10-14T12:07:03.5471510Z LTS
+2026-10-14T12:07:03.5799970Z ##[endgroup]
+2026-10-14T12:07:03.6669110Z ##[group]Runner Image
+2026-10-14T12:07:03.6695140Z Image: ubuntu-24.04
+2026-10-14T12:07:03.7273060Z Version: 20260928.1.0
+2026-10-14T12:07:03.7478280Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T12:07:03.7676670Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T12:07:03.8096630Z ##[endgroup]
+2026-10-14T12:07:03.8318180Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T12:07:03.8657700Z Contents: read
+2026-10-14T12:07:03.9517760Z Metadata: read
+2026-10-14T12:07:04.0333420Z ##[endgroup]
+2026-10-14T12:07:04.1100600Z Secret source: Actions
+2026-10-14T12:07:04.1180580Z Prepare workflow directory
+2026-10-14T12:07:04.1339620Z Prepare all required actions
+2026-10-14T12:07:04.2112000Z Getting action download info
+2026-10-14T12:07:04.2157260Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T12:07:04.2726270Z Download action repository 'docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069' (SHA:f87e5991a6d7451dcb8d9637bfbc97413f497069)
+2026-10-14T12:07:04.3097670Z Download action repository 'docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc' (SHA:c3c9e263c25d99ce0380d002d59b67737d91b0dc)
+2026-10-14T12:07:04.3382610Z Complete job name: docker
+2026-10-14T12:07:04.3479920Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T12:07:04.3954040Z with:
+2026-10-14T12:07:04.4578870Z   persist-credentials: false
+2026-10-14T12:07:04.4744710Z   repository: gagan046-dev/invoicer
+2026-10-14T12:07:04.5474470Z   token: ***
+2026-10-14T12:07:04.6354580Z   ssh-strict: true
+2026-10-14T12:07:04.6380870Z   ssh-user: git
+2026-10-14T12:07:04.6545090Z   clean: true
+2026-10-14T12:07:04.6676440Z   sparse-checkout-cone-mode: true
+2026-10-14T12:07:04.6866640Z   fetch-depth: 1
+2026-10-14T12:07:04.7101610Z   fetch-tags: false
+2026-10-14T12:07:04.7173770Z   show-progress: true
+2026-10-14T12:07:04.7525150Z   lfs: false
+2026-10-14T12:07:04.7943690Z   submodules: false
+2026-10-14T12:07:04.8241010Z   set-safe-directory: true
+2026-10-14T12:07:04.9055520Z ##[endgroup]
+2026-10-14T12:07:04.9091690Z Syncing repository: gagan046-dev/invoicer
+2026-10-14T12:07:04.9890870Z ##[group]Getting Git version info
+2026-10-14T12:07:05.0650180Z Working directory is '/home/runner/work/invoicer/invoicer'
+2026-10-14T12:07:05.0890840Z [command]/usr/bin/git version
+2026-10-14T12:07:05.1462860Z git version 2.51.0
+2026-10-14T12:07:05.1540080Z ##[endgroup]
+2026-10-14T12:07:05.1937150Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T12:07:05.2462720Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T12:07:05.2655960Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/invoicer/invoicer
+2026-10-14T12:07:05.2797820Z Deleting the contents of '/home/runner/work/invoicer/invoicer'
+2026-10-14T12:07:05.3674930Z ##[group]Initializing the repository
+2026-10-14T12:07:05.3799500Z [command]/usr/bin/git init /home/runner/work/invoicer/invoicer
+2026-10-14T12:07:05.4335210Z Initialized empty Git repository in /home/runner/work/invoicer/invoicer/.git/
+2026-10-14T12:07:05.4365390Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/invoicer
+2026-10-14T12:07:05.5236840Z ##[endgroup]
+2026-10-14T12:07:05.6099300Z ##[group]Disabling automatic garbage collection
+2026-10-14T12:07:05.6747830Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T12:07:05.7267330Z ##[endgroup]
+2026-10-14T12:07:05.7571320Z ##[group]Fetching the repository
+2026-10-14T12:07:05.7601710Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T12:07:05.7716270Z remote: Enumerating objects: 64, done.
+2026-10-14T12:07:05.7895150Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T12:07:05.7999210Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T12:07:05.8602060Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T12:07:05.9130760Z From https://github.com/gagan046-dev/invoicer
+2026-10-14T12:07:05.9690680Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T12:07:06.0390380Z ##[endgroup]
+2026-10-14T12:07:06.0759040Z ##[group]Determining the checkout info
+2026-10-14T12:07:06.1468540Z ##[endgroup]
+2026-10-14T12:07:06.1507360Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T12:07:06.1528030Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T12:07:06.2388700Z ##[group]Checking out the ref
+2026-10-14T12:07:06.2998540Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T12:07:06.3422420Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T12:07:06.3655530Z ##[endgroup]
+2026-10-14T12:07:06.3839470Z ##[group]Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069
+2026-10-14T12:07:06.3927620Z with:
+2026-10-14T12:07:06.3981510Z   driver: docker-container
+2026-10-14T12:07:06.4877490Z   install: false
+2026-10-14T12:07:06.5022790Z   use: true
+2026-10-14T12:07:06.5890520Z   keep-state: false
+2026-10-14T12:07:06.6059840Z   cache-binary: true
+2026-10-14T12:07:06.6603500Z   cleanup: true
+2026-10-14T12:07:06.7464590Z ##[endgroup]
+2026-10-14T12:07:06.7578410Z ##[group]Docker info
+2026-10-14T12:07:06.8378710Z [command]/usr/bin/docker version
+2026-10-14T12:07:06.9074030Z Client: Docker Engine - Community
+2026-10-14T12:07:06.9624410Z  Version:           28.4.0
+2026-10-14T12:07:07.0414440Z  API version:       1.51
+2026-10-14T12:07:07.0546820Z [command]/usr/bin/docker info
+2026-10-14T12:07:07.0865690Z ##[endgroup]
+2026-10-14T12:07:07.1156840Z ##[group]Creating a new builder instance
+2026-10-14T12:07:07.1732130Z [command]/usr/bin/docker buildx create --name builder-8e1f3c2a --driver docker-container --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --use
+2026-10-14T12:07:07.2210170Z builder-8e1f3c2a
+2026-10-14T12:07:07.2814640Z ##[endgroup]
+2026-10-14T12:07:07.3707860Z ##[group]Booting builder
+2026-10-14T12:07:07.4248050Z #1 [internal] booting buildkit
+2026-10-14T12:07:07.4839890Z #1 pulling image moby/buildkit:buildx-stable-1
+2026-10-14T12:07:07.4950670Z #1 pulling image moby/buildkit:buildx-stable-1 1.2s done
+2026-10-14T12:07:07.5828930Z #1 creating container buildx_buildkit_builder-8e1f3c2a0
+2026-10-14T12:07:07.6192610Z #1 creating container buildx_buildkit_builder-8e1f3c2a0 0.6s done
+2026-10-14T12:07:07.6905180Z #1 DONE 1.8s
+2026-10-14T12:07:07.7184430Z ##[endgroup]
+2026-10-14T12:07:07.7512590Z ##[group]Run docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
+2026-10-14T12:07:07.7877600Z with:
+2026-10-14T12:07:07.8374060Z   context: demo
+2026-10-14T12:07:07.8803010Z   push: false
+2026-10-14T12:07:07.9621170Z   tags: pipelinedoctor-demo:ci
+2026-10-14T12:07:08.0120990Z   cache-from: type=gha,scope=engine
+2026-10-14T12:07:08.0509310Z   cache-to: type=gha,mode=max,scope=engine
+2026-10-14T12:07:08.1089390Z   provenance: false
+2026-10-14T12:07:08.1196990Z   load: false
+2026-10-14T12:07:08.1479890Z   no-cache: false
+2026-10-14T12:07:08.2205630Z   pull: false
+2026-10-14T12:07:08.2422910Z   github-token: ***
+2026-10-14T12:07:08.2705190Z ##[endgroup]
+2026-10-14T12:07:08.2747850Z ##[group]GitHub Actions runtime token ACs
+2026-10-14T12:07:08.3045470Z ref:refs/heads/main: read/write
+2026-10-14T12:07:08.3284210Z ##[endgroup]
+2026-10-14T12:07:08.3900650Z ##[group]Docker info
+2026-10-14T12:07:08.4776310Z [command]/usr/bin/docker version
+2026-10-14T12:07:08.5093910Z ##[endgroup]
+2026-10-14T12:07:08.5180270Z ##[group]Proxy configuration
+2026-10-14T12:07:08.5493180Z No proxy configuration found
+2026-10-14T12:07:08.6212980Z ##[endgroup]
+2026-10-14T12:07:08.6958200Z [command]/usr/bin/docker buildx build --cache-from type=gha,scope=engine --cache-to type=gha,mode=max,scope=engine --iidfile /home/runner/work/_temp/docker-actions-toolkit-x1/build-iidfile-3f2e.txt --metadata-file /home/runner/work/_temp/docker-actions-toolkit-x1/build-metadata-91ab.json --tag pipelinedoctor-demo:ci demo
+2026-10-14T12:07:08.7776380Z #0 building with "builder-8e1f3c2a" instance using docker-container driver
+2026-10-14T12:07:08.7981730Z 
+2026-10-14T12:07:08.8629630Z #1 [internal] load build definition from Dockerfile
+2026-10-14T12:07:08.9062940Z #1 transferring dockerfile: 1.21kB done
+2026-10-14T12:07:08.9224800Z #1 DONE 0.0s
+2026-10-14T12:07:08.9526130Z 
+2026-10-14T12:07:09.0031710Z #2 [internal] load metadata for docker.io/library/python:3.12.14-slim
+2026-10-14T12:07:09.0919870Z #2 DONE 0.6s
+2026-10-14T12:07:09.1077210Z #9 exporting to docker image format
+2026-10-14T12:07:09.1665410Z #9 sending tarball 1.9s done
+2026-10-14T12:07:09.2452180Z #9 DONE 3.0s
+2026-10-14T12:07:09.2707190Z #10 importing to docker
+2026-10-14T12:07:09.3433430Z #10 DONE 1.2s
+2026-10-14T12:07:09.4087930Z ##[group]Run docker run --rm --memory=256m pipelinedoctor-demo:ci python -m pytest -q -m "not integration"
+2026-10-14T12:07:09.4604710Z docker run --rm --memory=256m pipelinedoctor-demo:ci python -m pytest -q -m "not integration"
+2026-10-14T12:07:09.5074090Z shell: /usr/bin/bash -e {0}
+2026-10-14T12:07:09.5431280Z ##[endgroup]
+2026-10-14T12:07:09.5897020Z ..........
+2026-10-14T12:07:09.5938130Z tests/test_store.py::test_bulk_import 
+2026-10-14T12:07:09.6174200Z Killed
+2026-10-14T12:07:09.6948880Z ##[error]Process completed with exit code 137.
+2026-10-14T12:07:09.7153050Z Post job cleanup.
+2026-10-14T12:07:09.7991690Z [command]/usr/bin/git version
+2026-10-14T12:07:09.8194310Z git version 2.51.0
+2026-10-14T12:07:09.8868690Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T12:07:09.9549970Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T12:07:10.0403540Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/invoicer/invoicer
+2026-10-14T12:07:10.0637540Z Removing SSH command configuration
+2026-10-14T12:07:10.1178560Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T12:07:10.1274560Z Removing HTTP extra header
+2026-10-14T12:07:10.1331510Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T12:07:10.2001700Z Cleaning up orphan processes

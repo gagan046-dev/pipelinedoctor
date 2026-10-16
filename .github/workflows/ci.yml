@@ -1,0 +1,111 @@
+# Stage 02 - CI quality gates for the engine.
+# Three independent jobs (they run in parallel on three fresh VMs) plus one aggregate job.
+# Deliberately simple: one OS, one Python, no cache, no matrix. Stage 03 makes it fast.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions: {}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.21"
+          python-version: "3.12"
+          enable-cache: false
+      # --frozen: install exactly what uv.lock says and never re-resolve. (--locked would also
+      # FAIL when pyproject.toml and the lock disagree; --frozen does not check that at all.)
+      - run: uv sync --frozen
+      - name: ruff check
+        # --output-format=github turns findings into inline annotations on the PR diff.
+        run: uv run --frozen ruff check --output-format=github src tests
+      - name: ruff format --check
+        run: uv run --frozen ruff format --check --diff src tests
+
+  typecheck:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.21"
+          python-version: "3.12"
+          enable-cache: false
+      - run: uv sync --frozen
+      - name: mypy (strict)
+        run: uv run --frozen mypy src
+
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    # Job outputs: a value other jobs can read through needs.test.outputs.coverage.
+    outputs:
+      coverage: ${{ steps.coverage.outputs.percent }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.21"
+          python-version: "3.12"
+          enable-cache: false
+      - run: uv sync --frozen
+      - name: pytest with coverage gate (85%)
+        # --cov-fail-under turns "coverage dropped" into a red build.
+        run: |
+          uv run --frozen pytest --cov=pipelinedoctor --cov-report=xml --cov-report=term \
+            --cov-fail-under=85
+      - name: Read total coverage
+        id: coverage
+        if: always()
+        run: |
+          if [ -f coverage.xml ]; then
+            pct=$(python3 -c "import xml.etree.ElementTree as E; print(round(float(E.parse('coverage.xml').getroot().get('line-rate')) * 100, 1))")
+            echo "percent=${pct}" >> "$GITHUB_OUTPUT"
+          fi
+
+  ci-ok:
+    name: ci-ok
+    needs: [lint, typecheck, test]
+    # always(): report a result even when a dependency failed, so the required check never hangs.
+    if: always()
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Aggregate results
+        env:
+          LINT: ${{ needs.lint.result }}
+          TYPECHECK: ${{ needs.typecheck.result }}
+          TEST: ${{ needs.test.result }}
+          COVERAGE: ${{ needs.test.outputs.coverage }}
+        run: |
+          {
+            echo "## CI summary"
+            echo "| Job | Result |"
+            echo "|---|---|"
+            echo "| lint | ${LINT} |"
+            echo "| typecheck | ${TYPECHECK} |"
+            echo "| test | ${TEST} |"
+            echo ""
+            echo "Coverage: ${COVERAGE:-n/a}%"
+          } >> "$GITHUB_STEP_SUMMARY"
+          for r in "$LINT" "$TYPECHECK" "$TEST"; do
+            if [ "$r" != success ]; then echo "::error::A quality gate ended with '$r'."; exit 1; fi
+          done

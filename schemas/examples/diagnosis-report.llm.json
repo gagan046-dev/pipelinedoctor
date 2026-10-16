@@ -1,0 +1,163 @@
+{
+  "schema_version": "1",
+  "occurrence_id": "PD-2026-0042",
+  "created_at": "2026-10-16T12:00:05Z",
+  "engine_version": "0.1.0",
+  "repo": "gagan046-dev/pipelinedoctor",
+  "run": {
+    "id": 18234567890,
+    "run_number": 57,
+    "run_attempt": 1,
+    "workflow_name": "Demo CI",
+    "workflow_path": ".github/workflows/demo-ci.yml",
+    "event": "pull_request",
+    "head_branch": "break/test-202610161155",
+    "head_sha": "4f2c1a9e7b3d5f60718293a4b5c6d7e8f9012345",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18234567890",
+    "conclusion": "failure",
+    "created_at": "2026-10-16T11:58:00Z",
+    "updated_at": "2026-10-16T11:59:40Z"
+  },
+  "pull_request": {
+    "number": 12,
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/pull/12"
+  },
+  "failed_job": {
+    "id": 51234567891,
+    "name": "quality / test (ubuntu-latest, 3.12)",
+    "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18234567890/job/51234567891"
+  },
+  "other_failed_jobs": [
+    {
+      "id": 51234567892,
+      "name": "docker",
+      "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18234567890/job/51234567892"
+    }
+  ],
+  "failed_step": {
+    "number": 6,
+    "name": "Run tests"
+  },
+  "timeline": [
+    {
+      "number": 1,
+      "name": "Set up job",
+      "conclusion": "success",
+      "started_at": "2026-10-16T11:58:11Z",
+      "completed_at": "2026-10-16T11:58:12Z"
+    },
+    {
+      "number": 2,
+      "name": "Run actions/checkout@3d3c42e",
+      "conclusion": "success",
+      "started_at": "2026-10-16T11:58:12Z",
+      "completed_at": "2026-10-16T11:58:13Z"
+    },
+    {
+      "number": 3,
+      "name": "Set up Python",
+      "conclusion": "success",
+      "started_at": "2026-10-16T11:58:13Z",
+      "completed_at": "2026-10-16T11:58:14Z"
+    },
+    {
+      "number": 4,
+      "name": "Install dependencies",
+      "conclusion": "success",
+      "started_at": "2026-10-16T11:58:14Z",
+      "completed_at": "2026-10-16T11:58:15Z"
+    },
+    {
+      "number": 5,
+      "name": "Lint",
+      "conclusion": "success",
+      "started_at": "2026-10-16T11:58:15Z",
+      "completed_at": "2026-10-16T11:58:16Z"
+    },
+    {
+      "number": 6,
+      "name": "Run tests",
+      "conclusion": "failure",
+      "started_at": "2026-10-16T11:58:16Z",
+      "completed_at": "2026-10-16T11:58:17Z"
+    },
+    {
+      "number": 7,
+      "name": "Post Run actions/checkout@3d3c42e",
+      "conclusion": "success",
+      "started_at": "2026-10-16T11:58:17Z",
+      "completed_at": "2026-10-16T11:58:18Z"
+    },
+    {
+      "number": 8,
+      "name": "Complete job",
+      "conclusion": "success",
+      "started_at": "2026-10-16T11:58:18Z",
+      "completed_at": "2026-10-16T11:58:19Z"
+    }
+  ],
+  "category": "test",
+  "summary": "test_total_with_tax fails: invoice_total returns 106.00 instead of 107.00.",
+  "probable_cause": "invoicer.totals.apply_tax rounds the net amount to whole units before multiplying by the 7% tax rate, so 100.00 * 1.07 becomes 106.00 after the early quantize.",
+  "evidence": [
+    {
+      "exhibit": "A",
+      "line": 1372,
+      "text": "E       AssertionError: assert Decimal('106.00') == Decimal('107.00')",
+      "why": "The failing assertion."
+    }
+  ],
+  "recommended_actions": [
+    {
+      "id": "R1",
+      "action": "Quantize only the final amount in apply_tax() (multiply first, then round to cents).",
+      "command": "python -m pytest demo/tests/test_totals.py -k tax"
+    },
+    {
+      "id": "R2",
+      "action": "Add a regression test for a non-integer tax result.",
+      "command": null
+    }
+  ],
+  "verification": [
+    "Re-run Demo CI; the quality / test job is green.",
+    "Coverage is back above 90%."
+  ],
+  "confidence": 0.86,
+  "confidence_grade": "A",
+  "source": "llm",
+  "pre_classification": {
+    "category": "test",
+    "rule_id": "pytest-assertion",
+    "confidence": 0.8
+  },
+  "llm": {
+    "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+    "prompt_id": "diagnose",
+    "prompt_version": "v1",
+    "prompt_sha256": "105e5ba65b86f602e3feb5f5c76517911c183f3e04bbcf3c2bd192736f4fec88",
+    "attempts": [
+      {
+        "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+        "outcome": "ok",
+        "latency_ms": 1234
+      }
+    ],
+    "latency_ms": 1234,
+    "input_tokens": 900,
+    "output_tokens": 120,
+    "cost_usd": 0.0
+  },
+  "log_window": {
+    "total_lines": 1401,
+    "excerpt_lines": 70,
+    "ranges": [
+      [
+        1332,
+        1401
+      ]
+    ],
+    "redactions": 0
+  },
+  "warnings": []
+}

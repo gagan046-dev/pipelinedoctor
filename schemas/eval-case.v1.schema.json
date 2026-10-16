@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gagan046-dev/pipelinedoctor/blob/main/schemas/eval-case.v1.schema.json",
+  "$defs": {
+    "Category": {
+      "enum": [
+        "dependency",
+        "test",
+        "lint",
+        "build",
+        "docker",
+        "config",
+        "secret_permission",
+        "flaky",
+        "infrastructure",
+        "unknown"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "EvalStep": {
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "conclusion": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conclusion"
+        }
+      },
+      "required": [
+        "number",
+        "name"
+      ],
+      "title": "EvalStep",
+      "type": "object"
+    },
+    "ExpectedOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/Category"
+        },
+        "failed_step": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failed Step"
+        },
+        "key_facts": {
+          "items": {
+            "$ref": "#/$defs/KeyFact"
+          },
+          "title": "Key Facts",
+          "type": "array"
+        },
+        "evidence_lines": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Evidence Lines",
+          "type": "array"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "title": "ExpectedOutcome",
+      "type": "object"
+    },
+    "KeyFact": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "any_of": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Any Of",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "any_of"
+      ],
+      "title": "KeyFact",
+      "type": "object"
+    },
+    "PlantSecret": {
+      "additionalProperties": false,
+      "properties": {
+        "placeholder": {
+          "default": "{{PLANTED_SECRET}}",
+          "title": "Placeholder",
+          "type": "string"
+        },
+        "prefix": {
+          "title": "Prefix",
+          "type": "string"
+        },
+        "length": {
+          "maximum": 200,
+          "minimum": 8,
+          "title": "Length",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "prefix",
+        "length"
+      ],
+      "title": "PlantSecret",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "subsets": {
+      "items": {
+        "enum": [
+          "pr",
+          "all"
+        ],
+        "type": "string"
+      },
+      "title": "Subsets",
+      "type": "array"
+    },
+    "workflow": {
+      "title": "Workflow",
+      "type": "string"
+    },
+    "job": {
+      "title": "Job",
+      "type": "string"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/$defs/EvalStep"
+      },
+      "title": "Steps",
+      "type": "array"
+    },
+    "expected": {
+      "$ref": "#/$defs/ExpectedOutcome"
+    },
+    "reference_fix": {
+      "title": "Reference Fix",
+      "type": "string"
+    },
+    "plant_secret": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PlantSecret"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "subsets",
+    "workflow",
+    "job",
+    "steps",
+    "expected",
+    "reference_fix"
+  ],
+  "title": "EvalCase",
+  "type": "object"
+}

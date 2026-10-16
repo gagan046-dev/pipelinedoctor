@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pipelinedoctor"
+version = "0.1.0" # x-release-please-version
+description = "Diagnose failed GitHub Actions runs with an LLM and post the diagnosis on the pull request."
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "gagan046-dev" }]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+# The engine ships as an application (CLI + Docker action), so runtime deps are pinned exactly.
+dependencies = [
+    "litellm==1.103.2",
+    "pydantic==2.13.5",
+    "httpx==0.28.1",
+    "typer==0.27.2",
+    "pyyaml==6.0.3",
+]
+
+[project.urls]
+Repository = "https://github.com/gagan046-dev/pipelinedoctor"
+
+[project.scripts]
+pipelinedoctor = "pipelinedoctor.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+    "respx==0.23.1",
+    "ruff==0.16.10",
+    "mypy==2.4.0",
+    "types-PyYAML==6.0.12.20260906",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pipelinedoctor"]
+
+# prompts/ lives at the repo root (reviewed like code) but is shipped inside the wheel.
+[tool.hatch.build.targets.wheel.force-include]
+"prompts" = "pipelinedoctor/prompts"
+
+[tool.hatch.build.targets.sdist]
+include = ["src/pipelinedoctor", "prompts", "pyproject.toml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = ["console", "demo", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pipelinedoctor"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+mypy_path = "src"
+packages = ["pipelinedoctor"]
+
+[[tool.mypy.overrides]]
+module = ["litellm", "litellm.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+filterwarnings = ["error::pytest.PytestUnraisableExceptionWarning"]
+
+[tool.coverage.run]
+source = ["pipelinedoctor"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError", "\\.\\.\\.$"]
+
+[tool.uv]
+# Supply-chain cooldown: never resolve a package version published in the last two weeks.
+# Freshly published releases are when compromised versions are most likely to slip through.
+exclude-newer = "2 weeks"

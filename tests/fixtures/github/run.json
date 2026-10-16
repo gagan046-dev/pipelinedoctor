@@ -1,0 +1,76 @@
+{
+  "id": 18234567890,
+  "name": "Demo CI",
+  "node_id": "WFR_kwLOPdQx0M8AAAAEPq1b8g",
+  "head_branch": "break/test-202610161155",
+  "head_sha": "4f2c1a9e7b3d5f60718293a4b5c6d7e8f9012345",
+  "path": ".github/workflows/demo-ci.yml",
+  "display_title": "test(demo): break test on purpose",
+  "run_number": 57,
+  "event": "pull_request",
+  "status": "completed",
+  "conclusion": "failure",
+  "workflow_id": 201345678,
+  "check_suite_id": 41234567890,
+  "url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor/actions/runs/18234567890",
+  "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18234567890",
+  "pull_requests": [
+    {
+      "url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor/pulls/12",
+      "id": 2901234567,
+      "number": 12,
+      "head": {
+        "ref": "break/test-202610161155",
+        "sha": "4f2c1a9e7b3d5f60718293a4b5c6d7e8f9012345",
+        "repo": {
+          "id": 1061234567,
+          "url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor",
+          "name": "pipelinedoctor"
+        }
+      },
+      "base": {
+        "ref": "main",
+        "sha": "0a1b2c3d4e5f60718293a4b5c6d7e8f901234567",
+        "repo": {
+          "id": 1061234567,
+          "url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor",
+          "name": "pipelinedoctor"
+        }
+      }
+    }
+  ],
+  "created_at": "2026-10-16T11:58:00Z",
+  "updated_at": "2026-10-16T11:59:40Z",
+  "actor": {
+    "login": "gagan046-dev",
+    "id": 330943969,
+    "type": "User"
+  },
+  "run_attempt": 1,
+  "run_started_at": "2026-10-16T11:58:00Z",
+  "jobs_url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor/actions/runs/18234567890/jobs",
+  "logs_url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor/actions/runs/18234567890/logs",
+  "head_commit": {
+    "id": "4f2c1a9e7b3d5f60718293a4b5c6d7e8f9012345",
+    "message": "test(demo): break test on purpose",
+    "timestamp": "2026-10-16T11:55:12Z"
+  },
+  "repository": {
+    "id": 1061234567,
+    "name": "pipelinedoctor",
+    "full_name": "gagan046-dev/pipelinedoctor",
+    "owner": {
+      "login": "gagan046-dev",
+      "type": "User"
+    }
+  },
+  "head_repository": {
+    "id": 1061234567,
+    "name": "pipelinedoctor",
+    "full_name": "gagan046-dev/pipelinedoctor",
+    "owner": {
+      "login": "gagan046-dev",
+      "type": "User"
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "total_count": 3,
+  "jobs": [
+    {
+      "id": 51234567890,
+      "run_id": 18234567890,
+      "workflow_name": "Demo CI",
+      "head_branch": "break/test-202610161155",
+      "run_url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor/actions/runs/18234567890",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOPdQx0M8AAAAL0",
+      "head_sha": "4f2c1a9e7b3d5f60718293a4b5c6d7e8f9012345",
+      "url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor/actions/jobs/51234567890",
+      "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18234567890/job/51234567890",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-16T11:58:01Z",
+      "started_at": "2026-10-16T11:58:05Z",
+      "completed_at": "2026-10-16T11:58:50Z",
+      "name": "quality / lint",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-16T11:58:11Z",
+          "completed_at": "2026-10-16T11:58:12Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-16T11:58:12Z",
+          "completed_at": "2026-10-16T11:58:13Z"
+        },
+        {
+          "name": "Set up Python",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-16T11:58:13Z",
+          "completed_at": "2026-10-16T11:58:14Z"
+        },
+        {
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-16T11:58:14Z",
+          "completed_at": "2026-10-16T11:58:15Z"
+        },
+        {
+          "name": "Lint",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-16T11:58:15Z",
+          "completed_at": "2026-10-16T11:58:16Z"
+        },
+        {
+          "name": "Run tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-16T11:58:16Z",
+          "completed_at": "2026-10-16T11:58:17Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-16T11:58:17Z",
+          "completed_at": "2026-10-16T11:58:18Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-16T11:58:18Z",
+          "completed_at": "2026-10-16T11:58:19Z"
+        }
+      ],
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000001234,
+      "runner_name": "GitHub Actions 1000001234",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 51234567891,
+      "run_id": 18234567890,
+      "workflow_name": "Demo CI",
+      "head_branch": "break/test-202610161155",
+      "run_url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor/actions/runs/18234567890",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOPdQx0M8AAAAL1",
+      "head_sha": "4f2c1a9e7b3d5f60718293a4b5c6d7e8f9012345",
+      "url": "https://api.github.com/repos/gagan046-dev/pipelinedoctor/actions/jobs/51234567891",
+      "html_url": "https://github.com/gagan046-dev/pipelinedoctor/actions/runs/18234567890/job/51234567891",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-16T11:58:01Z",
+      "started_at": "2026-10-16T11:58:05Z",
+      "completed_at": "2026-10-16T11:59:20Z",
+      "name": "quality / test (ubuntu-latest, 3.12)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-16T11:58:11Z",
+          "completed_at": "2026-10-16T11:58:12Z"
+        },
+        {
+          "name": "Run actions/checkout@3d3c42e",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-16T11:58:12Z",
+          "completed_at": "2026-10-16T11:58:13Z"
+        },
+        {
+          "name": "Set up Python",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-16T11:58:13Z",
+          "completed_at": "2026-10-16T11:58:14Z"
+        },
+        {
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-16T11:58:14Z",
+          "completed_at": "2026-10-16T11:58:15Z"
+        },
+        {
+          "name": "Lint",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-16T11:58:15Z",
+          "completed_at": "2026-10-16T11:58:16Z"
+        },
+        {
+          "name": "Run tests",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 6,
+          "started_at": "2026-10-16T11:58:16Z",
+          "completed_at": "2026-10-16T11:58:17Z"
+        },
+        {
+          "name": "Post Run actions/checkout@3d3c42e",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-16T11:58:17Z",
+          "completed_at": "2026-10-16T11:58:18Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-16T11:58:18Z",
+          "completed_at": "2026-10-16T11:58:19Z"
+        }
+      ],
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000001235,
+      "runner_name": "GitHub Actions 1000001235",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

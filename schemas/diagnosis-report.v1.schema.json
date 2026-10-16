@@ -1,0 +1,668 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/gagan046-dev/pipelinedoctor/blob/main/schemas/diagnosis-report.v1.schema.json",
+  "$defs": {
+    "Category": {
+      "enum": [
+        "dependency",
+        "test",
+        "lint",
+        "build",
+        "docker",
+        "config",
+        "secret_permission",
+        "flaky",
+        "infrastructure",
+        "unknown"
+      ],
+      "title": "Category",
+      "type": "string"
+    },
+    "EvidenceItem": {
+      "additionalProperties": false,
+      "properties": {
+        "exhibit": {
+          "title": "Exhibit",
+          "type": "string"
+        },
+        "line": {
+          "title": "Line",
+          "type": "integer"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "why": {
+          "default": "",
+          "title": "Why",
+          "type": "string"
+        }
+      },
+      "required": [
+        "exhibit",
+        "line",
+        "text"
+      ],
+      "title": "EvidenceItem",
+      "type": "object"
+    },
+    "JobRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "html_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Html Url"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "JobRef",
+      "type": "object"
+    },
+    "LLMAttempt": {
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "ok",
+            "timeout",
+            "rate_limited",
+            "invalid_json",
+            "provider_error",
+            "budget_exhausted"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "latency_ms": {
+          "default": 0,
+          "title": "Latency Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "model",
+        "outcome"
+      ],
+      "title": "LLMAttempt",
+      "type": "object"
+    },
+    "LLMInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "prompt_id": {
+          "default": "diagnose",
+          "title": "Prompt Id",
+          "type": "string"
+        },
+        "prompt_version": {
+          "default": "v1",
+          "title": "Prompt Version",
+          "type": "string"
+        },
+        "prompt_sha256": {
+          "default": "",
+          "title": "Prompt Sha256",
+          "type": "string"
+        },
+        "attempts": {
+          "items": {
+            "$ref": "#/$defs/LLMAttempt"
+          },
+          "title": "Attempts",
+          "type": "array"
+        },
+        "latency_ms": {
+          "default": 0,
+          "title": "Latency Ms",
+          "type": "integer"
+        },
+        "input_tokens": {
+          "default": 0,
+          "title": "Input Tokens",
+          "type": "integer"
+        },
+        "output_tokens": {
+          "default": 0,
+          "title": "Output Tokens",
+          "type": "integer"
+        },
+        "cost_usd": {
+          "default": 0.0,
+          "title": "Cost Usd",
+          "type": "number"
+        }
+      },
+      "title": "LLMInfo",
+      "type": "object"
+    },
+    "LogWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "total_lines": {
+          "title": "Total Lines",
+          "type": "integer"
+        },
+        "excerpt_lines": {
+          "title": "Excerpt Lines",
+          "type": "integer"
+        },
+        "ranges": {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Ranges",
+          "type": "array"
+        },
+        "redactions": {
+          "default": 0,
+          "title": "Redactions",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total_lines",
+        "excerpt_lines",
+        "ranges"
+      ],
+      "title": "LogWindow",
+      "type": "object"
+    },
+    "PreClassification": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/Category"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        }
+      },
+      "required": [
+        "category",
+        "rule_id",
+        "confidence"
+      ],
+      "title": "PreClassification",
+      "type": "object"
+    },
+    "PullRequestRef": {
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "html_url": {
+          "title": "Html Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "number",
+        "html_url"
+      ],
+      "title": "PullRequestRef",
+      "type": "object"
+    },
+    "RecommendedAction": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "action": {
+          "title": "Action",
+          "type": "string"
+        },
+        "command": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command"
+        }
+      },
+      "required": [
+        "id",
+        "action"
+      ],
+      "title": "RecommendedAction",
+      "type": "object"
+    },
+    "RunInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "default": 0,
+          "title": "Id",
+          "type": "integer"
+        },
+        "run_number": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Number"
+        },
+        "run_attempt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Attempt"
+        },
+        "workflow_name": {
+          "default": "",
+          "title": "Workflow Name",
+          "type": "string"
+        },
+        "workflow_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Workflow Path"
+        },
+        "event": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Event"
+        },
+        "head_branch": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Head Branch"
+        },
+        "head_sha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Head Sha"
+        },
+        "html_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Html Url"
+        },
+        "conclusion": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conclusion"
+        },
+        "created_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created At"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Updated At"
+        }
+      },
+      "title": "RunInfo",
+      "type": "object"
+    },
+    "StepRef": {
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "number",
+        "name"
+      ],
+      "title": "StepRef",
+      "type": "object"
+    },
+    "TimelineStep": {
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "conclusion": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Conclusion"
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Started At"
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completed At"
+        }
+      },
+      "required": [
+        "number",
+        "name"
+      ],
+      "title": "TimelineStep",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "occurrence_id": {
+      "title": "Occurrence Id",
+      "type": "string"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "engine_version": {
+      "title": "Engine Version",
+      "type": "string"
+    },
+    "repo": {
+      "title": "Repo",
+      "type": "string"
+    },
+    "run": {
+      "$ref": "#/$defs/RunInfo"
+    },
+    "pull_request": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PullRequestRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "failed_job": {
+      "$ref": "#/$defs/JobRef"
+    },
+    "other_failed_jobs": {
+      "items": {
+        "$ref": "#/$defs/JobRef"
+      },
+      "title": "Other Failed Jobs",
+      "type": "array"
+    },
+    "failed_step": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/StepRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "timeline": {
+      "items": {
+        "$ref": "#/$defs/TimelineStep"
+      },
+      "title": "Timeline",
+      "type": "array"
+    },
+    "category": {
+      "$ref": "#/$defs/Category"
+    },
+    "summary": {
+      "title": "Summary",
+      "type": "string"
+    },
+    "probable_cause": {
+      "title": "Probable Cause",
+      "type": "string"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/EvidenceItem"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "recommended_actions": {
+      "items": {
+        "$ref": "#/$defs/RecommendedAction"
+      },
+      "title": "Recommended Actions",
+      "type": "array"
+    },
+    "verification": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Verification",
+      "type": "array"
+    },
+    "confidence": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "confidence_grade": {
+      "enum": [
+        "A",
+        "B",
+        "C"
+      ],
+      "title": "Confidence Grade",
+      "type": "string"
+    },
+    "source": {
+      "enum": [
+        "llm",
+        "rules_fallback",
+        "rules_only"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "pre_classification": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PreClassification"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "llm": {
+      "$ref": "#/$defs/LLMInfo"
+    },
+    "log_window": {
+      "$ref": "#/$defs/LogWindow"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "occurrence_id",
+    "created_at",
+    "engine_version",
+    "repo",
+    "run",
+    "failed_job",
+    "category",
+    "summary",
+    "probable_cause",
+    "confidence",
+    "confidence_grade",
+    "source",
+    "llm",
+    "log_window"
+  ],
+  "title": "DiagnosisReport",
+  "type": "object"
+}
