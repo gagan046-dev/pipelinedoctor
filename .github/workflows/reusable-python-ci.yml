@@ -1,0 +1,169 @@
+# Stage 10 - reusable workflow (on: workflow_call).
+# Used by ci.yml (engine + console, uv) and demo-ci.yml (demo, pip): one definition of
+# "what Python CI means here", many callers. Callers see its jobs as "<caller job> / <job>".
+name: Reusable Python CI
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Project directory.
+        type: string
+        default: "."
+      installer:
+        description: uv or pip.
+        type: string
+        default: uv
+      matrix:
+        description: JSON object used as the test strategy matrix (os, python, optional exclude/include).
+        type: string
+        default: '{"os":["ubuntu-latest"],"python":["3.12"]}'
+      coverage-min:
+        description: Minimum total coverage in percent.
+        type: number
+        default: 80
+      source-package:
+        description: Import name measured by coverage, e.g. pipelinedoctor.
+        type: string
+        required: true
+      requirements:
+        description: Requirements file for pip installs (relative to working-directory).
+        type: string
+        default: requirements-dev.txt
+      lint-paths:
+        description: Space-separated paths checked by ruff (relative to working-directory).
+        type: string
+        default: src tests
+      pytest-args:
+        description: Extra pytest arguments, e.g. -m "not integration".
+        type: string
+        default: ""
+    outputs:
+      coverage:
+        description: Total line coverage (percent) of the ubuntu-latest / Python 3.12 leg.
+        value: ${{ jobs.test.outputs.coverage }}
+
+permissions: {}
+
+defaults:
+  run:
+    # bash exists on Windows runners too (Git Bash), so one script works on every OS.
+    shell: bash
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-python-env
+        with:
+          python-version: "3.12"
+          working-directory: ${{ inputs.working-directory }}
+          installer: ${{ inputs.installer }}
+          requirements: ${{ inputs.requirements }}
+      - name: ruff check
+        env:
+          INSTALLER: ${{ inputs.installer }}
+          LINT_PATHS: ${{ inputs.lint-paths }}
+        # --output-format=github turns every finding into an inline annotation on the PR diff.
+        run: |
+          run() { if [ "$INSTALLER" = uv ]; then uv run --frozen "$@"; else python -m "$@"; fi; }
+          # shellcheck disable=SC2086 # word splitting of LINT_PATHS is intended
+          run ruff check --output-format=github $LINT_PATHS
+      - name: ruff format --check
+        env:
+          INSTALLER: ${{ inputs.installer }}
+          LINT_PATHS: ${{ inputs.lint-paths }}
+        run: |
+          run() { if [ "$INSTALLER" = uv ]; then uv run --frozen "$@"; else python -m "$@"; fi; }
+          # shellcheck disable=SC2086
+          run ruff format --check --diff $LINT_PATHS
+
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-python-env
+        with:
+          python-version: "3.12"
+          working-directory: ${{ inputs.working-directory }}
+          installer: ${{ inputs.installer }}
+          requirements: ${{ inputs.requirements }}
+      - name: mypy
+        env:
+          INSTALLER: ${{ inputs.installer }}
+        run: |
+          if [ "$INSTALLER" = uv ]; then uv run --frozen mypy src; else python -m mypy src; fi
+
+  test:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    strategy:
+      # fail-fast: false = let every leg finish, so you see *all* broken OS/Python combos at once.
+      fail-fast: false
+      matrix: ${{ fromJSON(inputs.matrix) }}
+    # All matrix legs share one job output; only one leg sets it (see the step "if"),
+    # otherwise the value would depend on which leg happened to finish last.
+    outputs:
+      coverage: ${{ steps.coverage.outputs.percent }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-python-env
+        with:
+          python-version: ${{ matrix.python }}
+          working-directory: ${{ inputs.working-directory }}
+          installer: ${{ inputs.installer }}
+          requirements: ${{ inputs.requirements }}
+      - name: pytest with coverage gate
+        env:
+          INSTALLER: ${{ inputs.installer }}
+          PKG: ${{ inputs.source-package }}
+          COV_MIN: ${{ inputs.coverage-min }}
+          PYTEST_ARGS: ${{ inputs.pytest-args }}
+        run: |
+          run() { if [ "$INSTALLER" = uv ]; then uv run --frozen "$@"; else python -m "$@"; fi; }
+          # "eval set --" keeps quoted extra args such as -m "not integration" intact.
+          # PYTEST_ARGS comes from the calling workflow file (trusted), never from an event.
+          eval "set -- $PYTEST_ARGS"
+          run pytest "$@" --cov="$PKG" --cov-report=xml --cov-report=term \
+            --cov-fail-under="$COV_MIN"
+      - name: Read total coverage
+        id: coverage
+        if: always() && matrix.os == 'ubuntu-latest' && matrix.python == '3.12'
+        run: |
+          if [ -f coverage.xml ]; then
+            pct=$(python -c "import xml.etree.ElementTree as E; print(round(float(E.parse('coverage.xml').getroot().get('line-rate')) * 100, 1))")
+            echo "percent=${pct}" >> "$GITHUB_OUTPUT"
+            echo "Total coverage: **${pct}%**" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: coverage-${{ inputs.source-package }}-${{ matrix.os }}-${{ matrix.python }}
+          path: ${{ inputs.working-directory }}/coverage.xml
+          retention-days: 14
+          if-no-files-found: ignore

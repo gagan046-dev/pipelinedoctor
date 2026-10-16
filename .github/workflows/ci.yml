@@ -1,9 +1,5 @@
-# Stage 03 - the stage-02 gates, made fast and cheap:
-#   * path filter job (dorny/paths-filter) -> skip the engine jobs when nothing relevant changed
-#   * uv cache keyed by uv.lock
-#   * test matrix: Python 3.11 + 3.12 on Ubuntu, 3.12 on Windows, fail-fast: false
-#   * concurrency: a new push to a PR cancels the outdated run
-#   * timeout-minutes on every job (the default is 360 minutes of billed time!)
+# CI for the engine (src/) and the console (console/), built from the reusable workflow.
+# Required check: "ci-ok" (one stable aggregate check instead of N matrix check names).
 name: CI
 
 on:
@@ -13,9 +9,9 @@ on:
 
 permissions: {}
 
+# One run per PR (or per branch). A new push to a PR cancels the outdated run; main is never cancelled.
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  # Never cancel runs on main: every main commit should have a complete result.
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -24,10 +20,12 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: read # paths-filter lists PR files through the API
     outputs:
       engine: ${{ steps.filter.outputs.engine }}
+      console: ${{ steps.filter.outputs.console }}
     steps:
+      # On push events paths-filter diffs git history, so it needs a checkout; on PRs it uses the API.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
@@ -41,100 +39,51 @@ jobs:
               - 'prompts/**'
               - 'pyproject.toml'
               - 'uv.lock'
+              - 'scripts/**' # the engine lint also covers scripts/ (lint-paths below)
               - '.github/workflows/ci.yml'
+              - '.github/workflows/reusable-python-ci.yml'
+              - '.github/actions/**'
+            console:
+              - 'console/**'
+              - '.github/workflows/ci.yml'
+              - '.github/workflows/reusable-python-ci.yml'
+              - '.github/actions/**'
 
-  lint:
+  engine:
     needs: changes
     if: needs.changes.outputs.engine == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # A job that calls a reusable workflow has no steps (and no timeout-minutes of its own):
+    # the called workflow's jobs carry them.
+    uses: ./.github/workflows/reusable-python-ci.yml
     permissions:
       contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-        with:
-          version: "0.12.21"
-          python-version: "3.12"
-          # The cache key includes a hash of uv.lock: same lock -> restore instead of download.
-          enable-cache: true
-          cache-dependency-glob: uv.lock
-      - run: uv sync --frozen
-      - run: uv run --frozen ruff check --output-format=github src tests
-      - run: uv run --frozen ruff format --check --diff src tests
+    with:
+      working-directory: "."
+      installer: uv
+      source-package: pipelinedoctor
+      coverage-min: 85
+      lint-paths: src tests scripts
+      # Windows only on the newest Python: catches path/encoding bugs without doubling the bill.
+      matrix: '{"os":["ubuntu-latest","windows-latest"],"python":["3.11","3.12"],"exclude":[{"os":"windows-latest","python":"3.11"}]}'
 
-  typecheck:
+  console:
     needs: changes
-    if: needs.changes.outputs.engine == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    if: needs.changes.outputs.console == 'true'
+    uses: ./.github/workflows/reusable-python-ci.yml
     permissions:
       contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-        with:
-          version: "0.12.21"
-          python-version: "3.12"
-          enable-cache: true
-          cache-dependency-glob: uv.lock
-      - run: uv sync --frozen
-      - run: uv run --frozen mypy src
-
-  test:
-    needs: changes
-    if: needs.changes.outputs.engine == 'true'
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 20
-    permissions:
-      contents: read
-    strategy:
-      # false = keep the other legs running when one fails, so you see every broken combination.
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        python: ["3.11", "3.12"]
-        # Windows only on the newest Python: catches path/encoding bugs at half the cost.
-        exclude:
-          - os: windows-latest
-            python: "3.11"
-    # Every leg evaluates this output; only the ubuntu/3.12 leg sets it (see the step "if").
-    outputs:
-      coverage: ${{ steps.coverage.outputs.percent }}
-    defaults:
-      run:
-        shell: bash # Git Bash on Windows: one script for every OS
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-        with:
-          version: "0.12.21"
-          python-version: ${{ matrix.python }}
-          enable-cache: true
-          cache-dependency-glob: uv.lock
-      - run: uv sync --frozen
-      - name: pytest with coverage gate (85%)
-        run: |
-          uv run --frozen pytest --cov=pipelinedoctor --cov-report=xml --cov-report=term \
-            --cov-fail-under=85
-      - name: Read total coverage
-        id: coverage
-        if: always() && matrix.os == 'ubuntu-latest' && matrix.python == '3.12'
-        run: |
-          if [ -f coverage.xml ]; then
-            pct=$(uv run --frozen python -c "import xml.etree.ElementTree as E; print(round(float(E.parse('coverage.xml').getroot().get('line-rate')) * 100, 1))")
-            echo "percent=${pct}" >> "$GITHUB_OUTPUT"
-          fi
+    with:
+      working-directory: console
+      installer: uv
+      source-package: pipelinedoctor_console
+      coverage-min: 75
+      matrix: '{"os":["ubuntu-latest"],"python":["3.12"]}'
 
   ci-ok:
     name: ci-ok
-    needs: [changes, lint, typecheck, test]
+    needs: [changes, engine, console]
+    # always(): run even when engine/console were skipped by the path filter, so the required
+    # check always reports a result (a skipped required check counts as passing, a missing one blocks).
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -143,25 +92,24 @@ jobs:
       - name: Aggregate results
         env:
           CHANGES: ${{ needs.changes.result }}
-          LINT: ${{ needs.lint.result }}
-          TYPECHECK: ${{ needs.typecheck.result }}
-          TEST: ${{ needs.test.result }}
-          COVERAGE: ${{ needs.test.outputs.coverage }}
+          ENGINE: ${{ needs.engine.result }}
+          CONSOLE: ${{ needs.console.result }}
+          COVERAGE: ${{ needs.engine.outputs.coverage }}
         run: |
           {
             echo "## CI summary"
             echo "| Job | Result |"
             echo "|---|---|"
             echo "| changes | ${CHANGES} |"
-            echo "| lint | ${LINT} |"
-            echo "| typecheck | ${TYPECHECK} |"
-            echo "| test (matrix) | ${TEST} |"
+            echo "| engine | ${ENGINE} |"
+            echo "| console | ${CONSOLE} |"
             echo ""
-            echo "Coverage (ubuntu / 3.12): ${COVERAGE:-n/a}%"
+            echo "Engine coverage (ubuntu / 3.12): ${COVERAGE:-n/a}%"
           } >> "$GITHUB_STEP_SUMMARY"
-          # "skipped" is fine: the path filter decided nothing relevant changed.
-          for r in "$CHANGES" "$LINT" "$TYPECHECK" "$TEST"; do
+          for r in "$CHANGES" "$ENGINE" "$CONSOLE"; do
             if [ "$r" = failure ] || [ "$r" = cancelled ]; then
-              echo "::error::A CI job ended with '$r'."; exit 1
+              echo "::error::A CI job ended with '$r'."
+              exit 1
             fi
           done
+          echo "All CI jobs succeeded or were skipped by the path filter."
