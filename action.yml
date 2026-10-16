@@ -27,7 +27,7 @@ inputs:
     default: ""
   prompt-version:
     description: Diagnose prompt version
-    default: v1
+    default: v2
   max-llm-calls:
     description: 1 or 2
     default: "2"

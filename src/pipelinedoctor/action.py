@@ -58,7 +58,7 @@ def parse_inputs(env: Mapping[str, str]) -> ActionInputs:
         run_id=int(run_id_raw) if run_id_raw else None,
         comment=cast(CommentMode, comment),
         models=models,
-        prompt_version=read_input(env, "prompt-version", "v1") or "v1",
+        prompt_version=read_input(env, "prompt-version", "v2") or "v2",
         max_llm_calls=int(calls_raw),
     )
 

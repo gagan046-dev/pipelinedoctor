@@ -84,7 +84,7 @@ Inside Actions, `diagnose` appends `occurrence-id`, `category`, `confidence`, `s
 | `OPENROUTER_API_KEY` / `OPENROUTER_API_KEY_FILE` | unset | LLM key, or a file containing it; unset = rules only |
 | `GITHUB_TOKEN` (or `GH_TOKEN`) | unset | API token |
 | `PD_MODELS` | super → ultra (`:free`) | ordered fallback list (LiteLLM model names) |
-| `PD_PROMPT_VERSION` | `v1` | which `prompts/diagnose.<v>.md` to use |
+| `PD_PROMPT_VERSION` | `v2` | which `prompts/diagnose.<v>.md` to use |
 | `PD_LLM_TIMEOUT_S` | `60` | per request |
 | `PD_LLM_MAX_CALLS` | `2` | per diagnosis (hard cap 2: one per model, no hidden retries) |
 | `PD_MAX_LLM_REQUESTS` | 2 / 12 / 45 | process-wide request budget (diagnose / eval pr / eval all) |

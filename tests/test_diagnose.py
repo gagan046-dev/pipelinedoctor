@@ -44,7 +44,7 @@ def test_llm_diagnosis_with_verified_evidence(job_log: str, settings: Settings) 
     assert QUOTE in analysis.evidence[0].text
     assert analysis.confidence == 0.9 and analysis.confidence_grade == "A"
     assert analysis.llm.model == settings.models[0]
-    assert analysis.llm.prompt_version == "v1" and len(analysis.llm.prompt_sha256) == 64
+    assert analysis.llm.prompt_version == "v2" and len(analysis.llm.prompt_sha256) == 64
     assert analysis.recommended_actions[0].id == "R1"
     assert analysis.pre_classification is not None
     assert analysis.pre_classification.rule_id == "pytest-assertion"

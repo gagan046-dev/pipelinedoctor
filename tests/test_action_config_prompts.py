@@ -16,7 +16,7 @@ from pipelinedoctor.engine.prompting import PromptError, load_prompt, parse_prom
 
 def test_settings_defaults() -> None:
     s = Settings.from_env({})
-    assert s.models == DEFAULT_MODELS and s.prompt_version == "v1"
+    assert s.models == DEFAULT_MODELS and s.prompt_version == "v2"
     assert (s.llm_timeout_s, s.llm_max_calls, s.min_request_interval_s) == (60.0, 2, 3.5)
     assert s.max_llm_requests is None and s.request_budget(12) == 12
     assert not s.in_actions and s.openrouter_api_key is None

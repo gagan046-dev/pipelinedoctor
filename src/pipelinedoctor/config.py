@@ -72,7 +72,7 @@ class Settings:
     step_summary_path: str | None = None
     github_output_path: str | None = None
     models: tuple[str, ...] = DEFAULT_MODELS
-    prompt_version: str = "v1"
+    prompt_version: str = "v2"
     llm_timeout_s: float = 60.0
     llm_max_calls: int = HARD_MAX_LLM_CALLS
     max_llm_requests: int | None = None
@@ -104,7 +104,7 @@ class Settings:
             step_summary_path=env.get("GITHUB_STEP_SUMMARY") or None,
             github_output_path=env.get("GITHUB_OUTPUT") or None,
             models=models,
-            prompt_version=env.get("PD_PROMPT_VERSION", "").strip() or "v1",
+            prompt_version=env.get("PD_PROMPT_VERSION", "").strip() or "v2",
             llm_timeout_s=_float(env, "PD_LLM_TIMEOUT_S", 60.0),
             llm_max_calls=max(1, min(_int(env, "PD_LLM_MAX_CALLS", 2), HARD_MAX_LLM_CALLS)),
             max_llm_requests=_int(env, "PD_MAX_LLM_REQUESTS", 0) if max_requests_raw else None,
