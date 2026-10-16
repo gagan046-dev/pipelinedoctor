@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
 from fastapi.testclient import TestClient
 
 from pipelinedoctor_console.app import SECURITY_HEADERS, create_app
@@ -125,3 +126,12 @@ def test_not_found_page(client: TestClient) -> None:
 def test_no_docs_endpoints(client: TestClient) -> None:
     for path in ["/docs", "/redoc", "/openapi.json"]:
         assert client.get(path).status_code == 404
+
+
+def test_readyz_probes_on_a_freshly_booted_host(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # time.monotonic() counts from boot: a CI VM can be younger than the probe TTL.
+    monkeypatch.setattr("pipelinedoctor_console.app.time.monotonic", lambda: 5.0)
+    r = client.get("/readyz")
+    assert r.status_code == 200 and r.json()["status"] == "ok"

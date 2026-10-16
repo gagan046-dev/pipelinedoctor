@@ -45,13 +45,15 @@ class _ReadinessProbe:
 
     def __init__(self, gh: GitHubReader) -> None:
         self.gh = gh
-        self._at = 0.0
+        # None, not 0.0: time.monotonic() counts from host boot, so on a VM that booted less than
+        # PROBE_TTL_S ago (a fresh CI runner) "now - 0.0" would look like a recent probe.
+        self._at: float | None = None
         self._result: tuple[bool, str] = (False, "not probed yet")
         self._lock = threading.Lock()
 
     def check(self) -> tuple[bool, str]:
         with self._lock:
-            if time.monotonic() - self._at < PROBE_TTL_S:
+            if self._at is not None and time.monotonic() - self._at < PROBE_TTL_S:
                 return self._result
             try:
                 self.gh.get_json(self.gh.repo_path, ttl=0)
