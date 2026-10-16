@@ -1,0 +1,39 @@
+# Example: use PipelineDoctor from ANOTHER repository.
+# Copy to .github/workflows/pipelinedoctor.yml in your repo and list your workflow names below.
+#
+# Pin the action to the full commit SHA of a release tag (the comment keeps it readable):
+#   gh api repos/gagan046-dev/pipelinedoctor/git/ref/tags/v0.2.0 --jq .object.sha
+# Replace <full-commit-sha> and the version comment with what that command prints.
+name: PipelineDoctor
+
+on:
+  workflow_run:
+    workflows: [CI] # the "name:" of each workflow to watch
+    types: [completed]
+
+permissions: {}
+
+jobs:
+  diagnose:
+    # workflow_run has access to this repo's secrets even for runs triggered by fork PRs.
+    # This job never checks out or runs code from the failed run: the action only READS logs.
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest # Docker container actions need a Linux runner
+    timeout-minutes: 10
+    permissions:
+      actions: read # download the failed run's job logs
+      contents: read
+      pull-requests: write # post or update the diagnosis comment
+    steps:
+      - id: doctor
+        uses: gagan046-dev/pipelinedoctor@<full-commit-sha> # v0.2.0
+        with:
+          openrouter-api-key: ${{ secrets.OPENROUTER_API_KEY }} # optional: empty = rules only
+          comment: auto
+
+      - name: Show the result
+        env:
+          CATEGORY: ${{ steps.doctor.outputs.category }}
+          CONFIDENCE: ${{ steps.doctor.outputs.confidence }}
+          COMMENT_URL: ${{ steps.doctor.outputs.comment-url }}
+        run: echo "category=$CATEGORY confidence=$CONFIDENCE comment=$COMMENT_URL"

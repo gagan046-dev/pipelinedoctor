@@ -1,0 +1,102 @@
+# Stage 08 - PipelineDoctor diagnoses failed runs of the other workflows and comments on the PR.
+#
+# SECURITY: workflow_run runs in the context of the BASE repository: it has secrets and a token
+# that can write PR comments, even when the failed run came from a fork. Therefore this workflow:
+#   * checks out ONLY the default branch (already reviewed code), never the PR head,
+#   * never executes anything from the failed run (logs are downloaded as data via the API),
+#   * passes event fields (branch names, titles) via env:, never via ${{ }} inside run:,
+#   * treats log text as untrusted LLM input (fenced with a random nonce, see docs/security.md).
+# workflow_run only fires for workflow files that exist on the default branch.
+name: Doctor
+run-name: "Doctor: ${{ github.event.workflow_run.name }} #${{ github.event.workflow_run.run_number }}"
+
+# zizmor flags every workflow_run as dangerous; the mitigations are listed at the top of this file.
+on: # zizmor: ignore[dangerous-triggers]
+  workflow_run:
+    # Names, not file names: these must match the "name:" of each watched workflow.
+    workflows: [CI, Demo CI, Container, Security, CodeQL, Evals, Nightly Evals, Release, Deploy, Rollback]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  # One doctor per failed run; never cancel a diagnosis halfway through a comment update.
+  group: doctor-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    # startup_failure = the workflow file itself was invalid (no jobs ran, no logs exist).
+    if: contains(fromJSON('["failure","timed_out","startup_failure"]'), github.event.workflow_run.conclusion)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read # read the failed run, its jobs and logs
+      contents: read # checkout of the default branch
+      pull-requests: write # upsert the diagnosis comment
+    steps:
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      - name: Describe the failed run
+        env:
+          WORKFLOW: ${{ github.event.workflow_run.name }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          EVENT: ${{ github.event.workflow_run.event }}
+        run: |
+          echo "Diagnosing '${WORKFLOW}' (${CONCLUSION}, event ${EVENT}, branch ${HEAD_BRANCH})"
+          echo "Failed run: ${RUN_URL}"
+
+      # Trusted code only: the default branch, not github.event.workflow_run.head_sha.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.21"
+          # setup-uv disables its cache for workflow_run by default ("auto"): a job holding
+          # secrets should not restore cache entries. uv sync of a small project is fast anyway.
+          enable-cache: false
+
+      - name: Install the engine (runtime dependencies only)
+        run: uv sync --frozen --no-dev
+
+      - name: Diagnose
+        id: doctor
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          # Empty when the secret is not configured: the engine then writes a rule-based report.
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          uv run --frozen --no-dev pipelinedoctor diagnose --repo "$GITHUB_REPOSITORY" --run-id "$RUN_ID" \
+            --comment auto --output diagnosis.json --excerpt-output excerpt.txt
+
+      - name: Show the outcome
+        if: always()
+        env:
+          OCCURRENCE: ${{ steps.doctor.outputs.occurrence-id }}
+          CATEGORY: ${{ steps.doctor.outputs.category }}
+          CONFIDENCE: ${{ steps.doctor.outputs.confidence }}
+          SOURCE: ${{ steps.doctor.outputs.source }}
+          COMMENT_URL: ${{ steps.doctor.outputs.comment-url }}
+        run: |
+          echo "occurrence=${OCCURRENCE} category=${CATEGORY} confidence=${CONFIDENCE} source=${SOURCE}"
+          echo "comment=${COMMENT_URL:-none (no pull request for this run)}"
+
+      # The Console reads this artifact (name and file name are a fixed contract).
+      - name: Upload diagnosis
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pipelinedoctor-diagnosis
+          path: |
+            diagnosis.json
+            excerpt.txt
+          retention-days: 90
+          if-no-files-found: ignore

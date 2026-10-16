@@ -1,0 +1,54 @@
+name: PipelineDoctor
+description: Diagnose a failed GitHub Actions run with an LLM and post the diagnosis on the pull request.
+author: gagan046-dev
+branding:
+  icon: activity
+  color: red
+
+inputs:
+  github-token:
+    description: Token with actions:read, pull-requests:write, contents:read
+    default: ${{ github.token }}
+  openrouter-api-key:
+    description: OpenRouter key; empty = rule-based diagnosis only
+    required: false
+    default: ""
+  repo:
+    description: owner/name
+    default: ${{ github.repository }}
+  run-id:
+    description: Failed run id
+    default: ${{ github.event.workflow_run.id }}
+  comment:
+    description: auto|always|never
+    default: auto
+  models:
+    description: Comma-separated LiteLLM model list (empty = built-in)
+    default: ""
+  prompt-version:
+    description: Diagnose prompt version
+    default: v1
+  max-llm-calls:
+    description: 1 or 2
+    default: "2"
+
+outputs:
+  occurrence-id:
+    description: e.g. PD-2026-0042
+  category:
+    description: Failure category
+  confidence:
+    description: 0..1
+  source:
+    description: llm | rules_fallback | rules_only
+  report-path:
+    description: Path of the JSON report in the workspace
+  comment-url:
+    description: URL of the PR comment (empty if none)
+
+runs:
+  # A Docker container action: GitHub pulls this prebuilt image (no build on every run) and
+  # passes inputs as INPUT_<NAME> environment variables. Docker actions run on Linux runners only.
+  using: docker
+  image: docker://ghcr.io/gagan046-dev/pipelinedoctor:0.1.0 # x-release-please-version
+  args: [action]
