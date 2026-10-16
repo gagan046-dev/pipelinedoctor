@@ -1,0 +1,66 @@
+schema_version: '1'
+id: pip-resolution-impossible
+title: pip ResolutionImpossible between typing-extensions pin and psycopg
+subsets:
+- pr
+- all
+workflow: Demo CI
+job: quality / test (ubuntu-latest, 3.12)
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: failure
+- number: 5
+  name: Lint
+  conclusion: skipped
+- number: 6
+  name: Run tests
+  conclusion: skipped
+- number: 7
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 8
+  name: Complete job
+  conclusion: success
+expected:
+  category: dependency
+  failed_step: Install dependencies
+  key_facts:
+  - id: kf1
+    any_of:
+    - ResolutionImpossible
+    - conflicting dependencies
+    - conflict
+  - id: kf2
+    any_of:
+    - typing-extensions
+    - typing_extensions
+  - id: kf3
+    any_of:
+    - psycopg
+  - id: kf4
+    any_of:
+    - '4.6'
+    - '4.16'
+    - remove the pin
+    - relax
+    - loosen
+    - upgrade typing
+  evidence_lines:
+  - 121
+  - 124
+  - 125
+  - 134
+reference_fix: Remove or raise the typing-extensions==4.1.1 pin in demo/requirements.txt to a version
+  >=4.6 (e.g. 4.16.0) that satisfies psycopg 3.3.6.
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'dependency' break mode.

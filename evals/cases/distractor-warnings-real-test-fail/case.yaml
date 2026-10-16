@@ -1,0 +1,63 @@
+schema_version: '1'
+id: distractor-warnings-real-test-fail
+title: Hundreds of warnings and a retried download hide one real test failure
+subsets:
+- all
+workflow: CI
+job: test
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Build docs
+  conclusion: success
+- number: 6
+  name: Run tests
+  conclusion: failure
+- number: 7
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 8
+  name: Complete job
+  conclusion: success
+expected:
+  category: test
+  failed_step: Run tests
+  key_facts:
+  - id: kf1
+    any_of:
+    - test_invoice_due_date
+    - due_date
+    - due date
+  - id: kf2
+    any_of:
+    - '2026-11-13'
+    - '2026-11-14'
+    - off by one
+    - off-by-one
+    - 30 days
+    - one day
+  - id: kf3
+    any_of:
+    - timedelta
+    - net_days
+    - days=
+  evidence_lines:
+  - 578
+  - 579
+  - 745
+reference_fix: due_date() adds net_days + 1; use timedelta(days=net_days) so a 30-day term from 2026-10-14
+  ends 2026-11-13. The DeprecationWarnings and the retried download are unrelated.
+plant_secret: null
+notes: 'Synthetic, long log (~1400 lines). Distractors: a retried ReadTimeout during pip install, many
+  DeprecationWarnings, npm-style WARN lines.'

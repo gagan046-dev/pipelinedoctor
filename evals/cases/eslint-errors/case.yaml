@@ -1,0 +1,53 @@
+schema_version: '1'
+id: eslint-errors
+title: 'ESLint errors: react-hooks rule and unused variable'
+subsets:
+- all
+workflow: CI
+job: build
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Node.js
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Lint
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: lint
+  failed_step: Lint
+  key_facts:
+  - id: kf1
+    any_of:
+    - eslint
+  - id: kf2
+    any_of:
+    - react-hooks/rules-of-hooks
+    - rules-of-hooks
+    - conditionally
+  - id: kf3
+    any_of:
+    - no-unused-vars
+    - unused
+  evidence_lines:
+  - 122
+  - 123
+  - 128
+reference_fix: Move the useEffect call in ProductList.tsx above the early return so hooks run unconditionally,
+  and remove the unused `total` variable.
+plant_secret: null
+notes: Synthetic. ESLint 9 stylish formatter.

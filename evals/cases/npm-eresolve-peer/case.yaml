@@ -1,0 +1,70 @@
+schema_version: '1'
+id: npm-eresolve-peer
+title: npm ERESOLVE peer dependency conflict
+subsets:
+- pr
+- all
+workflow: CI
+job: build
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Node.js
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: failure
+- number: 5
+  name: Run tests
+  conclusion: skipped
+- number: 6
+  name: Build
+  conclusion: skipped
+- number: 7
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 8
+  name: Complete job
+  conclusion: success
+expected:
+  category: dependency
+  failed_step: Install dependencies
+  key_facts:
+  - id: kf1
+    any_of:
+    - ERESOLVE
+    - peer dep
+    - dependency tree
+  - id: kf2
+    any_of:
+    - react@18
+    - react 18
+    - react@19
+    - react 19
+    - react-dom
+  - id: kf3
+    any_of:
+    - '@testing-library/react'
+    - testing-library
+  - id: kf4
+    any_of:
+    - upgrade
+    - align
+    - bump
+    - update
+  evidence_lines:
+  - 103
+  - 104
+  - 106
+  - 107
+  - 115
+reference_fix: Upgrade @testing-library/react to a version whose peer range accepts react@19 (or keep
+  react at 18 everywhere); do not paper over it with --force or --legacy-peer-deps.
+plant_secret: null
+notes: Synthetic. Realistic npm 10 ERESOLVE output after react was bumped to 19 while @testing-library/react
+  14 still peers react ^18.

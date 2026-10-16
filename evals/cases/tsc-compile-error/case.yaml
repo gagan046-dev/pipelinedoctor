@@ -1,0 +1,55 @@
+schema_version: '1'
+id: tsc-compile-error
+title: TypeScript compile error after an API type change
+subsets:
+- all
+workflow: CI
+job: build
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Node.js
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Build
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: build
+  failed_step: Build
+  key_facts:
+  - id: kf1
+    any_of:
+    - TS2339
+    - TS2345
+    - error TS
+  - id: kf2
+    any_of:
+    - CartItem
+    - unitPrice
+    - priceCents
+  - id: kf3
+    any_of:
+    - rename
+    - update
+    - priceCents
+  evidence_lines:
+  - 120
+  - 122
+reference_fix: CartItem.unitPrice was renamed to priceCents (number of cents); update src/cart/summary.ts
+  and checkout.ts to use priceCents.
+plant_secret: null
+notes: Synthetic.

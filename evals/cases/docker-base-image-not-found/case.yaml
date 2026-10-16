@@ -1,0 +1,53 @@
+schema_version: '1'
+id: docker-base-image-not-found
+title: Dockerfile FROM references a tag that does not exist
+subsets:
+- all
+workflow: Demo CI
+job: docker
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Buildx
+  conclusion: success
+- number: 4
+  name: Build demo image
+  conclusion: failure
+- number: 5
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 6
+  name: Complete job
+  conclusion: success
+expected:
+  category: docker
+  failed_step: Build demo image
+  key_facts:
+  - id: kf1
+    any_of:
+    - 3.12.99
+    - python:3.12.99-slim
+  - id: kf2
+    any_of:
+    - not found
+    - does not exist
+    - no such tag
+    - manifest
+  - id: kf3
+    any_of:
+    - FROM
+    - base image
+    - tag
+  evidence_lines:
+  - 141
+  - 147
+  - 151
+reference_fix: python:3.12.99-slim does not exist; use an existing tag such as python:3.12.14-slim (pinned
+  by digest) in demo/Dockerfile.
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'docker-base' break mode.

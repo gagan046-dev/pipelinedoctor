@@ -1,0 +1,163 @@
+2026-10-14T10:22:03.0218200Z Current runner version: '2.337.0'
+2026-10-14T10:22:03.0768070Z ##[group]Runner Image Provisioner
+2026-10-14T10:22:03.1317990Z Hosted Compute Agent
+2026-10-14T10:22:03.2152290Z Version: 20260911.392
+2026-10-14T10:22:03.2522930Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T10:22:03.3152890Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T10:22:03.3438020Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T10:22:03.4062140Z ##[endgroup]
+2026-10-14T10:22:03.4735820Z ##[group]Operating System
+2026-10-14T10:22:03.4978440Z Ubuntu
+2026-10-14T10:22:03.5642460Z 24.04.3
+2026-10-14T10:22:03.6335920Z LTS
+2026-10-14T10:22:03.6647320Z ##[endgroup]
+2026-10-14T10:22:03.6653480Z ##[group]Runner Image
+2026-10-14T10:22:03.6673980Z Image: ubuntu-24.04
+2026-10-14T10:22:03.7162310Z Version: 20260928.1.0
+2026-10-14T10:22:03.7931550Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T10:22:03.8494780Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T10:22:03.8587560Z ##[endgroup]
+2026-10-14T10:22:03.8779510Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T10:22:03.9085920Z Contents: read
+2026-10-14T10:22:03.9392910Z Metadata: read
+2026-10-14T10:22:03.9450390Z ##[endgroup]
+2026-10-14T10:22:04.0024980Z Secret source: Actions
+2026-10-14T10:22:04.0560140Z Prepare workflow directory
+2026-10-14T10:22:04.1369390Z Prepare all required actions
+2026-10-14T10:22:04.1950510Z Getting action download info
+2026-10-14T10:22:04.1997160Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T10:22:04.2430290Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-14T10:22:04.3140270Z Complete job name: e2e
+2026-10-14T10:22:04.3794420Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T10:22:04.3948210Z with:
+2026-10-14T10:22:04.4800620Z   persist-credentials: false
+2026-10-14T10:22:04.5285550Z   repository: gagan046-dev/storefront-web
+2026-10-14T10:22:04.5317990Z   token: ***
+2026-10-14T10:22:04.5522900Z   ssh-strict: true
+2026-10-14T10:22:04.5640850Z   ssh-user: git
+2026-10-14T10:22:04.5806520Z   clean: true
+2026-10-14T10:22:04.5834140Z   sparse-checkout-cone-mode: true
+2026-10-14T10:22:04.6430060Z   fetch-depth: 1
+2026-10-14T10:22:04.6643210Z   fetch-tags: false
+2026-10-14T10:22:04.7368730Z   show-progress: true
+2026-10-14T10:22:04.7820200Z   lfs: false
+2026-10-14T10:22:04.8348240Z   submodules: false
+2026-10-14T10:22:04.8985550Z   set-safe-directory: true
+2026-10-14T10:22:04.9185590Z ##[endgroup]
+2026-10-14T10:22:04.9432570Z Syncing repository: gagan046-dev/storefront-web
+2026-10-14T10:22:05.0306340Z ##[group]Getting Git version info
+2026-10-14T10:22:05.0357010Z Working directory is '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T10:22:05.0974970Z [command]/usr/bin/git version
+2026-10-14T10:22:05.1284810Z git version 2.51.0
+2026-10-14T10:22:05.1384620Z ##[endgroup]
+2026-10-14T10:22:05.1645320Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T10:22:05.1920680Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:22:05.2805830Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T10:22:05.3670270Z Deleting the contents of '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T10:22:05.4433490Z ##[group]Initializing the repository
+2026-10-14T10:22:05.4528450Z [command]/usr/bin/git init /home/runner/work/storefront-web/storefront-web
+2026-10-14T10:22:05.4690980Z Initialized empty Git repository in /home/runner/work/storefront-web/storefront-web/.git/
+2026-10-14T10:22:05.5427140Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/storefront-web
+2026-10-14T10:22:05.6053460Z ##[endgroup]
+2026-10-14T10:22:05.6788070Z ##[group]Disabling automatic garbage collection
+2026-10-14T10:22:05.7298640Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T10:22:05.7564190Z ##[endgroup]
+2026-10-14T10:22:05.8013440Z ##[group]Fetching the repository
+2026-10-14T10:22:05.8207000Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T10:22:05.8911310Z remote: Enumerating objects: 64, done.
+2026-10-14T10:22:05.9450180Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T10:22:05.9834890Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T10:22:06.0315590Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T10:22:06.0909140Z From https://github.com/gagan046-dev/storefront-web
+2026-10-14T10:22:06.1568380Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T10:22:06.2076020Z ##[endgroup]
+2026-10-14T10:22:06.2494760Z ##[group]Determining the checkout info
+2026-10-14T10:22:06.3131740Z ##[endgroup]
+2026-10-14T10:22:06.3640450Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T10:22:06.3990710Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T10:22:06.4027880Z ##[group]Checking out the ref
+2026-10-14T10:22:06.4152120Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T10:22:06.4362450Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T10:22:06.5014580Z ##[endgroup]
+2026-10-14T10:22:06.5020290Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+2026-10-14T10:22:06.5666560Z with:
+2026-10-14T10:22:06.5760460Z   node-version: 22
+2026-10-14T10:22:06.6483920Z   cache: npm
+2026-10-14T10:22:06.7271530Z   always-auth: false
+2026-10-14T10:22:06.7957950Z   check-latest: false
+2026-10-14T10:22:06.8250970Z   token: ***
+2026-10-14T10:22:06.9002070Z ##[endgroup]
+2026-10-14T10:22:06.9802160Z Found in cache @ /opt/hostedtoolcache/node/22.20.0/x64
+2026-10-14T10:22:07.0221800Z ##[group]Environment details
+2026-10-14T10:22:07.0953190Z node: v22.20.0
+2026-10-14T10:22:07.1771270Z npm: 10.9.3
+2026-10-14T10:22:07.1921000Z yarn: 1.22.22
+2026-10-14T10:22:07.2159810Z ##[endgroup]
+2026-10-14T10:22:07.3039560Z [command]/opt/hostedtoolcache/node/22.20.0/x64/bin/npm config get cache
+2026-10-14T10:22:07.3264500Z /home/runner/.npm
+2026-10-14T10:22:07.4087660Z npm cache is not found
+2026-10-14T10:22:07.4546060Z ##[group]Run npm ci
+2026-10-14T10:22:07.4983710Z npm ci
+2026-10-14T10:22:07.5440020Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:22:07.6224820Z ##[endgroup]
+2026-10-14T10:22:07.6628700Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory.
+2026-10-14T10:22:07.6952820Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-10-14T10:22:07.7090180Z 
+2026-10-14T10:22:07.7313280Z added 812 packages, and audited 813 packages in 14s
+2026-10-14T10:22:07.7401320Z 
+2026-10-14T10:22:07.7631400Z 164 packages are looking for funding
+2026-10-14T10:22:07.8195320Z   run `npm fund` for details
+2026-10-14T10:22:07.8688670Z 
+2026-10-14T10:22:07.8900230Z found 0 vulnerabilities
+2026-10-14T10:22:07.9797910Z ##[group]Run npx playwright install --with-deps chromium
+2026-10-14T10:22:07.9848000Z npx playwright install --with-deps chromium
+2026-10-14T10:22:08.0735910Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:22:08.1419040Z ##[endgroup]
+2026-10-14T10:22:08.2283460Z Downloading Chromium 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip
+2026-10-14T10:22:08.2602060Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 172.4 MiB
+2026-10-14T10:22:08.3137540Z Chromium 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium-1194
+2026-10-14T10:22:08.3353300Z ##[group]Run npx playwright test --reporter=list
+2026-10-14T10:22:08.4129300Z npx playwright test --reporter=list
+2026-10-14T10:22:08.4149990Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:22:08.4606290Z ##[endgroup]
+2026-10-14T10:22:08.5251730Z 
+2026-10-14T10:22:08.5917120Z Running 14 tests using 2 workers
+2026-10-14T10:22:08.6411370Z 
+2026-10-14T10:22:08.7287530Z   ✓   1 [chromium] › e2e/cart.spec.ts:8:7 › cart › adds an item (2.1s)
+2026-10-14T10:22:08.7613550Z   ✓   2 [chromium] › e2e/cart.spec.ts:21:7 › cart › removes an item (1.8s)
+2026-10-14T10:22:08.7937810Z   ✘   3 [chromium] › e2e/checkout.spec.ts:12:7 › checkout › places an order (30.0s)
+2026-10-14T10:22:08.8152530Z   ✓   4 [chromium] › e2e/search.spec.ts:5:7 › search › finds products (1.2s)
+2026-10-14T10:22:08.8890910Z 
+2026-10-14T10:22:08.8983780Z   1) [chromium] › e2e/checkout.spec.ts:12:7 › checkout › places an order ─────────────
+2026-10-14T10:22:08.9561490Z 
+2026-10-14T10:22:09.0097560Z     Test timeout of 30000ms exceeded.
+2026-10-14T10:22:09.0732860Z 
+2026-10-14T10:22:09.0810130Z     Error: locator.click: Test timeout of 30000ms exceeded.
+2026-10-14T10:22:09.1189590Z     Call log:
+2026-10-14T10:22:09.1259970Z       - waiting for getByRole('button', { name: 'Place order' })
+2026-10-14T10:22:09.1600100Z         - locator resolved to <button disabled class="btn btn-primary">Place order</button>
+2026-10-14T10:22:09.2465110Z       - attempting click action
+2026-10-14T10:22:09.2847050Z         - waiting for element to be visible, enabled and stable
+2026-10-14T10:22:09.2894610Z           - element is not enabled
+2026-10-14T10:22:09.3446520Z         - retrying click action, attempt #1
+2026-10-14T10:22:09.3774350Z 
+2026-10-14T10:22:09.3999990Z       18 |     await page.getByLabel('Card number').fill('4242 4242 4242 4242');
+2026-10-14T10:22:09.4519100Z       19 |     await page.waitForTimeout(500);
+2026-10-14T10:22:09.4612130Z     > 20 |     await page.getByRole('button', { name: 'Place order' }).click();
+2026-10-14T10:22:09.5057260Z          |                                                             ^
+2026-10-14T10:22:09.5905240Z 
+2026-10-14T10:22:09.6098750Z   1 failed
+2026-10-14T10:22:09.6298920Z     [chromium] › e2e/checkout.spec.ts:12:7 › checkout › places an order ──────────────
+2026-10-14T10:22:09.6928710Z   13 passed (41.3s)
+2026-10-14T10:22:09.6995460Z ##[error]Process completed with exit code 1.
+2026-10-14T10:22:09.7328040Z Post job cleanup.
+2026-10-14T10:22:09.7513000Z [command]/usr/bin/git version
+2026-10-14T10:22:09.8367290Z git version 2.51.0
+2026-10-14T10:22:09.9058240Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T10:22:09.9688160Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:22:09.9727250Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T10:22:10.0007240Z Removing SSH command configuration
+2026-10-14T10:22:10.0488600Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T10:22:10.0692240Z Removing HTTP extra header
+2026-10-14T10:22:10.1177570Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T10:22:10.1967770Z Cleaning up orphan processes

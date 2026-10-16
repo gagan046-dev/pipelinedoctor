@@ -1,0 +1,54 @@
+schema_version: '1'
+id: pytest-assertion-failure
+title: pytest assertion failure in tax rounding
+subsets:
+- pr
+- all
+workflow: Demo CI
+job: quality / test (ubuntu-latest, 3.12)
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Run tests
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: test
+  failed_step: Run tests
+  key_facts:
+  - id: kf1
+    any_of:
+    - test_total_with_tax
+    - test_totals
+  - id: kf2
+    any_of:
+    - '106'
+    - '107'
+  - id: kf3
+    any_of:
+    - round
+    - apply_tax
+  evidence_lines:
+  - 172
+  - 173
+  - 188
+reference_fix: apply_tax() rounds the net amount before multiplying by the tax rate; round after applying
+  the tax (quantize the final Decimal).
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'test' break mode. Coloured pytest output (ANSI).

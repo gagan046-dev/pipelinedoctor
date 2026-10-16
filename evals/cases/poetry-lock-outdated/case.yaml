@@ -1,0 +1,56 @@
+schema_version: '1'
+id: poetry-lock-outdated
+title: poetry.lock out of date with pyproject.toml
+subsets:
+- all
+workflow: CI
+job: test
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install Poetry
+  conclusion: success
+- number: 5
+  name: Install dependencies
+  conclusion: failure
+- number: 6
+  name: Run tests
+  conclusion: skipped
+- number: 7
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 8
+  name: Complete job
+  conclusion: success
+expected:
+  category: dependency
+  failed_step: Install dependencies
+  key_facts:
+  - id: kf1
+    any_of:
+    - poetry.lock
+    - lock file
+    - lockfile
+  - id: kf2
+    any_of:
+    - poetry lock
+    - regenerate
+    - re-lock
+    - relock
+  - id: kf3
+    any_of:
+    - pyproject.toml
+    - pyproject
+  evidence_lines:
+  - 112
+reference_fix: Run `poetry lock` locally after editing pyproject.toml and commit the updated poetry.lock.
+plant_secret: null
+notes: Synthetic. Poetry 2.x wording.

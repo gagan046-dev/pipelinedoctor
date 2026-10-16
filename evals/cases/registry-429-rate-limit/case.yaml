@@ -1,0 +1,56 @@
+schema_version: '1'
+id: registry-429-rate-limit
+title: Docker Hub anonymous pull rate limit (429)
+subsets:
+- all
+workflow: Demo CI
+job: integration
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Start database
+  conclusion: failure
+- number: 5
+  name: Run integration tests
+  conclusion: skipped
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: infrastructure
+  failed_step: Start database
+  key_facts:
+  - id: kf1
+    any_of:
+    - '429'
+    - rate limit
+    - toomanyrequests
+  - id: kf2
+    any_of:
+    - Docker Hub
+    - docker.io
+    - registry
+  - id: kf3
+    any_of:
+    - log in
+    - login
+    - authenticate
+    - mirror
+    - cache
+  evidence_lines:
+  - 102
+reference_fix: Authenticate to Docker Hub (docker/login-action with a Docker Hub token) or pull postgres
+  from a mirror/GHCR, then re-run.
+plant_secret: null
+notes: Synthetic.

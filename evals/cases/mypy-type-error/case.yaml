@@ -1,0 +1,56 @@
+schema_version: '1'
+id: mypy-type-error
+title: 'mypy: incompatible return type after annotation change'
+subsets:
+- all
+workflow: Demo CI
+job: quality / typecheck
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Type check
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: lint
+  failed_step: Type check
+  key_facts:
+  - id: kf1
+    any_of:
+    - mypy
+    - type
+  - id: kf2
+    any_of:
+    - return-value
+    - Incompatible return value
+    - str
+    - Decimal
+  - id: kf3
+    any_of:
+    - money.py
+    - format_money
+    - annotation
+  evidence_lines:
+  - 152
+  - 153
+  - 154
+reference_fix: format_money() is annotated to return Decimal but returns a str; change the annotation
+  to -> str (callers already treat it as text).
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'type' break mode.

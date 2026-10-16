@@ -1,0 +1,51 @@
+schema_version: '1'
+id: github-token-403
+title: 'gh api call fails with 403: GITHUB_TOKEN lacks issues write'
+subsets:
+- pr
+- all
+workflow: Demo CI
+job: ops
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Read repository metadata
+  conclusion: failure
+- number: 4
+  name: Publish dry-run
+  conclusion: skipped
+- number: 5
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 6
+  name: Complete job
+  conclusion: success
+expected:
+  category: secret_permission
+  failed_step: Read repository metadata
+  key_facts:
+  - id: kf1
+    any_of:
+    - '403'
+    - Resource not accessible by integration
+  - id: kf2
+    any_of:
+    - permissions
+    - permission
+  - id: kf3
+    any_of:
+    - 'issues: write'
+    - issues:write
+    - labels
+  evidence_lines:
+  - 87
+  - 88
+reference_fix: 'The job has permissions: contents: read only; creating a label needs `issues: write` on
+  this job (least privilege, not write-all).'
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'permission' break mode.

@@ -1,0 +1,48 @@
+schema_version: '1'
+id: disk-full-no-space
+title: Runner disk full while extracting Docker layers
+subsets:
+- all
+workflow: Container
+job: build (console)
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Buildx
+  conclusion: success
+- number: 4
+  name: Build image
+  conclusion: failure
+- number: 5
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 6
+  name: Complete job
+  conclusion: success
+expected:
+  category: infrastructure
+  failed_step: Build image
+  key_facts:
+  - id: kf1
+    any_of:
+    - No space left on device
+    - disk
+    - ENOSPC
+  - id: kf2
+    any_of:
+    - prune
+    - free
+    - clean
+    - remove
+  evidence_lines:
+  - 147
+  - 151
+reference_fix: Free disk space before the build (remove preinstalled toolchains like /usr/local/lib/android,
+  docker system prune) or shrink the build (multi-stage, smaller base).
+plant_secret: null
+notes: Synthetic. Includes the runner's low-disk warning annotation.

@@ -1,0 +1,177 @@
+2026-10-14T11:39:03.0895910Z Current runner version: '2.337.0'
+2026-10-14T11:39:03.1694500Z ##[group]Runner Image Provisioner
+2026-10-14T11:39:03.1816560Z Hosted Compute Agent
+2026-10-14T11:39:03.2628340Z Version: 20260911.392
+2026-10-14T11:39:03.3502530Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T11:39:03.4336080Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T11:39:03.5013120Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T11:39:03.5061570Z ##[endgroup]
+2026-10-14T11:39:03.5890680Z ##[group]Operating System
+2026-10-14T11:39:03.6376630Z Ubuntu
+2026-10-14T11:39:03.6952380Z 24.04.3
+2026-10-14T11:39:03.7646460Z LTS
+2026-10-14T11:39:03.7789820Z ##[endgroup]
+2026-10-14T11:39:03.8686970Z ##[group]Runner Image
+2026-10-14T11:39:03.9287770Z Image: ubuntu-24.04
+2026-10-14T11:39:04.0077070Z Version: 20260928.1.0
+2026-10-14T11:39:04.0448590Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T11:39:04.0946790Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T11:39:04.1503520Z ##[endgroup]
+2026-10-14T11:39:04.2087310Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T11:39:04.2278570Z Contents: read
+2026-10-14T11:39:04.2345460Z Metadata: read
+2026-10-14T11:39:04.2466770Z ##[endgroup]
+2026-10-14T11:39:04.3010230Z Secret source: Actions
+2026-10-14T11:39:04.3110730Z Prepare workflow directory
+2026-10-14T11:39:04.3825320Z Prepare all required actions
+2026-10-14T11:39:04.4205570Z Getting action download info
+2026-10-14T11:39:04.4680880Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T11:39:04.5532520Z Download action repository 'docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069' (SHA:f87e5991a6d7451dcb8d9637bfbc97413f497069)
+2026-10-14T11:39:04.6101210Z Download action repository 'docker/login-action@dbcb813823bdd20940b903addbd779551569679f' (SHA:dbcb813823bdd20940b903addbd779551569679f)
+2026-10-14T11:39:04.6873630Z Download action repository 'docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc' (SHA:c3c9e263c25d99ce0380d002d59b67737d91b0dc)
+2026-10-14T11:39:04.7613070Z Complete job name: build (engine)
+2026-10-14T11:39:04.8095000Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T11:39:04.8934800Z with:
+2026-10-14T11:39:04.9687940Z   persist-credentials: false
+2026-10-14T11:39:04.9734570Z   repository: gagan046-dev/pipelinedoctor
+2026-10-14T11:39:05.0426870Z   token: ***
+2026-10-14T11:39:05.1240720Z   ssh-strict: true
+2026-10-14T11:39:05.1522220Z   ssh-user: git
+2026-10-14T11:39:05.2186390Z   clean: true
+2026-10-14T11:39:05.2734910Z   sparse-checkout-cone-mode: true
+2026-10-14T11:39:05.2819510Z   fetch-depth: 1
+2026-10-14T11:39:05.2833020Z   fetch-tags: false
+2026-10-14T11:39:05.2844950Z   show-progress: true
+2026-10-14T11:39:05.3706490Z   lfs: false
+2026-10-14T11:39:05.4377120Z   submodules: false
+2026-10-14T11:39:05.4852150Z   set-safe-directory: true
+2026-10-14T11:39:05.4944070Z ##[endgroup]
+2026-10-14T11:39:05.5706370Z Syncing repository: gagan046-dev/pipelinedoctor
+2026-10-14T11:39:05.6003090Z ##[group]Getting Git version info
+2026-10-14T11:39:05.6035860Z Working directory is '/home/runner/work/pipelinedoctor/pipelinedoctor'
+2026-10-14T11:39:05.6462400Z [command]/usr/bin/git version
+2026-10-14T11:39:05.6925600Z git version 2.51.0
+2026-10-14T11:39:05.7619000Z ##[endgroup]
+2026-10-14T11:39:05.7829770Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T11:39:05.7860210Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T11:39:05.7879910Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pipelinedoctor/pipelinedoctor
+2026-10-14T11:39:05.8167590Z Deleting the contents of '/home/runner/work/pipelinedoctor/pipelinedoctor'
+2026-10-14T11:39:05.8577960Z ##[group]Initializing the repository
+2026-10-14T11:39:05.8877810Z [command]/usr/bin/git init /home/runner/work/pipelinedoctor/pipelinedoctor
+2026-10-14T11:39:05.9549170Z Initialized empty Git repository in /home/runner/work/pipelinedoctor/pipelinedoctor/.git/
+2026-10-14T11:39:06.0402380Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/pipelinedoctor
+2026-10-14T11:39:06.0799840Z ##[endgroup]
+2026-10-14T11:39:06.1620940Z ##[group]Disabling automatic garbage collection
+2026-10-14T11:39:06.1678080Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T11:39:06.2050760Z ##[endgroup]
+2026-10-14T11:39:06.2410070Z ##[group]Fetching the repository
+2026-10-14T11:39:06.2678920Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T11:39:06.3311680Z remote: Enumerating objects: 64, done.
+2026-10-14T11:39:06.3501300Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T11:39:06.3782520Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T11:39:06.4133680Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T11:39:06.4945440Z From https://github.com/gagan046-dev/pipelinedoctor
+2026-10-14T11:39:06.5779330Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T11:39:06.5844610Z ##[endgroup]
+2026-10-14T11:39:06.6421690Z ##[group]Determining the checkout info
+2026-10-14T11:39:06.7012290Z ##[endgroup]
+2026-10-14T11:39:06.7151870Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T11:39:06.7883630Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T11:39:06.8735930Z ##[group]Checking out the ref
+2026-10-14T11:39:06.8741250Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T11:39:06.9092880Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T11:39:06.9944970Z ##[endgroup]
+2026-10-14T11:39:07.0260410Z ##[group]Run docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069
+2026-10-14T11:39:07.0378010Z with:
+2026-10-14T11:39:07.0961090Z   driver: docker-container
+2026-10-14T11:39:07.1814720Z   install: false
+2026-10-14T11:39:07.1987360Z   use: true
+2026-10-14T11:39:07.2436480Z   keep-state: false
+2026-10-14T11:39:07.2898100Z   cache-binary: true
+2026-10-14T11:39:07.2938700Z   cleanup: true
+2026-10-14T11:39:07.3068980Z ##[endgroup]
+2026-10-14T11:39:07.3266700Z ##[group]Docker info
+2026-10-14T11:39:07.3352810Z [command]/usr/bin/docker version
+2026-10-14T11:39:07.4112040Z Client: Docker Engine - Community
+2026-10-14T11:39:07.4318890Z  Version:           28.4.0
+2026-10-14T11:39:07.5144160Z  API version:       1.51
+2026-10-14T11:39:07.5809050Z [command]/usr/bin/docker info
+2026-10-14T11:39:07.6673160Z ##[endgroup]
+2026-10-14T11:39:07.6996420Z ##[group]Creating a new builder instance
+2026-10-14T11:39:07.7693660Z [command]/usr/bin/docker buildx create --name builder-8e1f3c2a --driver docker-container --buildkitd-flags --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host --use
+2026-10-14T11:39:07.8073850Z builder-8e1f3c2a
+2026-10-14T11:39:07.8697160Z ##[endgroup]
+2026-10-14T11:39:07.8733270Z ##[group]Booting builder
+2026-10-14T11:39:07.9490940Z #1 [internal] booting buildkit
+2026-10-14T11:39:07.9728620Z #1 pulling image moby/buildkit:buildx-stable-1
+2026-10-14T11:39:08.0443160Z #1 pulling image moby/buildkit:buildx-stable-1 1.2s done
+2026-10-14T11:39:08.0830810Z #1 creating container buildx_buildkit_builder-8e1f3c2a0
+2026-10-14T11:39:08.1011390Z #1 creating container buildx_buildkit_builder-8e1f3c2a0 0.6s done
+2026-10-14T11:39:08.1290550Z #1 DONE 1.8s
+2026-10-14T11:39:08.1439290Z ##[endgroup]
+2026-10-14T11:39:08.1658700Z ##[group]Run docker/login-action@dbcb813823bdd20940b903addbd779551569679f
+2026-10-14T11:39:08.2222970Z with:
+2026-10-14T11:39:08.2984810Z   registry: ghcr.io
+2026-10-14T11:39:08.3669070Z   username: gagan046-dev
+2026-10-14T11:39:08.4379650Z   password: ***
+2026-10-14T11:39:08.4392770Z   ecr: auto
+2026-10-14T11:39:08.4863150Z   logout: true
+2026-10-14T11:39:08.5228660Z ##[endgroup]
+2026-10-14T11:39:08.5319850Z Logging into ghcr.io...
+2026-10-14T11:39:08.6060310Z Login Succeeded!
+2026-10-14T11:39:08.6133080Z ##[group]Run docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
+2026-10-14T11:39:08.6428970Z with:
+2026-10-14T11:39:08.6655960Z   context: .
+2026-10-14T11:39:08.7183990Z   push: true
+2026-10-14T11:39:08.7771060Z   tags: ghcr.io/gagan046-dev/pipelinedoctor:edge
+2026-10-14T11:39:08.8187730Z   cache-from: type=gha,scope=engine
+2026-10-14T11:39:08.8278150Z   cache-to: type=gha,mode=max,scope=engine
+2026-10-14T11:39:08.8534990Z   provenance: false
+2026-10-14T11:39:08.8656380Z   load: false
+2026-10-14T11:39:08.9065400Z   no-cache: false
+2026-10-14T11:39:08.9128420Z   pull: false
+2026-10-14T11:39:08.9415220Z   github-token: ***
+2026-10-14T11:39:08.9724440Z ##[endgroup]
+2026-10-14T11:39:09.0302390Z ##[group]GitHub Actions runtime token ACs
+2026-10-14T11:39:09.1044120Z ref:refs/heads/main: read/write
+2026-10-14T11:39:09.1697610Z ##[endgroup]
+2026-10-14T11:39:09.2154350Z ##[group]Docker info
+2026-10-14T11:39:09.2877210Z [command]/usr/bin/docker version
+2026-10-14T11:39:09.3245870Z ##[endgroup]
+2026-10-14T11:39:09.4032210Z ##[group]Proxy configuration
+2026-10-14T11:39:09.4087800Z No proxy configuration found
+2026-10-14T11:39:09.4802280Z ##[endgroup]
+2026-10-14T11:39:09.5686950Z [command]/usr/bin/docker buildx build --cache-from type=gha,scope=engine --cache-to type=gha,mode=max,scope=engine --iidfile /home/runner/work/_temp/docker-actions-toolkit-x1/build-iidfile-3f2e.txt --metadata-file /home/runner/work/_temp/docker-actions-toolkit-x1/build-metadata-91ab.json --push --tag ghcr.io/gagan046-dev/pipelinedoctor:edge .
+2026-10-14T11:39:09.5946940Z #0 building with "builder-8e1f3c2a" instance using docker-container driver
+2026-10-14T11:39:09.6341590Z 
+2026-10-14T11:39:09.7182060Z #1 [internal] load build definition from Dockerfile
+2026-10-14T11:39:09.7190040Z #1 transferring dockerfile: 1.21kB done
+2026-10-14T11:39:09.7542640Z #1 DONE 0.0s
+2026-10-14T11:39:09.8304320Z 
+2026-10-14T11:39:09.8981550Z #2 [internal] load metadata for docker.io/library/python:3.12.14-slim
+2026-10-14T11:39:09.9019970Z #2 DONE 0.5s
+2026-10-14T11:39:09.9363180Z #8 [runtime 4/4] COPY --from=builder /app/.venv /app/.venv
+2026-10-14T11:39:10.0140790Z #8 DONE 1.1s
+2026-10-14T11:39:10.0725470Z 
+2026-10-14T11:39:10.1015510Z #9 exporting to image
+2026-10-14T11:39:10.1453640Z #9 exporting layers 2.3s done
+2026-10-14T11:39:10.2266130Z #9 exporting manifest sha256:3c9a0e7d6b5f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d done
+2026-10-14T11:39:10.2736090Z #9 pushing layers
+2026-10-14T11:39:10.3006830Z #9 pushing layers 0.9s done
+2026-10-14T11:39:10.3842860Z #9 ERROR: failed to push ghcr.io/gagan046-dev/pipelinedoctor:edge: unexpected status from POST request to https://ghcr.io/v2/gagan046-dev/pipelinedoctor/blobs/uploads/: 403 Forbidden
+2026-10-14T11:39:10.4318550Z ------
+2026-10-14T11:39:10.4469280Z  > exporting to image:
+2026-10-14T11:39:10.4959210Z ------
+2026-10-14T11:39:10.5599130Z ERROR: failed to build: failed to solve: failed to push ghcr.io/gagan046-dev/pipelinedoctor:edge: denied: installation not allowed to Write organization package
+2026-10-14T11:39:10.5690820Z ##[error]buildx failed with: ERROR: failed to build: failed to solve: failed to push ghcr.io/gagan046-dev/pipelinedoctor:edge: denied: installation not allowed to Write organization package
+2026-10-14T11:39:10.6278820Z Post job cleanup.
+2026-10-14T11:39:10.7071600Z [command]/usr/bin/git version
+2026-10-14T11:39:10.7885700Z git version 2.51.0
+2026-10-14T11:39:10.8624140Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T11:39:10.8844300Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T11:39:10.9703430Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pipelinedoctor/pipelinedoctor
+2026-10-14T11:39:11.0458130Z Removing SSH command configuration
+2026-10-14T11:39:11.0573220Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T11:39:11.0946890Z Removing HTTP extra header
+2026-10-14T11:39:11.1801460Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T11:39:11.2220810Z Cleaning up orphan processes

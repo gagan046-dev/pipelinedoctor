@@ -1,0 +1,156 @@
+# Stage 06 - LLMOps eval gate on pull requests.
+# Runs the 10-case PR subset only when the prompt, the engine or the dataset changed, posts a
+# score table on the PR and fails when evals/thresholds.yaml is not met.
+# Required check: "eval-gate" (always reports, even when the eval job was skipped).
+name: Evals
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  changes:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      evals: ${{ steps.filter.outputs.evals }}
+    steps:
+      # A job-level path filter (instead of on.paths) keeps the workflow - and its required
+      # check - running on every PR; only the expensive job is skipped.
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          filters: |
+            evals:
+              - 'prompts/**'
+              - 'src/pipelinedoctor/**'
+              - 'evals/**'
+              - '.github/workflows/evals.yml'
+              # Dependency bumps (litellm, pydantic, httpx) change how the model is called and
+              # parsed, so a Dependabot PR must pass the eval gate too.
+              - 'pyproject.toml'
+              - 'uv.lock'
+
+  eval:
+    needs: changes
+    if: >-
+      !cancelled() && needs.changes.result != 'failure' &&
+      (needs.changes.outputs.evals == 'true' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write # score table comment
+    env:
+      # Secrets are empty on fork PRs and Dependabot PRs. The engine then answers from the
+      # cache only and the gate reports "neutral" instead of failing.
+      HAS_KEY: ${{ secrets.OPENROUTER_API_KEY != '' }}
+    steps:
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      # This is pull_request (not pull_request_target): fork code runs without secrets, the
+      # normal CI trust model. Same-repo PRs get the key because their authors have write access.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "0.12.21"
+          enable-cache: true
+      - run: uv sync --frozen
+
+      # Restore the newest eval cache. PRs can read caches saved on main (the nightly run),
+      # but caches saved by a PR are only visible to that PR.
+      - name: Restore eval cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .eval-cache
+          key: pd-evals-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: pd-evals-v1-
+
+      - name: Run PR eval subset
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          if [ "$HAS_KEY" = "true" ]; then mode=live; else mode=cache-only; fi
+          echo "LLM mode: ${mode}"
+          uv run --frozen pipelinedoctor eval run --subset pr --llm "$mode" \
+            --cache-dir .eval-cache --max-requests 12 --output eval-results/result.json
+
+      - name: Save eval cache
+        if: always()
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .eval-cache
+          key: pd-evals-v1-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Gate against thresholds
+        id: gate
+        if: ${{ !cancelled() && hashFiles('eval-results/result.json') != '' }}
+        # Let the comment and artifact steps run; the last step turns a failed gate into a red job.
+        continue-on-error: true
+        run: |
+          uv run --frozen pipelinedoctor eval gate --result eval-results/result.json \
+            --thresholds evals/thresholds.yaml --mode pr --markdown-output eval-results/gate.md
+
+      - name: Post score table on the PR
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && hashFiles('eval-results/result.json') != '' }}
+        # Fork PR tokens are read-only: commenting may fail, the gate result still counts.
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          uv run --frozen pipelinedoctor eval comment --result eval-results/result.json \
+            --thresholds evals/thresholds.yaml --mode pr --repo "$GITHUB_REPOSITORY" --pr "$PR_NUMBER"
+
+      - name: Upload eval results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: eval-results
+          path: eval-results/
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: Fail if the gate failed
+        if: steps.gate.outcome == 'failure'
+        run: |
+          echo "::error::Eval gate failed - see the job summary / PR comment for the score table."
+          exit 1
+
+  eval-gate:
+    name: eval-gate
+    needs: [changes, eval]
+    # A path-filtered *workflow* would never report and leave a required check pending forever.
+    # This always-running job reports success when evals passed or were not needed.
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Decide
+        env:
+          CHANGES: ${{ needs.changes.result }}
+          EVAL: ${{ needs.eval.result }}
+        run: |
+          echo "changes=${CHANGES} eval=${EVAL}"
+          if [ "$CHANGES" = failure ] || [ "$CHANGES" = cancelled ]; then
+            echo "::error::Path filter job ended with '${CHANGES}'."; exit 1
+          fi
+          case "$EVAL" in
+            success) echo "Evals passed." ;;
+            skipped) echo "No prompt/engine/dataset changes - evals not needed." ;;
+            *) echo "::error::Evals ended with '${EVAL}'."; exit 1 ;;
+          esac

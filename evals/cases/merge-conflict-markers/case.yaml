@@ -1,0 +1,55 @@
+schema_version: '1'
+id: merge-conflict-markers
+title: Committed merge-conflict markers break module import
+subsets:
+- pr
+- all
+workflow: Demo CI
+job: quality / test (ubuntu-latest, 3.12)
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Run tests
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: build
+  failed_step: Run tests
+  key_facts:
+  - id: kf1
+    any_of:
+    - conflict
+    - <<<<<<<
+  - id: kf2
+    any_of:
+    - totals.py
+  - id: kf3
+    any_of:
+    - resolve
+    - remove the markers
+    - remove the conflict
+  evidence_lines:
+  - 165
+  - 166
+  - 167
+  - 168
+reference_fix: Resolve the merge conflict in demo/src/invoicer/totals.py (remove <<<<<<< / ======= / >>>>>>>
+  markers) and add a check-merge-conflict pre-commit hook.
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'conflict' break mode.

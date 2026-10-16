@@ -1,0 +1,58 @@
+schema_version: '1'
+id: node-version-mismatch
+title: 'npm EBADENGINE: project requires Node 22 but the workflow sets up Node 20'
+subsets:
+- all
+workflow: CI
+job: build
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Node.js
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: failure
+- number: 5
+  name: Build
+  conclusion: skipped
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: config
+  failed_step: Install dependencies
+  key_facts:
+  - id: kf1
+    any_of:
+    - EBADENGINE
+    - engine
+  - id: kf2
+    any_of:
+    - '20.19'
+    - node 20
+    - v20
+    - Node.js 20
+  - id: kf3
+    any_of:
+    - '22.12'
+    - node 22
+    - '>=22'
+    - node-version
+  evidence_lines:
+  - 103
+  - 104
+  - 107
+  - 108
+reference_fix: 'Set actions/setup-node node-version to 22 (or use node-version-file: .nvmrc) to satisfy
+  engines.node >=22.12.0.'
+plant_secret: null
+notes: Synthetic. engine-strict=true in .npmrc turns the EBADENGINE warning into an error.

@@ -1,0 +1,108 @@
+2026-10-14T10:29:03.0185980Z Current runner version: '2.337.0'
+2026-10-14T10:29:03.0505980Z ##[group]Runner Image Provisioner
+2026-10-14T10:29:03.0538930Z Hosted Compute Agent
+2026-10-14T10:29:03.1344510Z Version: 20260911.392
+2026-10-14T10:29:03.1932570Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T10:29:03.2176070Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T10:29:03.2336130Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T10:29:03.3191960Z ##[endgroup]
+2026-10-14T10:29:03.3647000Z ##[group]Operating System
+2026-10-14T10:29:03.3753400Z Ubuntu
+2026-10-14T10:29:03.4059140Z 24.04.3
+2026-10-14T10:29:03.4414070Z LTS
+2026-10-14T10:29:03.4481160Z ##[endgroup]
+2026-10-14T10:29:03.4901870Z ##[group]Runner Image
+2026-10-14T10:29:03.5691790Z Image: ubuntu-24.04
+2026-10-14T10:29:03.5928580Z Version: 20260928.1.0
+2026-10-14T10:29:03.6654090Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T10:29:03.7219710Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T10:29:03.7285200Z ##[endgroup]
+2026-10-14T10:29:03.8043670Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T10:29:03.8073610Z Contents: read
+2026-10-14T10:29:03.8848350Z Metadata: read
+2026-10-14T10:29:03.9196340Z ##[endgroup]
+2026-10-14T10:29:03.9605550Z Secret source: Actions
+2026-10-14T10:29:04.0160040Z Prepare workflow directory
+2026-10-14T10:29:04.0411250Z Prepare all required actions
+2026-10-14T10:29:04.0649870Z Getting action download info
+2026-10-14T10:29:04.0798100Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T10:29:04.1564010Z Complete job name: workflow-policy
+2026-10-14T10:29:04.2261790Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T10:29:04.3006060Z with:
+2026-10-14T10:29:04.3088230Z   persist-credentials: false
+2026-10-14T10:29:04.3518090Z   repository: gagan046-dev/pipelinedoctor
+2026-10-14T10:29:04.4322670Z   token: ***
+2026-10-14T10:29:04.4763510Z   ssh-strict: true
+2026-10-14T10:29:04.5104210Z   ssh-user: git
+2026-10-14T10:29:04.5347970Z   clean: true
+2026-10-14T10:29:04.5865310Z   sparse-checkout-cone-mode: true
+2026-10-14T10:29:04.6276870Z   fetch-depth: 1
+2026-10-14T10:29:04.7131980Z   fetch-tags: false
+2026-10-14T10:29:04.7809380Z   show-progress: true
+2026-10-14T10:29:04.7997790Z   lfs: false
+2026-10-14T10:29:04.8366170Z   submodules: false
+2026-10-14T10:29:04.8722850Z   set-safe-directory: true
+2026-10-14T10:29:04.9599750Z ##[endgroup]
+2026-10-14T10:29:04.9844270Z Syncing repository: gagan046-dev/pipelinedoctor
+2026-10-14T10:29:05.0412380Z ##[group]Getting Git version info
+2026-10-14T10:29:05.0478760Z Working directory is '/home/runner/work/pipelinedoctor/pipelinedoctor'
+2026-10-14T10:29:05.0929570Z [command]/usr/bin/git version
+2026-10-14T10:29:05.1628630Z git version 2.51.0
+2026-10-14T10:29:05.1672910Z ##[endgroup]
+2026-10-14T10:29:05.2224600Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T10:29:05.2556350Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:29:05.3221940Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pipelinedoctor/pipelinedoctor
+2026-10-14T10:29:05.3596540Z Deleting the contents of '/home/runner/work/pipelinedoctor/pipelinedoctor'
+2026-10-14T10:29:05.4276590Z ##[group]Initializing the repository
+2026-10-14T10:29:05.4815250Z [command]/usr/bin/git init /home/runner/work/pipelinedoctor/pipelinedoctor
+2026-10-14T10:29:05.5337960Z Initialized empty Git repository in /home/runner/work/pipelinedoctor/pipelinedoctor/.git/
+2026-10-14T10:29:05.6206340Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/pipelinedoctor
+2026-10-14T10:29:05.6450630Z ##[endgroup]
+2026-10-14T10:29:05.6855420Z ##[group]Disabling automatic garbage collection
+2026-10-14T10:29:05.7595710Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T10:29:05.8087620Z ##[endgroup]
+2026-10-14T10:29:05.8610250Z ##[group]Fetching the repository
+2026-10-14T10:29:05.9375860Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T10:29:05.9410890Z remote: Enumerating objects: 64, done.
+2026-10-14T10:29:05.9802590Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T10:29:06.0558950Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T10:29:06.1341660Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T10:29:06.2079370Z From https://github.com/gagan046-dev/pipelinedoctor
+2026-10-14T10:29:06.2793240Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T10:29:06.3486160Z ##[endgroup]
+2026-10-14T10:29:06.4056320Z ##[group]Determining the checkout info
+2026-10-14T10:29:06.4940740Z ##[endgroup]
+2026-10-14T10:29:06.5635110Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T10:29:06.6197230Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T10:29:06.6314710Z ##[group]Checking out the ref
+2026-10-14T10:29:06.6435410Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T10:29:06.7019020Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T10:29:06.7487240Z ##[endgroup]
+2026-10-14T10:29:06.7618430Z ##[group]Run bash <(curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.8/scripts/download-actionlint.bash) 1.7.8
+2026-10-14T10:29:06.8186340Z bash <(curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/v1.7.8/scripts/download-actionlint.bash) 1.7.8
+2026-10-14T10:29:06.8716300Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:29:06.8794390Z ##[endgroup]
+2026-10-14T10:29:06.9054530Z Start downloading actionlint v1.7.8 to /home/runner/work/pipelinedoctor/pipelinedoctor
+2026-10-14T10:29:06.9727610Z Downloading https://github.com/rhysd/actionlint/releases/download/v1.7.8/actionlint_1.7.8_linux_amd64.tar.gz
+2026-10-14T10:29:07.0042530Z Downloaded and unarchived executable: /home/runner/work/pipelinedoctor/pipelinedoctor/actionlint
+2026-10-14T10:29:07.0569680Z Done: actionlint v1.7.8
+2026-10-14T10:29:07.0580530Z ##[group]Run ./actionlint -color
+2026-10-14T10:29:07.0709100Z ./actionlint -color
+2026-10-14T10:29:07.1312690Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:29:07.1568240Z ##[endgroup]
+2026-10-14T10:29:07.1794890Z [1m.github/workflows/deploy.yml:23:41: [0m[91mcould not parse as YAML: mapping values are not allowed in this context[0m [syntax-check]
+2026-10-14T10:29:07.1836410Z    |
+2026-10-14T10:29:07.2554880Z 23 |         run: echo Deploying version: ${{ inputs.version }}
+2026-10-14T10:29:07.3050040Z    |                                         ^
+2026-10-14T10:29:07.3509660Z ##[error]Process completed with exit code 1.
+2026-10-14T10:29:07.3746090Z Post job cleanup.
+2026-10-14T10:29:07.4178380Z [command]/usr/bin/git version
+2026-10-14T10:29:07.4648570Z git version 2.51.0
+2026-10-14T10:29:07.5475720Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T10:29:07.5728400Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:29:07.6311810Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pipelinedoctor/pipelinedoctor
+2026-10-14T10:29:07.6362270Z Removing SSH command configuration
+2026-10-14T10:29:07.6446600Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T10:29:07.7150420Z Removing HTTP extra header
+2026-10-14T10:29:07.7328830Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T10:29:07.8178960Z Cleaning up orphan processes

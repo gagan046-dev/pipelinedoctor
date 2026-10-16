@@ -1,0 +1,51 @@
+schema_version: '1'
+id: docker-copy-not-found
+title: 'Docker build fails: COPY source not in build context'
+subsets:
+- pr
+- all
+workflow: Container
+job: build (engine)
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Buildx
+  conclusion: success
+- number: 4
+  name: Build image
+  conclusion: failure
+- number: 5
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 6
+  name: Complete job
+  conclusion: success
+expected:
+  category: docker
+  failed_step: Build image
+  key_facts:
+  - id: kf1
+    any_of:
+    - COPY
+  - id: kf2
+    any_of:
+    - config/settings.toml
+    - settings.toml
+  - id: kf3
+    any_of:
+    - .dockerignore
+    - build context
+    - context
+  evidence_lines:
+  - 159
+  - 160
+  - 171
+reference_fix: config/settings.toml is excluded by .dockerignore (config/); either remove that ignore
+  entry or COPY the file from its real path.
+plant_secret: null
+notes: Synthetic. BuildKit output from docker/build-push-action.

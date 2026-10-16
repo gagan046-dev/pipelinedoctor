@@ -1,0 +1,62 @@
+schema_version: '1'
+id: playwright-flaky-timeout
+title: Playwright end-to-end test times out waiting for a button
+subsets:
+- all
+workflow: CI
+job: e2e
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Node.js
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Install browsers
+  conclusion: success
+- number: 6
+  name: Run e2e tests
+  conclusion: failure
+- number: 7
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 8
+  name: Complete job
+  conclusion: success
+expected:
+  category: flaky
+  failed_step: Run e2e tests
+  key_facts:
+  - id: kf1
+    any_of:
+    - Timeout
+    - timed out
+    - 30000ms
+  - id: kf2
+    any_of:
+    - checkout
+    - Place order
+    - button
+  - id: kf3
+    any_of:
+    - retries
+    - retry
+    - wait
+    - toBeVisible
+    - flaky
+    - web-first
+  evidence_lines:
+  - 128
+  - 133
+  - 137
+reference_fix: 'Replace the fixed waitForTimeout with a web-first assertion (await expect(button).toBeEnabled())
+  and enable retries for e2e in CI; the test passed on retry #1 locally.'
+plant_secret: null
+notes: Synthetic. Playwright 1.56 output.

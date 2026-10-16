@@ -1,0 +1,56 @@
+schema_version: '1'
+id: ruff-format-check
+title: ruff format --check finds unformatted files
+subsets:
+- all
+workflow: CI
+job: lint
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Lint
+  conclusion: success
+- number: 6
+  name: Format check
+  conclusion: failure
+- number: 7
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 8
+  name: Complete job
+  conclusion: success
+expected:
+  category: lint
+  failed_step: Format check
+  key_facts:
+  - id: kf1
+    any_of:
+    - format
+    - reformat
+  - id: kf2
+    any_of:
+    - ruff format
+  - id: kf3
+    any_of:
+    - store.py
+    - totals.py
+    - 2 files
+  evidence_lines:
+  - 157
+  - 158
+  - 159
+reference_fix: Run `ruff format .` locally (or enable format-on-save / a pre-commit hook) and commit the
+  two reformatted files.
+plant_secret: null
+notes: Synthetic.

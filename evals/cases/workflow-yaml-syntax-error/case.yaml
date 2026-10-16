@@ -1,0 +1,53 @@
+schema_version: '1'
+id: workflow-yaml-syntax-error
+title: actionlint reports a YAML syntax error in a workflow file
+subsets:
+- pr
+- all
+workflow: CI
+job: workflow-policy
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Install actionlint
+  conclusion: success
+- number: 4
+  name: Lint workflows
+  conclusion: failure
+- number: 5
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 6
+  name: Complete job
+  conclusion: success
+expected:
+  category: config
+  failed_step: Lint workflows
+  key_facts:
+  - id: kf1
+    any_of:
+    - deploy.yml
+    - .github/workflows
+  - id: kf2
+    any_of:
+    - line 23
+    - '23:'
+  - id: kf3
+    any_of:
+    - mapping values
+    - indent
+    - quote
+    - colon
+  evidence_lines:
+  - 93
+  - 95
+reference_fix: 'Quote the run: value on line 23 of .github/workflows/deploy.yml (it contains '': '') or
+  use a block scalar, then re-run actionlint.'
+plant_secret: null
+notes: Synthetic. A broken workflow file itself only produces a startup_failure without logs; this case
+  is the log of the validation job that catches it.

@@ -1,0 +1,53 @@
+schema_version: '1'
+id: pytest-fixture-error
+title: pytest fixture not found after a conftest rename
+subsets:
+- all
+workflow: CI
+job: test
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Run tests
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: test
+  failed_step: Run tests
+  key_facts:
+  - id: kf1
+    any_of:
+    - fixture
+    - conftest
+  - id: kf2
+    any_of:
+    - db_session
+  - id: kf3
+    any_of:
+    - rename
+    - define
+    - add the fixture
+    - session_db
+  evidence_lines:
+  - 157
+  - 158
+reference_fix: The fixture was renamed to session_db in conftest.py; rename the parameter in the tests
+  (or restore a db_session fixture).
+plant_secret: null
+notes: Synthetic.

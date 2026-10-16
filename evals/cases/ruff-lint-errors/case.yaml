@@ -1,0 +1,63 @@
+schema_version: '1'
+id: ruff-lint-errors
+title: ruff reports an unused import and an undefined name
+subsets:
+- pr
+- all
+workflow: CI
+job: lint
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Lint
+  conclusion: failure
+- number: 6
+  name: Type check
+  conclusion: skipped
+- number: 7
+  name: Run tests
+  conclusion: skipped
+- number: 8
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 9
+  name: Complete job
+  conclusion: success
+expected:
+  category: lint
+  failed_step: Lint
+  key_facts:
+  - id: kf1
+    any_of:
+    - F401
+    - unused import
+    - imported but unused
+  - id: kf2
+    any_of:
+    - F821
+    - undefined name
+  - id: kf3
+    any_of:
+    - ruff check --fix
+    - --fix
+    - remove the import
+  evidence_lines:
+  - 152
+  - 153
+  - 164
+  - 165
+reference_fix: Remove the unused `import os` in totals.py (ruff check --fix) and import Decimal in money.py
+  where it is used without an import.
+plant_secret: null
+notes: Synthetic. ruff 0.16 full output format.

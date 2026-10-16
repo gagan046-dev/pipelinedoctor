@@ -1,0 +1,192 @@
+2026-10-14T10:43:03.0503820Z Current runner version: '2.337.0'
+2026-10-14T10:43:03.1269670Z ##[group]Runner Image Provisioner
+2026-10-14T10:43:03.1510990Z Hosted Compute Agent
+2026-10-14T10:43:03.1799070Z Version: 20260911.392
+2026-10-14T10:43:03.2020390Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T10:43:03.2276790Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T10:43:03.2500790Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T10:43:03.3382130Z ##[endgroup]
+2026-10-14T10:43:03.4277580Z ##[group]Operating System
+2026-10-14T10:43:03.4399880Z Ubuntu
+2026-10-14T10:43:03.4600190Z 24.04.3
+2026-10-14T10:43:03.4973610Z LTS
+2026-10-14T10:43:03.4992270Z ##[endgroup]
+2026-10-14T10:43:03.5572790Z ##[group]Runner Image
+2026-10-14T10:43:03.6187890Z Image: ubuntu-24.04
+2026-10-14T10:43:03.7022420Z Version: 20260928.1.0
+2026-10-14T10:43:03.7175930Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T10:43:03.7214850Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T10:43:03.7894350Z ##[endgroup]
+2026-10-14T10:43:03.8117400Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T10:43:03.8763360Z Contents: read
+2026-10-14T10:43:03.9347590Z Metadata: read
+2026-10-14T10:43:04.0243300Z ##[endgroup]
+2026-10-14T10:43:04.0644540Z Secret source: Actions
+2026-10-14T10:43:04.1301580Z Prepare workflow directory
+2026-10-14T10:43:04.1415140Z Prepare all required actions
+2026-10-14T10:43:04.1749940Z Getting action download info
+2026-10-14T10:43:04.2553270Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T10:43:04.2761970Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-14T10:43:04.3656830Z Complete job name: quality / test (ubuntu-latest, 3.12)
+2026-10-14T10:43:04.4087260Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T10:43:04.4489490Z with:
+2026-10-14T10:43:04.4589130Z   persist-credentials: false
+2026-10-14T10:43:04.5301650Z   repository: gagan046-dev/invoicer
+2026-10-14T10:43:04.6154280Z   token: ***
+2026-10-14T10:43:04.6637310Z   ssh-strict: true
+2026-10-14T10:43:04.7505370Z   ssh-user: git
+2026-10-14T10:43:04.7550960Z   clean: true
+2026-10-14T10:43:04.7833090Z   sparse-checkout-cone-mode: true
+2026-10-14T10:43:04.8249490Z   fetch-depth: 1
+2026-10-14T10:43:04.8695730Z   fetch-tags: false
+2026-10-14T10:43:04.8788960Z   show-progress: true
+2026-10-14T10:43:04.9198300Z   lfs: false
+2026-10-14T10:43:04.9327310Z   submodules: false
+2026-10-14T10:43:04.9651720Z   set-safe-directory: true
+2026-10-14T10:43:05.0525510Z ##[endgroup]
+2026-10-14T10:43:05.1309310Z Syncing repository: gagan046-dev/invoicer
+2026-10-14T10:43:05.1511760Z ##[group]Getting Git version info
+2026-10-14T10:43:05.2155410Z Working directory is '/home/runner/work/invoicer/invoicer'
+2026-10-14T10:43:05.2529830Z [command]/usr/bin/git version
+2026-10-14T10:43:05.2881020Z git version 2.51.0
+2026-10-14T10:43:05.3619980Z ##[endgroup]
+2026-10-14T10:43:05.3980940Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T10:43:05.4242560Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:43:05.4367230Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/invoicer/invoicer
+2026-10-14T10:43:05.5124690Z Deleting the contents of '/home/runner/work/invoicer/invoicer'
+2026-10-14T10:43:05.5774740Z ##[group]Initializing the repository
+2026-10-14T10:43:05.5978950Z [command]/usr/bin/git init /home/runner/work/invoicer/invoicer
+2026-10-14T10:43:05.6836620Z Initialized empty Git repository in /home/runner/work/invoicer/invoicer/.git/
+2026-10-14T10:43:05.7026180Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/invoicer
+2026-10-14T10:43:05.7453190Z ##[endgroup]
+2026-10-14T10:43:05.8083740Z ##[group]Disabling automatic garbage collection
+2026-10-14T10:43:05.8345160Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T10:43:05.9225840Z ##[endgroup]
+2026-10-14T10:43:06.0019940Z ##[group]Fetching the repository
+2026-10-14T10:43:06.0194100Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T10:43:06.0819780Z remote: Enumerating objects: 64, done.
+2026-10-14T10:43:06.1484270Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T10:43:06.1826230Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T10:43:06.2495170Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T10:43:06.2793030Z From https://github.com/gagan046-dev/invoicer
+2026-10-14T10:43:06.3492460Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T10:43:06.3812440Z ##[endgroup]
+2026-10-14T10:43:06.3925230Z ##[group]Determining the checkout info
+2026-10-14T10:43:06.4754250Z ##[endgroup]
+2026-10-14T10:43:06.4935320Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T10:43:06.5279360Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T10:43:06.5692120Z ##[group]Checking out the ref
+2026-10-14T10:43:06.6538120Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T10:43:06.7250690Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T10:43:06.8102940Z ##[endgroup]
+2026-10-14T10:43:06.8406920Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-14T10:43:06.8921760Z with:
+2026-10-14T10:43:06.9194480Z   python-version: 3.12
+2026-10-14T10:43:06.9597550Z   cache: pip
+2026-10-14T10:43:07.0128460Z   check-latest: false
+2026-10-14T10:43:07.0217660Z   token: ***
+2026-10-14T10:43:07.0834230Z   update-environment: true
+2026-10-14T10:43:07.1311410Z   allow-prereleases: false
+2026-10-14T10:43:07.1740370Z   freethreaded: false
+2026-10-14T10:43:07.2070730Z ##[endgroup]
+2026-10-14T10:43:07.2315870Z ##[group]Installed versions
+2026-10-14T10:43:07.3070690Z Successfully set up CPython (3.12.12)
+2026-10-14T10:43:07.3642290Z ##[endgroup]
+2026-10-14T10:43:07.4091760Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.12-pip
+2026-10-14T10:43:07.4420040Z Cache restored successfully
+2026-10-14T10:43:07.4908730Z ##[group]Run python -m pip install -r requirements-dev.txt
+2026-10-14T10:43:07.4954970Z python -m pip install -r requirements-dev.txt
+2026-10-14T10:43:07.5032670Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:43:07.5625630Z env:
+2026-10-14T10:43:07.6037320Z   PIP_DISABLE_PIP_VERSION_CHECK: 1
+2026-10-14T10:43:07.6614410Z ##[endgroup]
+2026-10-14T10:43:07.7204560Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages (25.2)
+2026-10-14T10:43:07.7324040Z Obtaining file:///home/runner/work/invoicer/invoicer
+2026-10-14T10:43:07.7375150Z   Installing build dependencies: started
+2026-10-14T10:43:07.7483960Z   Installing build dependencies: finished with status 'done'
+2026-10-14T10:43:07.7915850Z   Checking if build backend supports build_editable: started
+2026-10-14T10:43:07.8454150Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-10-14T10:43:07.8949320Z   Getting requirements to build editable: started
+2026-10-14T10:43:07.9657560Z   Getting requirements to build editable: finished with status 'done'
+2026-10-14T10:43:08.0311390Z   Preparing editable metadata (pyproject.toml): started
+2026-10-14T10:43:08.1068850Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-10-14T10:43:08.1758120Z Collecting psycopg==3.3.6 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.2296940Z   Downloading psycopg-3.3.6-py3-none-any.whl (212 kB)
+2026-10-14T10:43:08.2818200Z Collecting psycopg-binary==3.3.6 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.3109600Z   Downloading psycopg_binary-3.3.6-cp312-cp312-manylinux_2_28_x86_64.whl (4.5 MB)
+2026-10-14T10:43:08.3480850Z Collecting typing-extensions==4.16.0 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.3879980Z   Downloading typing_extensions-4.16.0-py3-none-any.whl (44 kB)
+2026-10-14T10:43:08.4369490Z Collecting pytest==9.1.1 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.4756630Z   Downloading pytest-9.1.1-py3-none-any.whl (372 kB)
+2026-10-14T10:43:08.4949710Z Collecting pytest-cov==7.1.0 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.5392280Z   Downloading pytest_cov-7.1.0-py3-none-any.whl (22 kB)
+2026-10-14T10:43:08.5477330Z Collecting coverage==7.11.3 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.6237900Z   Downloading coverage-7.11.3-cp312-cp312-manylinux_2_17_x86_64.whl (250 kB)
+2026-10-14T10:43:08.7080210Z Collecting iniconfig==2.3.0 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.7104740Z   Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2026-10-14T10:43:08.7450580Z Collecting packaging==25.0 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.8164580Z   Downloading packaging-25.0-py3-none-any.whl (66 kB)
+2026-10-14T10:43:08.8186730Z Collecting pluggy==1.6.0 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:08.9035090Z   Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-10-14T10:43:08.9586620Z Collecting pygments==2.19.2 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:09.0113190Z   Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+2026-10-14T10:43:09.0944450Z Collecting ruff==0.16.10 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:09.1461510Z   Downloading ruff-0.16.10-py3-none-manylinux_2_17_x86_64.whl (12.1 MB)
+2026-10-14T10:43:09.1845120Z Collecting mypy==2.4.0 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:09.2197750Z   Downloading mypy-2.4.0-cp312-cp312-manylinux_2_28_x86_64.whl (13.0 MB)
+2026-10-14T10:43:09.2790450Z Collecting mypy-extensions==1.1.0 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:09.3293180Z   Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2026-10-14T10:43:09.4183480Z Collecting pathspec==0.12.1 (from -r requirements-dev.txt (line 3))
+2026-10-14T10:43:09.4672250Z   Downloading pathspec-0.12.1-py3-none-any.whl (31 kB)
+2026-10-14T10:43:09.5091810Z Building wheels for collected packages: invoicer
+2026-10-14T10:43:09.5104980Z   Building editable for invoicer (pyproject.toml): started
+2026-10-14T10:43:09.5627510Z   Building editable for invoicer (pyproject.toml): finished with status 'done'
+2026-10-14T10:43:09.5654930Z   Created wheel for invoicer: filename=invoicer-0.1.0-0.editable-py3-none-any.whl size=3412 sha256=0c5e8f1d2b3a
+2026-10-14T10:43:09.6287880Z Successfully built invoicer
+2026-10-14T10:43:09.6896200Z Installing collected packages: typing-extensions, pygments, pluggy, pathspec, packaging, mypy-extensions, iniconfig, coverage, ruff, pytest, psycopg-binary, psycopg, mypy, pytest-cov, invoicer
+2026-10-14T10:43:09.6987470Z Successfully installed coverage-7.11.3 iniconfig-2.3.0 invoicer-0.1.0 mypy-2.4.0 mypy-extensions-1.1.0 packaging-25.0 pathspec-0.12.1 pluggy-1.6.0 psycopg-3.3.6 psycopg-binary-3.3.6 pygments-2.19.2 pytest-9.1.1 pytest-cov-7.1.0 ruff-0.16.10 typing-extensions-4.16.0
+2026-10-14T10:43:09.7210280Z ##[group]Run python -m pytest demo/tests
+2026-10-14T10:43:09.7515950Z python -m pytest demo/tests
+2026-10-14T10:43:09.7683120Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:43:09.8379210Z ##[endgroup]
+2026-10-14T10:43:09.9237070Z ============================= test session starts ==============================
+2026-10-14T10:43:10.0011460Z platform linux -- Python 3.12.12, pytest-9.1.1, pluggy-1.6.0
+2026-10-14T10:43:10.0292700Z rootdir: /home/runner/work/invoicer/invoicer
+2026-10-14T10:43:10.0878900Z configfile: pyproject.toml
+2026-10-14T10:43:10.1056200Z plugins: cov-7.1.0
+2026-10-14T10:43:10.1288410Z collected 6 items / 2 errors
+2026-10-14T10:43:10.1354180Z 
+2026-10-14T10:43:10.1504090Z ==================================== ERRORS ====================================
+2026-10-14T10:43:10.1613710Z ____________________ ERROR collecting tests/test_totals.py _____________________
+2026-10-14T10:43:10.1684140Z /opt/hostedtoolcache/Python/3.12.12/x64/lib/python3.12/site-packages/_pytest/python.py:507: in importtestmodule
+2026-10-14T10:43:10.1993340Z     mod = import_path(
+2026-10-14T10:43:10.2026430Z demo/tests/test_totals.py:3: in <module>
+2026-10-14T10:43:10.2758190Z     from invoicer.totals import invoice_total
+2026-10-14T10:43:10.3400830Z E     File "/home/runner/work/invoicer/invoicer/demo/src/invoicer/totals.py", line 14
+2026-10-14T10:43:10.3467820Z E       <<<<<<< HEAD
+2026-10-14T10:43:10.3709970Z E       ^^
+2026-10-14T10:43:10.4148090Z E   SyntaxError: invalid syntax
+2026-10-14T10:43:10.4554920Z ____________________ ERROR collecting tests/test_money.py ______________________
+2026-10-14T10:43:10.4693010Z demo/tests/test_money.py:4: in <module>
+2026-10-14T10:43:10.4934660Z     from invoicer.totals import Line
+2026-10-14T10:43:10.5082170Z E     File "/home/runner/work/invoicer/invoicer/demo/src/invoicer/totals.py", line 14
+2026-10-14T10:43:10.5268720Z E       <<<<<<< HEAD
+2026-10-14T10:43:10.5931400Z E       ^^
+2026-10-14T10:43:10.6036560Z E   SyntaxError: invalid syntax
+2026-10-14T10:43:10.6821240Z =========================== short test summary info ============================
+2026-10-14T10:43:10.7508200Z ERROR demo/tests/test_totals.py
+2026-10-14T10:43:10.8160880Z ERROR demo/tests/test_money.py
+2026-10-14T10:43:10.8846700Z !!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!
+2026-10-14T10:43:10.9249930Z =============================== 2 errors in 0.38s ===============================
+2026-10-14T10:43:10.9585650Z ##[error]Process completed with exit code 2.
+2026-10-14T10:43:11.0444940Z Post job cleanup.
+2026-10-14T10:43:11.1041440Z [command]/usr/bin/git version
+2026-10-14T10:43:11.1647040Z git version 2.51.0
+2026-10-14T10:43:11.2498850Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T10:43:11.2996900Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:43:11.3537270Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/invoicer/invoicer
+2026-10-14T10:43:11.4403780Z Removing SSH command configuration
+2026-10-14T10:43:11.4608410Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T10:43:11.5057690Z Removing HTTP extra header
+2026-10-14T10:43:11.5165700Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T10:43:11.5418160Z Cleaning up orphan processes

@@ -1,0 +1,144 @@
+2026-10-14T09:12:03.0594940Z Current runner version: '2.337.0'
+2026-10-14T09:12:03.1330640Z ##[group]Runner Image Provisioner
+2026-10-14T09:12:03.1942970Z Hosted Compute Agent
+2026-10-14T09:12:03.2537190Z Version: 20260911.392
+2026-10-14T09:12:03.3204820Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T09:12:03.3976710Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T09:12:03.4227610Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T09:12:03.4471640Z ##[endgroup]
+2026-10-14T09:12:03.5144600Z ##[group]Operating System
+2026-10-14T09:12:03.5770190Z Ubuntu
+2026-10-14T09:12:03.6597780Z 24.04.3
+2026-10-14T09:12:03.7404500Z LTS
+2026-10-14T09:12:03.7650520Z ##[endgroup]
+2026-10-14T09:12:03.7775880Z ##[group]Runner Image
+2026-10-14T09:12:03.8363230Z Image: ubuntu-24.04
+2026-10-14T09:12:03.8762900Z Version: 20260928.1.0
+2026-10-14T09:12:03.8950750Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T09:12:03.9071590Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T09:12:03.9779660Z ##[endgroup]
+2026-10-14T09:12:04.0613240Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T09:12:04.0670130Z Contents: read
+2026-10-14T09:12:04.1452580Z Metadata: read
+2026-10-14T09:12:04.1973830Z ##[endgroup]
+2026-10-14T09:12:04.2569570Z Secret source: Actions
+2026-10-14T09:12:04.3428670Z Prepare workflow directory
+2026-10-14T09:12:04.4237500Z Prepare all required actions
+2026-10-14T09:12:04.5091560Z Getting action download info
+2026-10-14T09:12:04.5299990Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T09:12:04.6118730Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-14T09:12:04.6140390Z Complete job name: build
+2026-10-14T09:12:04.6834940Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T09:12:04.6919730Z with:
+2026-10-14T09:12:04.6999780Z   persist-credentials: false
+2026-10-14T09:12:04.7048510Z   repository: gagan046-dev/storefront-web
+2026-10-14T09:12:04.7299810Z   token: ***
+2026-10-14T09:12:04.7618920Z   ssh-strict: true
+2026-10-14T09:12:04.8406850Z   ssh-user: git
+2026-10-14T09:12:04.8448270Z   clean: true
+2026-10-14T09:12:04.9058350Z   sparse-checkout-cone-mode: true
+2026-10-14T09:12:04.9488020Z   fetch-depth: 1
+2026-10-14T09:12:05.0067430Z   fetch-tags: false
+2026-10-14T09:12:05.0844010Z   show-progress: true
+2026-10-14T09:12:05.1102020Z   lfs: false
+2026-10-14T09:12:05.1784440Z   submodules: false
+2026-10-14T09:12:05.2092680Z   set-safe-directory: true
+2026-10-14T09:12:05.2933920Z ##[endgroup]
+2026-10-14T09:12:05.3321470Z Syncing repository: gagan046-dev/storefront-web
+2026-10-14T09:12:05.3978530Z ##[group]Getting Git version info
+2026-10-14T09:12:05.3986550Z Working directory is '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T09:12:05.4856830Z [command]/usr/bin/git version
+2026-10-14T09:12:05.4970220Z git version 2.51.0
+2026-10-14T09:12:05.5571650Z ##[endgroup]
+2026-10-14T09:12:05.6431910Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T09:12:05.6798500Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T09:12:05.7333670Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T09:12:05.8058220Z Deleting the contents of '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T09:12:05.8169270Z ##[group]Initializing the repository
+2026-10-14T09:12:05.8504180Z [command]/usr/bin/git init /home/runner/work/storefront-web/storefront-web
+2026-10-14T09:12:05.8919420Z Initialized empty Git repository in /home/runner/work/storefront-web/storefront-web/.git/
+2026-10-14T09:12:05.9222440Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/storefront-web
+2026-10-14T09:12:05.9896680Z ##[endgroup]
+2026-10-14T09:12:06.0277530Z ##[group]Disabling automatic garbage collection
+2026-10-14T09:12:06.0318520Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T09:12:06.0412560Z ##[endgroup]
+2026-10-14T09:12:06.1152680Z ##[group]Fetching the repository
+2026-10-14T09:12:06.1296140Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T09:12:06.1822950Z remote: Enumerating objects: 64, done.
+2026-10-14T09:12:06.1966240Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T09:12:06.2349530Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T09:12:06.2858140Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T09:12:06.2947730Z From https://github.com/gagan046-dev/storefront-web
+2026-10-14T09:12:06.2971860Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T09:12:06.3871560Z ##[endgroup]
+2026-10-14T09:12:06.3874270Z ##[group]Determining the checkout info
+2026-10-14T09:12:06.4156110Z ##[endgroup]
+2026-10-14T09:12:06.4432990Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T09:12:06.4503570Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T09:12:06.5121590Z ##[group]Checking out the ref
+2026-10-14T09:12:06.5615710Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T09:12:06.6138620Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T09:12:06.6690840Z ##[endgroup]
+2026-10-14T09:12:06.6788570Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+2026-10-14T09:12:06.7532750Z with:
+2026-10-14T09:12:06.8359780Z   node-version: 22
+2026-10-14T09:12:06.8621940Z   cache: npm
+2026-10-14T09:12:06.9508550Z   always-auth: false
+2026-10-14T09:12:06.9864150Z   check-latest: false
+2026-10-14T09:12:07.0307720Z   token: ***
+2026-10-14T09:12:07.0423940Z ##[endgroup]
+2026-10-14T09:12:07.0833840Z Found in cache @ /opt/hostedtoolcache/node/22.20.0/x64
+2026-10-14T09:12:07.1271760Z ##[group]Environment details
+2026-10-14T09:12:07.1293610Z node: v22.20.0
+2026-10-14T09:12:07.1833070Z npm: 10.9.3
+2026-10-14T09:12:07.1989720Z yarn: 1.22.22
+2026-10-14T09:12:07.2168130Z ##[endgroup]
+2026-10-14T09:12:07.2493070Z [command]/opt/hostedtoolcache/node/22.20.0/x64/bin/npm config get cache
+2026-10-14T09:12:07.2627510Z /home/runner/.npm
+2026-10-14T09:12:07.2643860Z npm cache is not found
+2026-10-14T09:12:07.2724360Z ##[group]Run npm ci
+2026-10-14T09:12:07.3335760Z npm ci
+2026-10-14T09:12:07.3975840Z shell: /usr/bin/bash -e {0}
+2026-10-14T09:12:07.4210720Z ##[endgroup]
+2026-10-14T09:12:07.5106730Z npm error code ERESOLVE
+2026-10-14T09:12:07.5841800Z npm error ERESOLVE could not resolve
+2026-10-14T09:12:07.6090720Z npm error
+2026-10-14T09:12:07.6679160Z npm error While resolving: @testing-library/react@14.3.1
+2026-10-14T09:12:07.7348140Z npm error Found: react@19.2.0
+2026-10-14T09:12:07.7600070Z npm error node_modules/react
+2026-10-14T09:12:07.7773730Z npm error   react@"^19.2.0" from the root project
+2026-10-14T09:12:07.8325220Z npm error   peer react@"^18.0.0 || ^19.0.0" from @tanstack/react-query@5.90.2
+2026-10-14T09:12:07.9170950Z npm error   node_modules/@tanstack/react-query
+2026-10-14T09:12:07.9675940Z npm error     @tanstack/react-query@"^5.90.2" from the root project
+2026-10-14T09:12:07.9830640Z npm error
+2026-10-14T09:12:08.0350180Z npm error Could not resolve dependency:
+2026-10-14T09:12:08.0903670Z npm error peer react@"^18.0.0" from @testing-library/react@14.3.1
+2026-10-14T09:12:08.1184670Z npm error node_modules/@testing-library/react
+2026-10-14T09:12:08.1187280Z npm error   dev @testing-library/react@"^14.3.1" from the root project
+2026-10-14T09:12:08.1542900Z npm error
+2026-10-14T09:12:08.2321810Z npm error Conflicting peer dependency: react@18.3.1
+2026-10-14T09:12:08.2722450Z npm error node_modules/react
+2026-10-14T09:12:08.2750180Z npm error   peer react@"^18.0.0" from @testing-library/react@14.3.1
+2026-10-14T09:12:08.3028360Z npm error   node_modules/@testing-library/react
+2026-10-14T09:12:08.3275860Z npm error     dev @testing-library/react@"^14.3.1" from the root project
+2026-10-14T09:12:08.3794640Z npm error
+2026-10-14T09:12:08.4585710Z npm error Fix the upstream dependency conflict, or retry
+2026-10-14T09:12:08.5428970Z npm error this command with --force or --legacy-peer-deps
+2026-10-14T09:12:08.6187200Z npm error to accept an incorrect (and potentially broken) dependency resolution.
+2026-10-14T09:12:08.6320700Z npm error
+2026-10-14T09:12:08.6377890Z npm error
+2026-10-14T09:12:08.6571720Z npm error For a full report see:
+2026-10-14T09:12:08.6853220Z npm error /home/runner/.npm/_logs/2026-10-14T09_12_21_482Z-eresolve-report.txt
+2026-10-14T09:12:08.7433950Z npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2026-10-14T09_12_21_482Z-debug-0.log
+2026-10-14T09:12:08.7774470Z ##[error]Process completed with exit code 1.
+2026-10-14T09:12:08.7789020Z Post job cleanup.
+2026-10-14T09:12:08.8590990Z [command]/usr/bin/git version
+2026-10-14T09:12:08.9024150Z git version 2.51.0
+2026-10-14T09:12:08.9414540Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T09:12:08.9922700Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T09:12:09.0020900Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T09:12:09.0120260Z Removing SSH command configuration
+2026-10-14T09:12:09.0240370Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T09:12:09.0515960Z Removing HTTP extra header
+2026-10-14T09:12:09.1281760Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T09:12:09.2118140Z Cleaning up orphan processes

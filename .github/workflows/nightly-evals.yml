@@ -1,0 +1,170 @@
+# Stage 06 - nightly full eval run (30 cases) to catch silent model drift: the ":free" models can
+# change behind the same name without any commit in this repo. Results are appended to
+# ledger.jsonl on the orphan branch "eval-history", which the Console charts.
+name: Nightly Evals
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+    inputs:
+      judge:
+        description: Run the LLM-as-judge on a sample (costs extra requests).
+        type: boolean
+        default: true
+      judge_sample:
+        description: Number of cases the judge scores.
+        type: number
+        default: 4
+
+permissions: {}
+
+concurrency:
+  group: nightly-evals
+  cancel-in-progress: false
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    outputs:
+      gate-outcome: ${{ steps.gate.outcome }}
+      ledger: ${{ steps.ledger.outputs.written }}
+    env:
+      HAS_KEY: ${{ secrets.OPENROUTER_API_KEY != '' }}
+    steps:
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check the API key
+        id: key
+        run: |
+          if [ "$HAS_KEY" != "true" ]; then
+            msg="Nightly evals skipped: the OPENROUTER_API_KEY secret is not set (gh secret set OPENROUTER_API_KEY)."
+            echo "::warning::${msg}"
+            echo "### ${msg}" >> "$GITHUB_STEP_SUMMARY"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        if: steps.key.outputs.skip != 'true'
+        with:
+          version: "0.12.21"
+          enable-cache: true
+      - if: steps.key.outputs.skip != 'true'
+        run: uv sync --frozen
+
+      # Restored so the saved cache stays cumulative; --no-cache-read below still re-runs every case.
+      - name: Restore eval cache
+        if: steps.key.outputs.skip != 'true'
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .eval-cache
+          key: pd-evals-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: pd-evals-v1-
+
+      - name: Run the full dataset
+        if: steps.key.outputs.skip != 'true'
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          # Schedules have no inputs: default to judge on, sample 4 (30 cases + 4 judge calls
+          # leaves room in a ~50 requests/day free tier for PR evals and Doctor).
+          JUDGE: ${{ github.event_name == 'schedule' || inputs.judge }}
+          JUDGE_SAMPLE: ${{ inputs.judge_sample || 4 }}
+        run: |
+          judge_args=()
+          if [ "$JUDGE" = "true" ]; then judge_args=(--judge --judge-sample "$JUDGE_SAMPLE"); fi
+          uv run --frozen pipelinedoctor eval run --subset all --no-cache-read --llm live \
+            --cache-dir .eval-cache --max-requests 45 "${judge_args[@]}" \
+            --output eval-results/result.json
+
+      # The cache is saved on main, so tomorrow's PRs can reuse tonight's answers.
+      - name: Save eval cache
+        if: always() && steps.key.outputs.skip != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .eval-cache
+          key: pd-evals-v1-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Gate against nightly thresholds
+        id: gate
+        if: ${{ !cancelled() && hashFiles('eval-results/result.json') != '' }}
+        continue-on-error: true
+        run: |
+          uv run --frozen pipelinedoctor eval gate --result eval-results/result.json \
+            --thresholds evals/thresholds.yaml --mode nightly --markdown-output eval-results/gate.md
+
+      - name: Build the ledger entry
+        id: ledger
+        if: ${{ !cancelled() && hashFiles('eval-results/result.json') != '' }}
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          uv run --frozen pipelinedoctor eval ledger-entry --result eval-results/result.json \
+            --thresholds evals/thresholds.yaml --mode nightly --run-url "$RUN_URL" \
+            > eval-results/ledger-entry.json
+          echo "written=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload eval results
+        if: ${{ !cancelled() && steps.key.outputs.skip != 'true' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: eval-results
+          path: eval-results/
+          retention-days: 90
+          if-no-files-found: warn
+
+      # A red nightly run is a drift alarm; the Doctor workflow diagnoses it (summary only, no PR).
+      - name: Fail if the gate failed
+        if: steps.gate.outcome == 'failure'
+        run: |
+          echo "::error::Nightly eval gate failed - possible model drift. See the job summary."
+          exit 1
+
+  record:
+    needs: eval
+    # Record failures too (passed=false in the ledger), but only from main and only when an entry exists.
+    if: always() && needs.eval.result != 'skipped' && needs.eval.outputs.ledger == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # push to the eval-history branch
+    concurrency:
+      group: eval-history-writer
+      cancel-in-progress: false
+    steps:
+      # The only checkout in this repo that keeps credentials: this job pushes. It uses no secrets
+      # and runs no project code, so the write token is never exposed to the LLM or to logs.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: eval-results
+          path: ${{ runner.temp }}/eval-results
+      - name: Append to ledger.jsonl on eval-history
+        env:
+          ENTRY: ${{ runner.temp }}/eval-results/ledger-entry.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin eval-history > /dev/null; then
+            git fetch --depth=1 origin eval-history:refs/remotes/origin/eval-history
+            git switch -c eval-history origin/eval-history
+          else
+            # An orphan branch has no parent and shares no files with main: a pure data branch.
+            git switch --orphan eval-history
+            printf '# eval-history\n\nNightly eval ledger written by nightly-evals.yml. One JSON object per line in ledger.jsonl.\n' > README.md
+            git add README.md
+          fi
+          cat "$ENTRY" >> ledger.jsonl
+          git add ledger.jsonl
+          git commit -m "chore(evals): nightly ledger ${GITHUB_SHA::7}"
+          git push origin eval-history
+          echo "Appended 1 entry to \`ledger.jsonl\` on \`eval-history\`." >> "$GITHUB_STEP_SUMMARY"

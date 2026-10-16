@@ -1,0 +1,59 @@
+schema_version: '1'
+id: jest-snapshot-mismatch
+title: Jest snapshot mismatch after a component change
+subsets:
+- all
+workflow: CI
+job: build
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Node.js
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Run tests
+  conclusion: failure
+- number: 6
+  name: Build
+  conclusion: skipped
+- number: 7
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 8
+  name: Complete job
+  conclusion: success
+expected:
+  category: test
+  failed_step: Run tests
+  key_facts:
+  - id: kf1
+    any_of:
+    - snapshot
+  - id: kf2
+    any_of:
+    - PriceTag
+  - id: kf3
+    any_of:
+    - jest -u
+    - -u
+    - update the snapshot
+    - updateSnapshot
+  evidence_lines:
+  - 122
+  - 123
+  - 127
+  - 135
+  - 136
+  - 149
+reference_fix: If the new currency formatting in PriceTag is intended, update the snapshot with `npx jest
+  -u` and commit it; otherwise revert the formatting change.
+plant_secret: null
+notes: Synthetic. Jest 30 output.

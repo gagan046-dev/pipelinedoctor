@@ -1,0 +1,141 @@
+2026-10-14T11:04:03.0103470Z Current runner version: '2.337.0'
+2026-10-14T11:04:03.0385460Z ##[group]Runner Image Provisioner
+2026-10-14T11:04:03.0577040Z Hosted Compute Agent
+2026-10-14T11:04:03.0976350Z Version: 20260911.392
+2026-10-14T11:04:03.1290030Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T11:04:03.1942470Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T11:04:03.1976340Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T11:04:03.2028860Z ##[endgroup]
+2026-10-14T11:04:03.2162240Z ##[group]Operating System
+2026-10-14T11:04:03.2589850Z Ubuntu
+2026-10-14T11:04:03.3258910Z 24.04.3
+2026-10-14T11:04:03.3693890Z LTS
+2026-10-14T11:04:03.3770680Z ##[endgroup]
+2026-10-14T11:04:03.4457920Z ##[group]Runner Image
+2026-10-14T11:04:03.5074340Z Image: ubuntu-24.04
+2026-10-14T11:04:03.5562560Z Version: 20260928.1.0
+2026-10-14T11:04:03.6352580Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T11:04:03.6355550Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T11:04:03.7068490Z ##[endgroup]
+2026-10-14T11:04:03.7236170Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T11:04:03.7925850Z Contents: read
+2026-10-14T11:04:03.7940180Z Metadata: read
+2026-10-14T11:04:03.8578490Z ##[endgroup]
+2026-10-14T11:04:03.8846520Z Secret source: Actions
+2026-10-14T11:04:03.9225780Z Prepare workflow directory
+2026-10-14T11:04:03.9492110Z Prepare all required actions
+2026-10-14T11:04:04.0079020Z Getting action download info
+2026-10-14T11:04:04.0187840Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T11:04:04.0627870Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-14T11:04:04.0788130Z Complete job name: build
+2026-10-14T11:04:04.0836210Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T11:04:04.1526940Z with:
+2026-10-14T11:04:04.1675640Z   persist-credentials: false
+2026-10-14T11:04:04.1886750Z   repository: gagan046-dev/storefront-web
+2026-10-14T11:04:04.2463960Z   token: ***
+2026-10-14T11:04:04.2492300Z   ssh-strict: true
+2026-10-14T11:04:04.3059720Z   ssh-user: git
+2026-10-14T11:04:04.3126380Z   clean: true
+2026-10-14T11:04:04.3178530Z   sparse-checkout-cone-mode: true
+2026-10-14T11:04:04.3908700Z   fetch-depth: 1
+2026-10-14T11:04:04.4373420Z   fetch-tags: false
+2026-10-14T11:04:04.4672670Z   show-progress: true
+2026-10-14T11:04:04.4888660Z   lfs: false
+2026-10-14T11:04:04.5504080Z   submodules: false
+2026-10-14T11:04:04.5911970Z   set-safe-directory: true
+2026-10-14T11:04:04.6559350Z ##[endgroup]
+2026-10-14T11:04:04.6780870Z Syncing repository: gagan046-dev/storefront-web
+2026-10-14T11:04:04.7483630Z ##[group]Getting Git version info
+2026-10-14T11:04:04.7877910Z Working directory is '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T11:04:04.8625080Z [command]/usr/bin/git version
+2026-10-14T11:04:04.9382010Z git version 2.51.0
+2026-10-14T11:04:05.0138580Z ##[endgroup]
+2026-10-14T11:04:05.0248560Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T11:04:05.0293990Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T11:04:05.1065500Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T11:04:05.1447880Z Deleting the contents of '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T11:04:05.1750420Z ##[group]Initializing the repository
+2026-10-14T11:04:05.2130440Z [command]/usr/bin/git init /home/runner/work/storefront-web/storefront-web
+2026-10-14T11:04:05.2564290Z Initialized empty Git repository in /home/runner/work/storefront-web/storefront-web/.git/
+2026-10-14T11:04:05.2669410Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/storefront-web
+2026-10-14T11:04:05.2991240Z ##[endgroup]
+2026-10-14T11:04:05.3862170Z ##[group]Disabling automatic garbage collection
+2026-10-14T11:04:05.4389300Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T11:04:05.4770520Z ##[endgroup]
+2026-10-14T11:04:05.5331870Z ##[group]Fetching the repository
+2026-10-14T11:04:05.5425140Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T11:04:05.6052020Z remote: Enumerating objects: 64, done.
+2026-10-14T11:04:05.6065960Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T11:04:05.6304070Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T11:04:05.6890060Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T11:04:05.7105580Z From https://github.com/gagan046-dev/storefront-web
+2026-10-14T11:04:05.7226730Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T11:04:05.7310520Z ##[endgroup]
+2026-10-14T11:04:05.7485910Z ##[group]Determining the checkout info
+2026-10-14T11:04:05.8355270Z ##[endgroup]
+2026-10-14T11:04:05.8697920Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T11:04:05.8763180Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T11:04:05.9488690Z ##[group]Checking out the ref
+2026-10-14T11:04:05.9886530Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T11:04:06.0079300Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T11:04:06.0585430Z ##[endgroup]
+2026-10-14T11:04:06.0660740Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+2026-10-14T11:04:06.0916380Z with:
+2026-10-14T11:04:06.1690970Z   node-version: 22
+2026-10-14T11:04:06.1740630Z   cache: npm
+2026-10-14T11:04:06.2384490Z   always-auth: false
+2026-10-14T11:04:06.2395320Z   check-latest: false
+2026-10-14T11:04:06.3058400Z   token: ***
+2026-10-14T11:04:06.3747880Z ##[endgroup]
+2026-10-14T11:04:06.4178890Z Found in cache @ /opt/hostedtoolcache/node/22.20.0/x64
+2026-10-14T11:04:06.4653480Z ##[group]Environment details
+2026-10-14T11:04:06.5299960Z node: v22.20.0
+2026-10-14T11:04:06.5929340Z npm: 10.9.3
+2026-10-14T11:04:06.6258590Z yarn: 1.22.22
+2026-10-14T11:04:06.7070650Z ##[endgroup]
+2026-10-14T11:04:06.7495830Z [command]/opt/hostedtoolcache/node/22.20.0/x64/bin/npm config get cache
+2026-10-14T11:04:06.8186160Z /home/runner/.npm
+2026-10-14T11:04:06.8936680Z npm cache is not found
+2026-10-14T11:04:06.9605400Z ##[group]Run npm ci
+2026-10-14T11:04:06.9913010Z npm ci
+2026-10-14T11:04:07.0210520Z shell: /usr/bin/bash -e {0}
+2026-10-14T11:04:07.0715190Z ##[endgroup]
+2026-10-14T11:04:07.1210290Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory.
+2026-10-14T11:04:07.1973270Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-10-14T11:04:07.2461230Z 
+2026-10-14T11:04:07.2719130Z added 812 packages, and audited 813 packages in 14s
+2026-10-14T11:04:07.3389370Z 
+2026-10-14T11:04:07.3559950Z 164 packages are looking for funding
+2026-10-14T11:04:07.4353840Z   run `npm fund` for details
+2026-10-14T11:04:07.5252810Z 
+2026-10-14T11:04:07.5714730Z found 0 vulnerabilities
+2026-10-14T11:04:07.6563700Z ##[group]Run npm run lint
+2026-10-14T11:04:07.7051310Z npm run lint
+2026-10-14T11:04:07.7233820Z shell: /usr/bin/bash -e {0}
+2026-10-14T11:04:07.8050030Z ##[endgroup]
+2026-10-14T11:04:07.8376760Z 
+2026-10-14T11:04:07.8380140Z > storefront-web@1.4.0 lint
+2026-10-14T11:04:07.9036450Z > eslint . --max-warnings=0
+2026-10-14T11:04:07.9074340Z 
+2026-10-14T11:04:07.9217500Z 
+2026-10-14T11:04:07.9221000Z /home/runner/work/storefront-web/storefront-web/src/components/ProductList.tsx
+2026-10-14T11:04:08.0000240Z   14:5   error  React Hook "useEffect" is called conditionally. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+2026-10-14T11:04:08.0220960Z   27:9   error  'total' is assigned a value but never used                                                                                 @typescript-eslint/no-unused-vars
+2026-10-14T11:04:08.0636900Z 
+2026-10-14T11:04:08.1185230Z /home/runner/work/storefront-web/storefront-web/src/utils/format.ts
+2026-10-14T11:04:08.1483980Z   3:10  warning  Prefer named exports  import/no-default-export
+2026-10-14T11:04:08.2084090Z 
+2026-10-14T11:04:08.2611230Z ✖ 3 problems (2 errors, 1 warning)
+2026-10-14T11:04:08.2722360Z 
+2026-10-14T11:04:08.3141730Z ##[error]Process completed with exit code 1.
+2026-10-14T11:04:08.3712640Z Post job cleanup.
+2026-10-14T11:04:08.3932610Z [command]/usr/bin/git version
+2026-10-14T11:04:08.4413780Z git version 2.51.0
+2026-10-14T11:04:08.4812780Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T11:04:08.4922940Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T11:04:08.5583230Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T11:04:08.5861470Z Removing SSH command configuration
+2026-10-14T11:04:08.6033580Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T11:04:08.6801580Z Removing HTTP extra header
+2026-10-14T11:04:08.7147060Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T11:04:08.7781670Z Cleaning up orphan processes

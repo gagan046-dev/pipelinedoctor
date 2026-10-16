@@ -1,0 +1,56 @@
+schema_version: '1'
+id: oom-exit-137
+title: Test container killed by the OOM killer (exit 137)
+subsets:
+- all
+workflow: Demo CI
+job: docker
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Buildx
+  conclusion: success
+- number: 4
+  name: Build demo image
+  conclusion: success
+- number: 5
+  name: Run tests in container
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: infrastructure
+  failed_step: Run tests in container
+  key_facts:
+  - id: kf1
+    any_of:
+    - '137'
+    - OOM
+    - out of memory
+    - Killed
+  - id: kf2
+    any_of:
+    - 256m
+    - memory limit
+    - --memory
+  - id: kf3
+    any_of:
+    - test_bulk_import
+    - 1 GiB
+    - allocat
+  evidence_lines:
+  - 152
+  - 153
+reference_fix: test_bulk_import builds a 1 GiB list in memory while the container is limited to --memory=256m;
+  stream the data in chunks (or raise the limit if the workload is legitimate).
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'oom' break mode.

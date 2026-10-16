@@ -1,0 +1,53 @@
+schema_version: '1'
+id: test-db-connection-refused
+title: Integration tests cannot reach Postgres (wrong port)
+subsets:
+- all
+workflow: Demo CI
+job: integration
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Run integration tests
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: infrastructure
+  failed_step: Run integration tests
+  key_facts:
+  - id: kf1
+    any_of:
+    - Connection refused
+    - connection refused
+    - could not connect
+  - id: kf2
+    any_of:
+    - '5433'
+  - id: kf3
+    any_of:
+    - '5432'
+    - DEMO_DB_PORT
+    - port
+  evidence_lines:
+  - 175
+  - 176
+reference_fix: The service container maps 5432:5432 but DEMO_DB_PORT is 5433; set DEMO_DB_PORT back to
+  5432 in demo-ci.yml.
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'db' break mode.

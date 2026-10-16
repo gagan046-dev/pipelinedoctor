@@ -1,0 +1,148 @@
+2026-10-14T12:35:03.0358350Z Current runner version: '2.337.0'
+2026-10-14T12:35:03.0907820Z ##[group]Runner Image Provisioner
+2026-10-14T12:35:03.1549480Z Hosted Compute Agent
+2026-10-14T12:35:03.1889200Z Version: 20260911.392
+2026-10-14T12:35:03.1998520Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T12:35:03.2397910Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T12:35:03.2843890Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T12:35:03.2874190Z ##[endgroup]
+2026-10-14T12:35:03.2970990Z ##[group]Operating System
+2026-10-14T12:35:03.3607710Z Ubuntu
+2026-10-14T12:35:03.3624170Z 24.04.3
+2026-10-14T12:35:03.3776690Z LTS
+2026-10-14T12:35:03.4150730Z ##[endgroup]
+2026-10-14T12:35:03.4307010Z ##[group]Runner Image
+2026-10-14T12:35:03.4716690Z Image: ubuntu-24.04
+2026-10-14T12:35:03.5569740Z Version: 20260928.1.0
+2026-10-14T12:35:03.5618600Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T12:35:03.6439710Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T12:35:03.6529040Z ##[endgroup]
+2026-10-14T12:35:03.6708000Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T12:35:03.7065970Z Contents: read
+2026-10-14T12:35:03.7269980Z Metadata: read
+2026-10-14T12:35:03.7548550Z ##[endgroup]
+2026-10-14T12:35:03.8112040Z Secret source: Actions
+2026-10-14T12:35:03.8212280Z Prepare workflow directory
+2026-10-14T12:35:03.9017640Z Prepare all required actions
+2026-10-14T12:35:03.9554580Z Getting action download info
+2026-10-14T12:35:03.9743750Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T12:35:03.9820710Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-14T12:35:03.9864870Z Complete job name: test
+2026-10-14T12:35:04.0092590Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T12:35:04.0514890Z with:
+2026-10-14T12:35:04.0847010Z   persist-credentials: false
+2026-10-14T12:35:04.1316330Z   repository: gagan046-dev/ledger-api
+2026-10-14T12:35:04.1737780Z   token: ***
+2026-10-14T12:35:04.1862660Z   ssh-strict: true
+2026-10-14T12:35:04.2403880Z   ssh-user: git
+2026-10-14T12:35:04.2523610Z   clean: true
+2026-10-14T12:35:04.2553440Z   sparse-checkout-cone-mode: true
+2026-10-14T12:35:04.2986010Z   fetch-depth: 1
+2026-10-14T12:35:04.3403490Z   fetch-tags: false
+2026-10-14T12:35:04.3912440Z   show-progress: true
+2026-10-14T12:35:04.4609960Z   lfs: false
+2026-10-14T12:35:04.5477970Z   submodules: false
+2026-10-14T12:35:04.6183650Z   set-safe-directory: true
+2026-10-14T12:35:04.7014100Z ##[endgroup]
+2026-10-14T12:35:04.7829970Z Syncing repository: gagan046-dev/ledger-api
+2026-10-14T12:35:04.8675090Z ##[group]Getting Git version info
+2026-10-14T12:35:04.9010380Z Working directory is '/home/runner/work/ledger-api/ledger-api'
+2026-10-14T12:35:04.9789840Z [command]/usr/bin/git version
+2026-10-14T12:35:05.0661160Z git version 2.51.0
+2026-10-14T12:35:05.0741620Z ##[endgroup]
+2026-10-14T12:35:05.1389380Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T12:35:05.1881160Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T12:35:05.2157970Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ledger-api/ledger-api
+2026-10-14T12:35:05.2620480Z Deleting the contents of '/home/runner/work/ledger-api/ledger-api'
+2026-10-14T12:35:05.2826890Z ##[group]Initializing the repository
+2026-10-14T12:35:05.3649850Z [command]/usr/bin/git init /home/runner/work/ledger-api/ledger-api
+2026-10-14T12:35:05.3673990Z Initialized empty Git repository in /home/runner/work/ledger-api/ledger-api/.git/
+2026-10-14T12:35:05.4003230Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/ledger-api
+2026-10-14T12:35:05.4660540Z ##[endgroup]
+2026-10-14T12:35:05.5479600Z ##[group]Disabling automatic garbage collection
+2026-10-14T12:35:05.6037370Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T12:35:05.6424430Z ##[endgroup]
+2026-10-14T12:35:05.6701570Z ##[group]Fetching the repository
+2026-10-14T12:35:05.7246850Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T12:35:05.7753680Z remote: Enumerating objects: 64, done.
+2026-10-14T12:35:05.8253780Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T12:35:05.8443780Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T12:35:05.9211710Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T12:35:05.9810690Z From https://github.com/gagan046-dev/ledger-api
+2026-10-14T12:35:06.0539320Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T12:35:06.0654520Z ##[endgroup]
+2026-10-14T12:35:06.1390710Z ##[group]Determining the checkout info
+2026-10-14T12:35:06.1896570Z ##[endgroup]
+2026-10-14T12:35:06.1979640Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T12:35:06.2656870Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T12:35:06.3461620Z ##[group]Checking out the ref
+2026-10-14T12:35:06.3501630Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T12:35:06.4321850Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T12:35:06.5035920Z ##[endgroup]
+2026-10-14T12:35:06.5900770Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-14T12:35:06.6728890Z with:
+2026-10-14T12:35:06.7413180Z   python-version: 3.13
+2026-10-14T12:35:06.7793270Z   cache: pip
+2026-10-14T12:35:06.8212390Z   check-latest: false
+2026-10-14T12:35:06.8608710Z   token: ***
+2026-10-14T12:35:06.8831100Z   update-environment: true
+2026-10-14T12:35:06.9072790Z   allow-prereleases: false
+2026-10-14T12:35:06.9087940Z   freethreaded: false
+2026-10-14T12:35:06.9905410Z ##[endgroup]
+2026-10-14T12:35:07.0273770Z ##[group]Installed versions
+2026-10-14T12:35:07.0340990Z Successfully set up CPython (3.13.8)
+2026-10-14T12:35:07.0868900Z ##[endgroup]
+2026-10-14T12:35:07.1005560Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.13.8-pip
+2026-10-14T12:35:07.1011420Z Cache restored successfully
+2026-10-14T12:35:07.1831410Z ##[group]Run python -m pip install -r requirements.txt
+2026-10-14T12:35:07.2588270Z python -m pip install -r requirements.txt
+2026-10-14T12:35:07.3065080Z shell: /usr/bin/bash -e {0}
+2026-10-14T12:35:07.3878790Z ##[endgroup]
+2026-10-14T12:35:07.4245630Z Collecting fastapi==0.118.0 (from -r requirements.txt (line 1))
+2026-10-14T12:35:07.4843910Z   Downloading fastapi-0.118.0-py3-none-any.whl.metadata (28 kB)
+2026-10-14T12:35:07.5421480Z Collecting psycopg2==2.9.10 (from -r requirements.txt (line 2))
+2026-10-14T12:35:07.5686260Z   Downloading psycopg2-2.9.10.tar.gz (385 kB)
+2026-10-14T12:35:07.6119940Z   Installing build dependencies: started
+2026-10-14T12:35:07.6476760Z   Installing build dependencies: finished with status 'done'
+2026-10-14T12:35:07.6796370Z   Getting requirements to build wheel: started
+2026-10-14T12:35:07.7643740Z   Getting requirements to build wheel: finished with status 'error'
+2026-10-14T12:35:07.8468290Z   error: subprocess-exited-with-error
+2026-10-14T12:35:07.9150030Z   
+2026-10-14T12:35:08.0021380Z   × Getting requirements to build wheel did not run successfully.
+2026-10-14T12:35:08.0318380Z   │ exit code: 1
+2026-10-14T12:35:08.0967590Z   ╰─> [21 lines of output]
+2026-10-14T12:35:08.1005830Z       running egg_info
+2026-10-14T12:35:08.1202700Z       writing psycopg2.egg-info/PKG-INFO
+2026-10-14T12:35:08.1234450Z       
+2026-10-14T12:35:08.2019740Z       Error: pg_config executable not found.
+2026-10-14T12:35:08.2366040Z       
+2026-10-14T12:35:08.2996650Z       pg_config is required to build psycopg2 from source.  Please add the directory
+2026-10-14T12:35:08.3123270Z       containing pg_config to the $PATH or specify the full executable path with the
+2026-10-14T12:35:08.3354450Z       option:
+2026-10-14T12:35:08.4156870Z       
+2026-10-14T12:35:08.4439890Z           python setup.py build_ext --pg-config /path/to/pg_config build ...
+2026-10-14T12:35:08.4524520Z       
+2026-10-14T12:35:08.4646600Z       or with the pg_config option in 'setup.cfg'.
+2026-10-14T12:35:08.4733360Z       
+2026-10-14T12:35:08.4908730Z       If you prefer to avoid building psycopg2 from source, please install the PyPI
+2026-10-14T12:35:08.5424810Z       'psycopg2-binary' package instead.
+2026-10-14T12:35:08.6216890Z       
+2026-10-14T12:35:08.6433440Z       For further information please check the 'doc/src/install.rst' file (also at
+2026-10-14T12:35:08.6543840Z       <https://www.psycopg.org/docs/install.html>).
+2026-10-14T12:35:08.7417440Z       
+2026-10-14T12:35:08.8285280Z       [end of output]
+2026-10-14T12:35:08.8872880Z   
+2026-10-14T12:35:08.9384600Z   note: This error originates from a subprocess, and is likely not a problem with pip.
+2026-10-14T12:35:09.0238130Z ERROR: Failed to build 'psycopg2' when getting requirements to build wheel
+2026-10-14T12:35:09.0603720Z ##[error]Process completed with exit code 1.
+2026-10-14T12:35:09.1106640Z Post job cleanup.
+2026-10-14T12:35:09.1635850Z [command]/usr/bin/git version
+2026-10-14T12:35:09.2132220Z git version 2.51.0
+2026-10-14T12:35:09.2347680Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T12:35:09.3038490Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T12:35:09.3079890Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ledger-api/ledger-api
+2026-10-14T12:35:09.3176570Z Removing SSH command configuration
+2026-10-14T12:35:09.3599470Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T12:35:09.4374810Z Removing HTTP extra header
+2026-10-14T12:35:09.5217000Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T12:35:09.5762770Z Cleaning up orphan processes

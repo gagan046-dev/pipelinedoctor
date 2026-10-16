@@ -1,0 +1,123 @@
+2026-10-14T11:53:03.0277050Z Current runner version: '2.337.0'
+2026-10-14T11:53:03.0619390Z ##[group]Runner Image Provisioner
+2026-10-14T11:53:03.1126530Z Hosted Compute Agent
+2026-10-14T11:53:03.1162520Z Version: 20260911.392
+2026-10-14T11:53:03.1420180Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T11:53:03.1711240Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T11:53:03.2231760Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T11:53:03.2971270Z ##[endgroup]
+2026-10-14T11:53:03.2980250Z ##[group]Operating System
+2026-10-14T11:53:03.3828720Z Ubuntu
+2026-10-14T11:53:03.4164540Z 24.04.3
+2026-10-14T11:53:03.5053510Z LTS
+2026-10-14T11:53:03.5522240Z ##[endgroup]
+2026-10-14T11:53:03.5757930Z ##[group]Runner Image
+2026-10-14T11:53:03.5795460Z Image: ubuntu-24.04
+2026-10-14T11:53:03.6182810Z Version: 20260928.1.0
+2026-10-14T11:53:03.7069270Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T11:53:03.7167880Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T11:53:03.7649900Z ##[endgroup]
+2026-10-14T11:53:03.7663190Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T11:53:03.7806690Z Contents: read
+2026-10-14T11:53:03.8364240Z Metadata: read
+2026-10-14T11:53:03.8822150Z ##[endgroup]
+2026-10-14T11:53:03.9377500Z Secret source: Actions
+2026-10-14T11:53:03.9506780Z Prepare workflow directory
+2026-10-14T11:53:04.0022080Z Prepare all required actions
+2026-10-14T11:53:04.0696950Z Getting action download info
+2026-10-14T11:53:04.1459790Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T11:53:04.1854740Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-14T11:53:04.2206730Z Complete job name: ops
+2026-10-14T11:53:04.2296020Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T11:53:04.2901170Z with:
+2026-10-14T11:53:04.3467830Z   persist-credentials: false
+2026-10-14T11:53:04.3807320Z   repository: gagan046-dev/invoicer
+2026-10-14T11:53:04.4566560Z   token: ***
+2026-10-14T11:53:04.4988830Z   ssh-strict: true
+2026-10-14T11:53:04.5731820Z   ssh-user: git
+2026-10-14T11:53:04.5734510Z   clean: true
+2026-10-14T11:53:04.5796130Z   sparse-checkout-cone-mode: true
+2026-10-14T11:53:04.6652370Z   fetch-depth: 1
+2026-10-14T11:53:04.6900810Z   fetch-tags: false
+2026-10-14T11:53:04.7715030Z   show-progress: true
+2026-10-14T11:53:04.8529600Z   lfs: false
+2026-10-14T11:53:04.9162010Z   submodules: false
+2026-10-14T11:53:04.9975060Z   set-safe-directory: true
+2026-10-14T11:53:05.0807480Z ##[endgroup]
+2026-10-14T11:53:05.1308800Z Syncing repository: gagan046-dev/invoicer
+2026-10-14T11:53:05.1721420Z ##[group]Getting Git version info
+2026-10-14T11:53:05.2093930Z Working directory is '/home/runner/work/invoicer/invoicer'
+2026-10-14T11:53:05.2603780Z [command]/usr/bin/git version
+2026-10-14T11:53:05.3461450Z git version 2.51.0
+2026-10-14T11:53:05.3923580Z ##[endgroup]
+2026-10-14T11:53:05.4553100Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T11:53:05.4733170Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T11:53:05.5430840Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/invoicer/invoicer
+2026-10-14T11:53:05.5998660Z Deleting the contents of '/home/runner/work/invoicer/invoicer'
+2026-10-14T11:53:05.6093350Z ##[group]Initializing the repository
+2026-10-14T11:53:05.6321430Z [command]/usr/bin/git init /home/runner/work/invoicer/invoicer
+2026-10-14T11:53:05.6713660Z Initialized empty Git repository in /home/runner/work/invoicer/invoicer/.git/
+2026-10-14T11:53:05.7605450Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/invoicer
+2026-10-14T11:53:05.7985640Z ##[endgroup]
+2026-10-14T11:53:05.8296330Z ##[group]Disabling automatic garbage collection
+2026-10-14T11:53:05.8428300Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T11:53:05.8951220Z ##[endgroup]
+2026-10-14T11:53:05.9572570Z ##[group]Fetching the repository
+2026-10-14T11:53:06.0246910Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T11:53:06.0364450Z remote: Enumerating objects: 64, done.
+2026-10-14T11:53:06.0913420Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T11:53:06.0959810Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T11:53:06.0983300Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T11:53:06.1857820Z From https://github.com/gagan046-dev/invoicer
+2026-10-14T11:53:06.2408000Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T11:53:06.2415530Z ##[endgroup]
+2026-10-14T11:53:06.3211290Z ##[group]Determining the checkout info
+2026-10-14T11:53:06.3968490Z ##[endgroup]
+2026-10-14T11:53:06.4744510Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T11:53:06.5597650Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T11:53:06.6095820Z ##[group]Checking out the ref
+2026-10-14T11:53:06.6263770Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T11:53:06.6993920Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T11:53:06.7812880Z ##[endgroup]
+2026-10-14T11:53:06.8104760Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-14T11:53:06.8261350Z with:
+2026-10-14T11:53:06.8973360Z   python-version: 3.12
+2026-10-14T11:53:06.9553420Z   cache: pip
+2026-10-14T11:53:07.0402490Z   check-latest: false
+2026-10-14T11:53:07.0670210Z   token: ***
+2026-10-14T11:53:07.1349360Z   update-environment: true
+2026-10-14T11:53:07.1648830Z   allow-prereleases: false
+2026-10-14T11:53:07.1967270Z   freethreaded: false
+2026-10-14T11:53:07.2141040Z ##[endgroup]
+2026-10-14T11:53:07.2853510Z ##[group]Installed versions
+2026-10-14T11:53:07.2972650Z Successfully set up CPython (3.12.12)
+2026-10-14T11:53:07.3782610Z ##[endgroup]
+2026-10-14T11:53:07.4425350Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.12-pip
+2026-10-14T11:53:07.4861130Z Cache restored successfully
+2026-10-14T11:53:07.5530350Z ##[group]Run gh api "repos/${GITHUB_REPOSITORY}" --jq .full_name
+2026-10-14T11:53:07.5900870Z gh api "repos/${GITHUB_REPOSITORY}" --jq .full_name
+2026-10-14T11:53:07.6188200Z shell: /usr/bin/bash -e {0}
+2026-10-14T11:53:07.6846980Z env:
+2026-10-14T11:53:07.7097240Z   GH_TOKEN: ***
+2026-10-14T11:53:07.7864150Z ##[endgroup]
+2026-10-14T11:53:07.8052870Z gagan046-dev/invoicer
+2026-10-14T11:53:07.8290290Z ##[group]Run python demo/scripts/publish_dry_run.py
+2026-10-14T11:53:07.8517360Z python demo/scripts/publish_dry_run.py
+2026-10-14T11:53:07.8993530Z shell: /usr/bin/bash -e {0}
+2026-10-14T11:53:07.9417020Z env:
+2026-10-14T11:53:07.9793430Z   DEMO_PUBLISH_TOKEN: 
+2026-10-14T11:53:08.0029750Z ##[endgroup]
+2026-10-14T11:53:08.0083750Z dry-run publish: checking credentials
+2026-10-14T11:53:08.0244660Z Error: DEMO_PUBLISH_TOKEN is not set
+2026-10-14T11:53:08.0523230Z ##[error]Process completed with exit code 1.
+2026-10-14T11:53:08.1266330Z Post job cleanup.
+2026-10-14T11:53:08.1351200Z [command]/usr/bin/git version
+2026-10-14T11:53:08.1644430Z git version 2.51.0
+2026-10-14T11:53:08.1709590Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T11:53:08.1847210Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T11:53:08.2708200Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/invoicer/invoicer
+2026-10-14T11:53:08.2862040Z Removing SSH command configuration
+2026-10-14T11:53:08.3003680Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T11:53:08.3607310Z Removing HTTP extra header
+2026-10-14T11:53:08.4336550Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T11:53:08.4933210Z Cleaning up orphan processes

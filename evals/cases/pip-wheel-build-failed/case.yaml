@@ -1,0 +1,56 @@
+schema_version: '1'
+id: pip-wheel-build-failed
+title: 'psycopg2 source build fails: pg_config not found'
+subsets:
+- all
+workflow: CI
+job: test
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: failure
+- number: 5
+  name: Run tests
+  conclusion: skipped
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: build
+  failed_step: Install dependencies
+  key_facts:
+  - id: kf1
+    any_of:
+    - psycopg2
+  - id: kf2
+    any_of:
+    - pg_config
+    - libpq-dev
+    - libpq
+  - id: kf3
+    any_of:
+    - psycopg2-binary
+    - psycopg[binary]
+    - apt-get install
+    - wheel
+  evidence_lines:
+  - 109
+  - 117
+  - 119
+  - 136
+reference_fix: psycopg2 has no wheel here and pg_config (libpq-dev) is missing; install libpq-dev before
+  pip install, or switch to psycopg[binary]/psycopg2-binary.
+plant_secret: null
+notes: Synthetic. pip 25 subprocess-exited-with-error output.

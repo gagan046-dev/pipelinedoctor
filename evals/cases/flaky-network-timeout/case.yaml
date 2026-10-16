@@ -1,0 +1,62 @@
+schema_version: '1'
+id: flaky-network-timeout
+title: Test calling a live exchange-rate API times out
+subsets:
+- pr
+- all
+workflow: CI
+job: test
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Install dependencies
+  conclusion: success
+- number: 5
+  name: Run tests
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: flaky
+  failed_step: Run tests
+  key_facts:
+  - id: kf1
+    any_of:
+    - ReadTimeout
+    - timed out
+    - timeout
+  - id: kf2
+    any_of:
+    - api.frankfurter
+    - external
+    - network
+    - live API
+    - third-party
+  - id: kf3
+    any_of:
+    - mock
+    - respx
+    - re-run
+    - rerun
+    - retry
+    - stub
+  evidence_lines:
+  - 162
+  - 167
+  - 169
+reference_fix: The test hits a live HTTP API; mock it (respx/responses) so unit tests do not depend on
+  the network, and re-run the job to unblock now.
+plant_secret: null
+notes: Synthetic. Same code passed on the previous run; failure is in an HTTP read.

@@ -1,0 +1,116 @@
+2026-10-14T12:21:03.0052530Z Current runner version: '2.337.0'
+2026-10-14T12:21:03.0429500Z ##[group]Runner Image Provisioner
+2026-10-14T12:21:03.0620150Z Hosted Compute Agent
+2026-10-14T12:21:03.1228400Z Version: 20260911.392
+2026-10-14T12:21:03.1715200Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T12:21:03.2597540Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T12:21:03.2725740Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T12:21:03.3321740Z ##[endgroup]
+2026-10-14T12:21:03.4108600Z ##[group]Operating System
+2026-10-14T12:21:03.4763690Z Ubuntu
+2026-10-14T12:21:03.5563900Z 24.04.3
+2026-10-14T12:21:03.5591000Z LTS
+2026-10-14T12:21:03.6266810Z ##[endgroup]
+2026-10-14T12:21:03.6835550Z ##[group]Runner Image
+2026-10-14T12:21:03.7593330Z Image: ubuntu-24.04
+2026-10-14T12:21:03.8083400Z Version: 20260928.1.0
+2026-10-14T12:21:03.8903950Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T12:21:03.9622890Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T12:21:04.0193830Z ##[endgroup]
+2026-10-14T12:21:04.0712160Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T12:21:04.0945090Z Contents: read
+2026-10-14T12:21:04.1022740Z Metadata: read
+2026-10-14T12:21:04.1165380Z ##[endgroup]
+2026-10-14T12:21:04.1330630Z Secret source: Actions
+2026-10-14T12:21:04.1825270Z Prepare workflow directory
+2026-10-14T12:21:04.2028420Z Prepare all required actions
+2026-10-14T12:21:04.2155910Z Getting action download info
+2026-10-14T12:21:04.2368430Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T12:21:04.3042080Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-14T12:21:04.3694160Z Complete job name: integration
+2026-10-14T12:21:04.3864850Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T12:21:04.4373900Z with:
+2026-10-14T12:21:04.5158680Z   persist-credentials: false
+2026-10-14T12:21:04.5824790Z   repository: gagan046-dev/invoicer
+2026-10-14T12:21:04.6183220Z   token: ***
+2026-10-14T12:21:04.6939090Z   ssh-strict: true
+2026-10-14T12:21:04.7179430Z   ssh-user: git
+2026-10-14T12:21:04.7675470Z   clean: true
+2026-10-14T12:21:04.7760740Z   sparse-checkout-cone-mode: true
+2026-10-14T12:21:04.7826860Z   fetch-depth: 1
+2026-10-14T12:21:04.8588110Z   fetch-tags: false
+2026-10-14T12:21:04.8670340Z   show-progress: true
+2026-10-14T12:21:04.8916940Z   lfs: false
+2026-10-14T12:21:04.8999420Z   submodules: false
+2026-10-14T12:21:04.9218640Z   set-safe-directory: true
+2026-10-14T12:21:04.9608820Z ##[endgroup]
+2026-10-14T12:21:04.9971630Z Syncing repository: gagan046-dev/invoicer
+2026-10-14T12:21:05.0074610Z ##[group]Getting Git version info
+2026-10-14T12:21:05.0761130Z Working directory is '/home/runner/work/invoicer/invoicer'
+2026-10-14T12:21:05.1580390Z [command]/usr/bin/git version
+2026-10-14T12:21:05.1717440Z git version 2.51.0
+2026-10-14T12:21:05.2485390Z ##[endgroup]
+2026-10-14T12:21:05.3344580Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T12:21:05.4198220Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T12:21:05.5090520Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/invoicer/invoicer
+2026-10-14T12:21:05.5172520Z Deleting the contents of '/home/runner/work/invoicer/invoicer'
+2026-10-14T12:21:05.5297850Z ##[group]Initializing the repository
+2026-10-14T12:21:05.6116090Z [command]/usr/bin/git init /home/runner/work/invoicer/invoicer
+2026-10-14T12:21:05.6717640Z Initialized empty Git repository in /home/runner/work/invoicer/invoicer/.git/
+2026-10-14T12:21:05.7567860Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/invoicer
+2026-10-14T12:21:05.8004060Z ##[endgroup]
+2026-10-14T12:21:05.8438830Z ##[group]Disabling automatic garbage collection
+2026-10-14T12:21:05.9134050Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T12:21:06.0006510Z ##[endgroup]
+2026-10-14T12:21:06.0583630Z ##[group]Fetching the repository
+2026-10-14T12:21:06.0804280Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T12:21:06.0971870Z remote: Enumerating objects: 64, done.
+2026-10-14T12:21:06.1078920Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T12:21:06.1499750Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T12:21:06.1567410Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T12:21:06.2344580Z From https://github.com/gagan046-dev/invoicer
+2026-10-14T12:21:06.2698010Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T12:21:06.3182420Z ##[endgroup]
+2026-10-14T12:21:06.3428220Z ##[group]Determining the checkout info
+2026-10-14T12:21:06.4310860Z ##[endgroup]
+2026-10-14T12:21:06.5105160Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T12:21:06.5199370Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T12:21:06.5924840Z ##[group]Checking out the ref
+2026-10-14T12:21:06.6795390Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T12:21:06.6945890Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T12:21:06.7337180Z ##[endgroup]
+2026-10-14T12:21:06.7987890Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-14T12:21:06.8463800Z with:
+2026-10-14T12:21:06.9034640Z   python-version: 3.12
+2026-10-14T12:21:06.9090820Z   cache: pip
+2026-10-14T12:21:06.9712870Z   check-latest: false
+2026-10-14T12:21:07.0258710Z   token: ***
+2026-10-14T12:21:07.1049580Z   update-environment: true
+2026-10-14T12:21:07.1161210Z   allow-prereleases: false
+2026-10-14T12:21:07.1632600Z   freethreaded: false
+2026-10-14T12:21:07.1801260Z ##[endgroup]
+2026-10-14T12:21:07.2648620Z ##[group]Installed versions
+2026-10-14T12:21:07.2763640Z Successfully set up CPython (3.12.12)
+2026-10-14T12:21:07.3637010Z ##[endgroup]
+2026-10-14T12:21:07.3840990Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.12-pip
+2026-10-14T12:21:07.4595460Z Cache restored successfully
+2026-10-14T12:21:07.5000530Z ##[group]Run docker run -d --name pg -e POSTGRES_PASSWORD=demo -p 5432:5432 postgres:17.11-alpine
+2026-10-14T12:21:07.5145320Z docker run -d --name pg -e POSTGRES_PASSWORD=demo -p 5432:5432 postgres:17.11-alpine
+2026-10-14T12:21:07.5848800Z shell: /usr/bin/bash -e {0}
+2026-10-14T12:21:07.6407520Z ##[endgroup]
+2026-10-14T12:21:07.6990260Z Unable to find image 'postgres:17.11-alpine' locally
+2026-10-14T12:21:07.7761830Z docker: Error response from daemon: toomanyrequests: You have reached your unauthenticated pull rate limit. https://www.docker.com/increase-rate-limit
+2026-10-14T12:21:07.7813600Z 
+2026-10-14T12:21:07.8007700Z Run 'docker run --help' for more information
+2026-10-14T12:21:07.8013000Z ##[error]Process completed with exit code 125.
+2026-10-14T12:21:07.8153610Z Post job cleanup.
+2026-10-14T12:21:07.8318550Z [command]/usr/bin/git version
+2026-10-14T12:21:07.8485740Z git version 2.51.0
+2026-10-14T12:21:07.8510090Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T12:21:07.8954640Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T12:21:07.9112010Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/invoicer/invoicer
+2026-10-14T12:21:07.9811760Z Removing SSH command configuration
+2026-10-14T12:21:08.0466640Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T12:21:08.0808090Z Removing HTTP extra header
+2026-10-14T12:21:08.1408080Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T12:21:08.1855730Z Cleaning up orphan processes

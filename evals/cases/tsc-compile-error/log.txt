@@ -1,0 +1,135 @@
+2026-10-14T10:50:03.0496090Z Current runner version: '2.337.0'
+2026-10-14T10:50:03.0518190Z ##[group]Runner Image Provisioner
+2026-10-14T10:50:03.0800740Z Hosted Compute Agent
+2026-10-14T10:50:03.1202180Z Version: 20260911.392
+2026-10-14T10:50:03.2038400Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T10:50:03.2661110Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T10:50:03.2718670Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T10:50:03.3055790Z ##[endgroup]
+2026-10-14T10:50:03.3103290Z ##[group]Operating System
+2026-10-14T10:50:03.3506240Z Ubuntu
+2026-10-14T10:50:03.4248450Z 24.04.3
+2026-10-14T10:50:03.4806300Z LTS
+2026-10-14T10:50:03.4934320Z ##[endgroup]
+2026-10-14T10:50:03.5707690Z ##[group]Runner Image
+2026-10-14T10:50:03.5872730Z Image: ubuntu-24.04
+2026-10-14T10:50:03.6629570Z Version: 20260928.1.0
+2026-10-14T10:50:03.6889950Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T10:50:03.7563450Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T10:50:03.8384620Z ##[endgroup]
+2026-10-14T10:50:03.8800150Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T10:50:03.9039310Z Contents: read
+2026-10-14T10:50:03.9760610Z Metadata: read
+2026-10-14T10:50:04.0232730Z ##[endgroup]
+2026-10-14T10:50:04.0908100Z Secret source: Actions
+2026-10-14T10:50:04.1525340Z Prepare workflow directory
+2026-10-14T10:50:04.2215010Z Prepare all required actions
+2026-10-14T10:50:04.2353300Z Getting action download info
+2026-10-14T10:50:04.3188950Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T10:50:04.4079690Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-14T10:50:04.4210430Z Complete job name: build
+2026-10-14T10:50:04.4999580Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T10:50:04.5765430Z with:
+2026-10-14T10:50:04.6234430Z   persist-credentials: false
+2026-10-14T10:50:04.6779620Z   repository: gagan046-dev/storefront-web
+2026-10-14T10:50:04.7244580Z   token: ***
+2026-10-14T10:50:04.7494820Z   ssh-strict: true
+2026-10-14T10:50:04.8383030Z   ssh-user: git
+2026-10-14T10:50:04.8595960Z   clean: true
+2026-10-14T10:50:04.9408820Z   sparse-checkout-cone-mode: true
+2026-10-14T10:50:05.0014720Z   fetch-depth: 1
+2026-10-14T10:50:05.0111690Z   fetch-tags: false
+2026-10-14T10:50:05.0205920Z   show-progress: true
+2026-10-14T10:50:05.0736730Z   lfs: false
+2026-10-14T10:50:05.1476760Z   submodules: false
+2026-10-14T10:50:05.1569660Z   set-safe-directory: true
+2026-10-14T10:50:05.2246580Z ##[endgroup]
+2026-10-14T10:50:05.3081870Z Syncing repository: gagan046-dev/storefront-web
+2026-10-14T10:50:05.3250430Z ##[group]Getting Git version info
+2026-10-14T10:50:05.3305540Z Working directory is '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T10:50:05.4018040Z [command]/usr/bin/git version
+2026-10-14T10:50:05.4245570Z git version 2.51.0
+2026-10-14T10:50:05.4348900Z ##[endgroup]
+2026-10-14T10:50:05.5113610Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T10:50:05.5405030Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:50:05.5963050Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T10:50:05.6698500Z Deleting the contents of '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T10:50:05.7286270Z ##[group]Initializing the repository
+2026-10-14T10:50:05.7859160Z [command]/usr/bin/git init /home/runner/work/storefront-web/storefront-web
+2026-10-14T10:50:05.8508830Z Initialized empty Git repository in /home/runner/work/storefront-web/storefront-web/.git/
+2026-10-14T10:50:05.9312120Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/storefront-web
+2026-10-14T10:50:05.9975680Z ##[endgroup]
+2026-10-14T10:50:06.0834730Z ##[group]Disabling automatic garbage collection
+2026-10-14T10:50:06.1469460Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T10:50:06.2051170Z ##[endgroup]
+2026-10-14T10:50:06.2128670Z ##[group]Fetching the repository
+2026-10-14T10:50:06.2779300Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T10:50:06.3152030Z remote: Enumerating objects: 64, done.
+2026-10-14T10:50:06.3375860Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T10:50:06.3440430Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T10:50:06.3977570Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T10:50:06.4473460Z From https://github.com/gagan046-dev/storefront-web
+2026-10-14T10:50:06.5299670Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T10:50:06.5900970Z ##[endgroup]
+2026-10-14T10:50:06.5927160Z ##[group]Determining the checkout info
+2026-10-14T10:50:06.6555680Z ##[endgroup]
+2026-10-14T10:50:06.6845540Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T10:50:06.7410100Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T10:50:06.8222200Z ##[group]Checking out the ref
+2026-10-14T10:50:06.8979470Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T10:50:06.9440820Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T10:50:06.9526950Z ##[endgroup]
+2026-10-14T10:50:06.9699480Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+2026-10-14T10:50:06.9864940Z with:
+2026-10-14T10:50:06.9988340Z   node-version: 22
+2026-10-14T10:50:07.0296990Z   cache: npm
+2026-10-14T10:50:07.1196170Z   always-auth: false
+2026-10-14T10:50:07.1443790Z   check-latest: false
+2026-10-14T10:50:07.2279010Z   token: ***
+2026-10-14T10:50:07.2458050Z ##[endgroup]
+2026-10-14T10:50:07.2747720Z Found in cache @ /opt/hostedtoolcache/node/22.20.0/x64
+2026-10-14T10:50:07.2942510Z ##[group]Environment details
+2026-10-14T10:50:07.3434690Z node: v22.20.0
+2026-10-14T10:50:07.3712880Z npm: 10.9.3
+2026-10-14T10:50:07.3934040Z yarn: 1.22.22
+2026-10-14T10:50:07.4763350Z ##[endgroup]
+2026-10-14T10:50:07.5514340Z [command]/opt/hostedtoolcache/node/22.20.0/x64/bin/npm config get cache
+2026-10-14T10:50:07.6327340Z /home/runner/.npm
+2026-10-14T10:50:07.7038080Z npm cache is not found
+2026-10-14T10:50:07.7725460Z ##[group]Run npm ci
+2026-10-14T10:50:07.8319830Z npm ci
+2026-10-14T10:50:07.8805840Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:50:07.9206000Z ##[endgroup]
+2026-10-14T10:50:07.9683440Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory.
+2026-10-14T10:50:08.0333810Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-10-14T10:50:08.0986200Z 
+2026-10-14T10:50:08.1587870Z added 812 packages, and audited 813 packages in 14s
+2026-10-14T10:50:08.2201700Z 
+2026-10-14T10:50:08.3096740Z 164 packages are looking for funding
+2026-10-14T10:50:08.3651770Z   run `npm fund` for details
+2026-10-14T10:50:08.4241310Z 
+2026-10-14T10:50:08.4736350Z found 0 vulnerabilities
+2026-10-14T10:50:08.5203540Z ##[group]Run npm run build
+2026-10-14T10:50:08.5863810Z npm run build
+2026-10-14T10:50:08.6010930Z shell: /usr/bin/bash -e {0}
+2026-10-14T10:50:08.6358520Z ##[endgroup]
+2026-10-14T10:50:08.6907430Z 
+2026-10-14T10:50:08.7326220Z > storefront-web@1.4.0 build
+2026-10-14T10:50:08.7364870Z > tsc -p tsconfig.build.json && vite build
+2026-10-14T10:50:08.8108920Z 
+2026-10-14T10:50:08.8910630Z src/cart/summary.ts(17,33): error TS2339: Property 'unitPrice' does not exist on type 'CartItem'.
+2026-10-14T10:50:08.9213490Z src/cart/summary.ts(18,20): error TS2339: Property 'unitPrice' does not exist on type 'CartItem'.
+2026-10-14T10:50:08.9965480Z src/checkout/checkout.ts(42,27): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+2026-10-14T10:50:08.9988520Z src/checkout/checkout.ts(42,27):   'priceCents' is declared here: src/types/cart.ts(6,3)
+2026-10-14T10:50:09.0221610Z ##[error]Process completed with exit code 2.
+2026-10-14T10:50:09.1042450Z Post job cleanup.
+2026-10-14T10:50:09.1383740Z [command]/usr/bin/git version
+2026-10-14T10:50:09.2061270Z git version 2.51.0
+2026-10-14T10:50:09.2208890Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T10:50:09.2551900Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T10:50:09.3328500Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T10:50:09.3372900Z Removing SSH command configuration
+2026-10-14T10:50:09.3456370Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T10:50:09.4139240Z Removing HTTP extra header
+2026-10-14T10:50:09.4355630Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T10:50:09.4400420Z Cleaning up orphan processes

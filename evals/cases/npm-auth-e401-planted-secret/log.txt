@@ -1,0 +1,159 @@
+2026-10-14T12:00:03.0603100Z Current runner version: '2.337.0'
+2026-10-14T12:00:03.1364640Z ##[group]Runner Image Provisioner
+2026-10-14T12:00:03.2053420Z Hosted Compute Agent
+2026-10-14T12:00:03.2097160Z Version: 20260911.392
+2026-10-14T12:00:03.2420660Z Commit: 9e1c4b7f2a03d6e5
+2026-10-14T12:00:03.2792840Z Build Date: 2026-09-11T19:27:05Z
+2026-10-14T12:00:03.3665880Z Worker ID: {b7c9a3d2-1f4e-4c8a-9d2b-5e6f7a8b9c0d}
+2026-10-14T12:00:03.4502930Z ##[endgroup]
+2026-10-14T12:00:03.5375660Z ##[group]Operating System
+2026-10-14T12:00:03.5648100Z Ubuntu
+2026-10-14T12:00:03.5818360Z 24.04.3
+2026-10-14T12:00:03.6277000Z LTS
+2026-10-14T12:00:03.6642220Z ##[endgroup]
+2026-10-14T12:00:03.7221930Z ##[group]Runner Image
+2026-10-14T12:00:03.7261450Z Image: ubuntu-24.04
+2026-10-14T12:00:03.7954840Z Version: 20260928.1.0
+2026-10-14T12:00:03.8127060Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260928.1/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-14T12:00:03.8206790Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260928.1
+2026-10-14T12:00:03.9049310Z ##[endgroup]
+2026-10-14T12:00:03.9316050Z ##[group]GITHUB_TOKEN Permissions
+2026-10-14T12:00:04.0130140Z Contents: read
+2026-10-14T12:00:04.0735940Z Metadata: read
+2026-10-14T12:00:04.0807630Z ##[endgroup]
+2026-10-14T12:00:04.1041040Z Secret source: Actions
+2026-10-14T12:00:04.1835690Z Prepare workflow directory
+2026-10-14T12:00:04.2248220Z Prepare all required actions
+2026-10-14T12:00:04.2399120Z Getting action download info
+2026-10-14T12:00:04.2729400Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-14T12:00:04.3157450Z Download action repository 'actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-14T12:00:04.3349250Z Complete job name: publish
+2026-10-14T12:00:04.4023710Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-14T12:00:04.4918030Z with:
+2026-10-14T12:00:04.5606040Z   persist-credentials: false
+2026-10-14T12:00:04.5735920Z   repository: gagan046-dev/storefront-web
+2026-10-14T12:00:04.6271880Z   token: ***
+2026-10-14T12:00:04.6338210Z   ssh-strict: true
+2026-10-14T12:00:04.6754080Z   ssh-user: git
+2026-10-14T12:00:04.7196390Z   clean: true
+2026-10-14T12:00:04.7496010Z   sparse-checkout-cone-mode: true
+2026-10-14T12:00:04.7699620Z   fetch-depth: 1
+2026-10-14T12:00:04.8108210Z   fetch-tags: false
+2026-10-14T12:00:04.8323330Z   show-progress: true
+2026-10-14T12:00:04.9007410Z   lfs: false
+2026-10-14T12:00:04.9414080Z   submodules: false
+2026-10-14T12:00:04.9798010Z   set-safe-directory: true
+2026-10-14T12:00:05.0405320Z ##[endgroup]
+2026-10-14T12:00:05.0614380Z Syncing repository: gagan046-dev/storefront-web
+2026-10-14T12:00:05.1384600Z ##[group]Getting Git version info
+2026-10-14T12:00:05.1662450Z Working directory is '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T12:00:05.2309310Z [command]/usr/bin/git version
+2026-10-14T12:00:05.2879390Z git version 2.51.0
+2026-10-14T12:00:05.3558150Z ##[endgroup]
+2026-10-14T12:00:05.3644550Z Temporarily overriding HOME='/home/runner/work/_temp/0f3b2c1d' before making global git config changes
+2026-10-14T12:00:05.3870420Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T12:00:05.4637510Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T12:00:05.4908180Z Deleting the contents of '/home/runner/work/storefront-web/storefront-web'
+2026-10-14T12:00:05.5708770Z ##[group]Initializing the repository
+2026-10-14T12:00:05.6477960Z [command]/usr/bin/git init /home/runner/work/storefront-web/storefront-web
+2026-10-14T12:00:05.6491690Z Initialized empty Git repository in /home/runner/work/storefront-web/storefront-web/.git/
+2026-10-14T12:00:05.6609820Z [command]/usr/bin/git remote add origin https://github.com/gagan046-dev/storefront-web
+2026-10-14T12:00:05.7224000Z ##[endgroup]
+2026-10-14T12:00:05.8027320Z ##[group]Disabling automatic garbage collection
+2026-10-14T12:00:05.8426760Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-14T12:00:05.8575900Z ##[endgroup]
+2026-10-14T12:00:05.8828400Z ##[group]Fetching the repository
+2026-10-14T12:00:05.9146140Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/remotes/pull/12/merge*:refs/remotes/pull/12/merge*
+2026-10-14T12:00:05.9752830Z remote: Enumerating objects: 64, done.
+2026-10-14T12:00:06.0349490Z remote: Counting objects: 100% (64/64), done.
+2026-10-14T12:00:06.0481620Z remote: Compressing objects: 100% (51/51), done.
+2026-10-14T12:00:06.1101480Z remote: Total 64 (delta 6), reused 33 (delta 2), pack-reused 0 (from 0)
+2026-10-14T12:00:06.1940380Z From https://github.com/gagan046-dev/storefront-web
+2026-10-14T12:00:06.2377240Z  * [new ref]         pull/12/merge -> origin/pull/12/merge
+2026-10-14T12:00:06.3194210Z ##[endgroup]
+2026-10-14T12:00:06.3790200Z ##[group]Determining the checkout info
+2026-10-14T12:00:06.4165780Z ##[endgroup]
+2026-10-14T12:00:06.4866820Z [command]/usr/bin/git sparse-checkout disable
+2026-10-14T12:00:06.5619690Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-14T12:00:06.5945480Z ##[group]Checking out the ref
+2026-10-14T12:00:06.6039000Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/12/merge
+2026-10-14T12:00:06.6089670Z HEAD is now at 4f2c1a9 Merge into main
+2026-10-14T12:00:06.6286540Z ##[endgroup]
+2026-10-14T12:00:06.7084430Z ##[group]Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+2026-10-14T12:00:06.7590890Z with:
+2026-10-14T12:00:06.7837790Z   node-version: 22
+2026-10-14T12:00:06.8424920Z   cache: npm
+2026-10-14T12:00:06.8568320Z   always-auth: false
+2026-10-14T12:00:06.9115590Z   check-latest: false
+2026-10-14T12:00:06.9366170Z   token: ***
+2026-10-14T12:00:07.0137850Z ##[endgroup]
+2026-10-14T12:00:07.0165160Z Found in cache @ /opt/hostedtoolcache/node/22.20.0/x64
+2026-10-14T12:00:07.0715180Z ##[group]Environment details
+2026-10-14T12:00:07.1345300Z node: v22.20.0
+2026-10-14T12:00:07.2028110Z npm: 10.9.3
+2026-10-14T12:00:07.2345290Z yarn: 1.22.22
+2026-10-14T12:00:07.2639030Z ##[endgroup]
+2026-10-14T12:00:07.3218140Z [command]/opt/hostedtoolcache/node/22.20.0/x64/bin/npm config get cache
+2026-10-14T12:00:07.3474020Z /home/runner/.npm
+2026-10-14T12:00:07.3700540Z npm cache is not found
+2026-10-14T12:00:07.3911730Z ##[group]Run npm ci
+2026-10-14T12:00:07.4313850Z npm ci
+2026-10-14T12:00:07.4647120Z shell: /usr/bin/bash -e {0}
+2026-10-14T12:00:07.5528780Z ##[endgroup]
+2026-10-14T12:00:07.5651080Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory.
+2026-10-14T12:00:07.5879560Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-10-14T12:00:07.6323740Z 
+2026-10-14T12:00:07.6539710Z added 812 packages, and audited 813 packages in 14s
+2026-10-14T12:00:07.6868300Z 
+2026-10-14T12:00:07.6945680Z 164 packages are looking for funding
+2026-10-14T12:00:07.7264760Z   run `npm fund` for details
+2026-10-14T12:00:07.7511410Z 
+2026-10-14T12:00:07.7586340Z found 0 vulnerabilities
+2026-10-14T12:00:07.8251780Z ##[group]Run cat ~/.npmrc
+2026-10-14T12:00:07.8563400Z cat ~/.npmrc
+2026-10-14T12:00:07.8844570Z curl -sv -o /dev/null -H "Authorization: Bearer $NPM_TOKEN" https://registry.npmjs.org/-/whoami
+2026-10-14T12:00:07.9395990Z shell: /usr/bin/bash -e {0}
+2026-10-14T12:00:08.0278750Z ##[endgroup]
+2026-10-14T12:00:08.0844780Z //registry.npmjs.org/:_authToken={{PLANTED_SECRET}}
+2026-10-14T12:00:08.1470950Z ; previous token, kept for reference {{PLANTED_SECRET}}
+2026-10-14T12:00:08.1880460Z * Host registry.npmjs.org:443 was resolved.
+2026-10-14T12:00:08.2288450Z *   Trying 104.16.1.35:443...
+2026-10-14T12:00:08.2961560Z * Connected to registry.npmjs.org (104.16.1.35) port 443
+2026-10-14T12:00:08.3289260Z > GET /-/whoami HTTP/2
+2026-10-14T12:00:08.3332290Z > Host: registry.npmjs.org
+2026-10-14T12:00:08.4173200Z > Authorization: Bearer {{PLANTED_SECRET}}
+2026-10-14T12:00:08.4698650Z > User-Agent: curl/8.5.0
+2026-10-14T12:00:08.4755490Z < HTTP/2 401
+2026-10-14T12:00:08.4964440Z < content-type: application/json
+2026-10-14T12:00:08.5810200Z ##[group]Run npm publish --access public
+2026-10-14T12:00:08.6025160Z npm publish --access public
+2026-10-14T12:00:08.6436690Z shell: /usr/bin/bash -e {0}
+2026-10-14T12:00:08.6476830Z env:
+2026-10-14T12:00:08.6876280Z   NODE_AUTH_TOKEN: ***
+2026-10-14T12:00:08.7353900Z ##[endgroup]
+2026-10-14T12:00:08.7871810Z npm notice
+2026-10-14T12:00:08.8728280Z npm notice 📦  @gagan046/storefront-ui@1.4.0
+2026-10-14T12:00:08.9608320Z npm notice Tarball Contents
+2026-10-14T12:00:09.0169060Z npm notice 2.1kB README.md
+2026-10-14T12:00:09.0590940Z npm notice 18.4kB dist/index.js
+2026-10-14T12:00:09.1281160Z npm notice 1.2kB package.json
+2026-10-14T12:00:09.1330420Z npm notice Tarball Details
+2026-10-14T12:00:09.2030410Z npm notice name: @gagan046/storefront-ui
+2026-10-14T12:00:09.2843620Z npm notice version: 1.4.0
+2026-10-14T12:00:09.3526790Z npm notice total files: 3
+2026-10-14T12:00:09.3864520Z npm notice Publishing to https://registry.npmjs.org/ with tag latest and public access
+2026-10-14T12:00:09.4636150Z npm error code E401
+2026-10-14T12:00:09.5260550Z npm error 401 Unauthorized - PUT https://registry.npmjs.org/@gagan046%2fstorefront-ui - unauthenticated: User cannot be authenticated with the token provided.
+2026-10-14T12:00:09.5597350Z npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2026-10-14T09_14_40_903Z-debug-0.log
+2026-10-14T12:00:09.6436750Z ##[error]Process completed with exit code 1.
+2026-10-14T12:00:09.7147080Z Post job cleanup.
+2026-10-14T12:00:09.7177820Z [command]/usr/bin/git version
+2026-10-14T12:00:09.7871500Z git version 2.51.0
+2026-10-14T12:00:09.8154490Z Temporarily overriding HOME='/home/runner/work/_temp/7c1e9a4b' before making global git config changes
+2026-10-14T12:00:09.8927630Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-14T12:00:09.8983500Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/storefront-web/storefront-web
+2026-10-14T12:00:09.9740870Z Removing SSH command configuration
+2026-10-14T12:00:10.0221890Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-14T12:00:10.0593550Z Removing HTTP extra header
+2026-10-14T12:00:10.0742970Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-14T12:00:10.0793090Z Cleaning up orphan processes

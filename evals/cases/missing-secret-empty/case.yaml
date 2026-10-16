@@ -1,0 +1,55 @@
+schema_version: '1'
+id: missing-secret-empty
+title: Required secret is not configured, so the env var is empty
+subsets:
+- all
+workflow: Demo CI
+job: ops
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Python
+  conclusion: success
+- number: 4
+  name: Read repository metadata
+  conclusion: success
+- number: 5
+  name: Publish dry-run
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: secret_permission
+  failed_step: Publish dry-run
+  key_facts:
+  - id: kf1
+    any_of:
+    - DEMO_PUBLISH_TOKEN
+  - id: kf2
+    any_of:
+    - not set
+    - empty
+    - missing
+    - not configured
+  - id: kf3
+    any_of:
+    - gh secret set
+    - repository secret
+    - secrets
+    - --optional-token
+  evidence_lines:
+  - 111
+reference_fix: Create the DEMO_PUBLISH_TOKEN repository secret (gh secret set DEMO_PUBLISH_TOKEN) or keep
+  --optional-token so the dry-run skips cleanly when the secret is absent (e.g. fork PRs).
+plant_secret: null
+notes: Synthetic. Mirrors the demo 'secret' break mode. GitHub shows an empty env value for undefined
+  secrets.

@@ -1,0 +1,55 @@
+schema_version: '1'
+id: ghcr-push-denied
+title: 'Push to GHCR denied: job token lacks packages: write'
+subsets:
+- all
+workflow: Container
+job: build (engine)
+steps:
+- number: 1
+  name: Set up job
+  conclusion: success
+- number: 2
+  name: Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 3
+  name: Set up Buildx
+  conclusion: success
+- number: 4
+  name: Log in to GHCR
+  conclusion: success
+- number: 5
+  name: Build and push
+  conclusion: failure
+- number: 6
+  name: Post Run actions/checkout@3d3c42e
+  conclusion: success
+- number: 7
+  name: Complete job
+  conclusion: success
+expected:
+  category: secret_permission
+  failed_step: Build and push
+  key_facts:
+  - id: kf1
+    any_of:
+    - denied
+    - permission
+  - id: kf2
+    any_of:
+    - 'packages: write'
+    - packages:write
+    - write_package
+    - write:packages
+  - id: kf3
+    any_of:
+    - ghcr.io
+    - GHCR
+    - registry
+  evidence_lines:
+  - 161
+  - 165
+reference_fix: 'Add `permissions: packages: write` to the build job (the workflow sets permissions: {}
+  at the top) so GITHUB_TOKEN may push to ghcr.io.'
+plant_secret: null
+notes: 'Synthetic. GITHUB_TOKEN Permissions block shows only Contents: read.'
