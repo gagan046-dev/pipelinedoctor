@@ -35,10 +35,24 @@ reviewer; meanwhile every later push to `main` would queue behind it, and GitHub
 pending run per group (the others are cancelled). Production deploys are serialised by
 `deploy.yml`'s own `deploy-production` group instead.
 
-**Known limitation:** a PR opened with `GITHUB_TOKEN` does not trigger workflows (loop
-protection), so the release PR has no checks and the ruleset blocks it. Either merge as admin
-(`gh pr merge <n> --squash --admin`) or create a fine-grained PAT (this repo only; Contents +
-Pull requests: read/write) and store it as `RELEASE_PLEASE_TOKEN`.
+**Release PR checks need one click.** The release PR is opened by `github-actions[bot]` with
+`GITHUB_TOKEN`. On this repo its `pull_request` runs are created but **held** with the status
+*action_required* (seen on the first release PR, under the "approval for all external
+contributors" setting from `scripts/repo-settings.ps1`), so the required checks stay pending
+until someone approves them:
+
+```powershell
+$sha = gh pr view <n> --json headRefOid --jq .headRefOid
+$runs = gh run list --branch release-please--branches--main--components--pipelinedoctor `
+  --json databaseId,headSha,conclusion | ConvertFrom-Json
+$runs | Where-Object { $_.headSha -eq $sha -and $_.conclusion -eq 'action_required' } |
+  ForEach-Object { gh api -X POST "repos/gagan046-dev/pipelinedoctor/actions/runs/$($_.databaseId)/approve" }
+```
+
+(or "Approve and run workflows" on the PR page). Alternatives: merge as admin
+(`gh pr merge <n> --squash --admin`, ruleset bypass), or create a fine-grained PAT (this repo
+only; Contents + Pull requests: read/write) stored as `RELEASE_PLEASE_TOKEN`, so the PR is opened
+by you and its checks start on their own.
 
 ## Supply chain, step by step (container.yml with `sign: true`)
 
