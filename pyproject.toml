@@ -16,7 +16,7 @@ classifiers = [
 ]
 # The engine ships as an application (CLI + Docker action), so runtime deps are pinned exactly.
 dependencies = [
-    "litellm==1.103.2",
+    "litellm==1.104.0",
     "pydantic==2.13.5",
     "httpx==0.28.1",
     "typer==0.27.2",
