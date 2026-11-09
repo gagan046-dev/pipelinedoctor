@@ -2,7 +2,7 @@
 # Self-hosted GitHub Actions runner for the production deploy job (label pd-prod).
 # The official image already ships the runner, git, curl, jq and the docker CLI; we add the
 # docker compose plugin, verified against the release's published checksums.
-FROM ghcr.io/actions/actions-runner:2.337.0@sha256:e5496277be5d09bc968b3d64911b74e219ac4a3f2edce956a3ecf9271bea1ef4
+FROM ghcr.io/actions/actions-runner:2.338.2@sha256:759a1d94a15b05941aba5196974ff43fe15b4cbba29b694b35cbc32a1166b232
 
 ARG COMPOSE_VERSION=v5.5.1
 ARG TARGETARCH=amd64
