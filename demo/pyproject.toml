@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling==1.32.4"]
+requires = ["hatchling==1.33.0"]
 build-backend = "hatchling.build"
 
 [project]
@@ -9,7 +9,7 @@ description = "Tiny invoicing library used as PipelineDoctor's deliberately brea
 license = "MIT"
 requires-python = ">=3.11"
 dependencies = [
-    "psycopg[binary]==3.3.6",
+    "psycopg[binary]==3.3.8",
     "typing-extensions==4.16.0",
 ]
 
